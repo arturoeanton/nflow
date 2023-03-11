@@ -1,0 +1,569 @@
+{
+    "drawflow": {
+        "Home": {
+            "data": {
+                "8e5618b7-be3d-4143-ab12-acc54ec6e306": {
+                    "id": "8e5618b7-be3d-4143-ab12-acc54ec6e306",
+                    "data": {
+                        "method": "ANY",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "type": "starter",
+                        "urlpattern": "/login_flow"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkcyan;\"></div><span class=\"material-icons\">video_settings</span>Form Start</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"video_settings\"></i> Form Start</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr/>\n<p>Url</p>\n<input type=\"text\" id=\"urlpattern\" name=\"urlpattern\" df-urlpattern>\n<button  class=\"btn-export\" onclick='window.open(window.location+\"/..\"+getElemenByNameOfChiled(this.parentElement,\"urlpattern\")[0].value)'> OPEN </button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {},
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "5d34d8fd-1a1d-468d-8ce3-9690913bb191",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 188,
+                    "pos_y": 95
+                },
+                "5d34d8fd-1a1d-468d-8ce3-9690913bb191": {
+                    "id": "5d34d8fd-1a1d-468d-8ce3-9690913bb191",
+                    "data": {
+                        "html_form": " <link href=\"/site/bootstrap.min.css\" rel=\"stylesheet\" />\n\n\n    <link href=\"/site/main.css\" rel=\"stylesheet\" />\n    <script src=\"/site/bootstrap.bundle.min.js\"></script>\n\n\t<section class=\"ftco-section\">\n\t\t<div class=\"container\">\n\t\t\t<div class=\"row justify-content-center\">\n\t\t\t\t<div class=\"col-md-12 col-lg-10\">\n\t\t\t\t\t<div class=\"wrap d-md-flex\">\n\t\t\t\t\t\t<div class=\"img\" style=\"background-image: url(/site/login_image.png);\">\n\t\t\t      </div>\n\t\t\t\t\t\t<div class=\"login-wrap p-4 p-md-5\">\n\t\t\t      \t<div class=\"d-flex\">\n\t\t\t      \t\t<div class=\"w-100\">\n\t\t\t      \t\t\t<h3 class=\"mb-4\">Sign In</h3>\n\t\t\t      \t\t</div>\n\t\t\t      \t</div>\n\t\t\t      \t\t<div class=\"form-group mb-3\">\n\t\t\t      \t\t\t<label class=\"label\" for=\"username\">Username</label>\n\t\t\t      \t\t\t<input type=\"text\" class=\"form-control\" name=\"username\" placeholder=\"Username\" required>\n\t\t\t      \t\t</div>\n\t\t            <div class=\"form-group mb-3\">\n\t\t            \t<label class=\"label\" for=\"password\">Password</label>\n\t\t              <input type=\"password\" class=\"form-control\" name=\"password\" placeholder=\"Password\" required>\n\t\t            </div>\n\t\t            <div class=\"form-group\">\n\t\t            \t<button type=\"submit\" class=\"form-control btn btn-primary rounded submit px-3\">Sign In</button>\n\t\t            </div>\n\t\t        </div>\n\t\t      </div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</section>\n",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "script": "modules/form/js/code",
+                        "type": "js"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkorange;\"></div><span class=\"material-icons\">book</span>Form</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"book\"></i> Form</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr>\n\n<!-- add your form -->\n<textarea class=\"hide_component\" name=\"html_form\" df-html_form=\"<div><input type='submit'><div>\"> </textarea>\n<button class=\"btn-export\" onclick=\"open_coder(this, `htmlmixed`)\"> CODE</button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "8e5618b7-be3d-4143-ab12-acc54ec6e306",
+                                    "input": "output_1"
+                                },
+                                {
+                                    "node": "fb378cd4-8f1c-41c5-9d56-01928104fb9a",
+                                    "input": "output_2"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "fb378cd4-8f1c-41c5-9d56-01928104fb9a",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 460,
+                    "pos_y": 162
+                },
+                "fb378cd4-8f1c-41c5-9d56-01928104fb9a": {
+                    "id": "fb378cd4-8f1c-41c5-9d56-01928104fb9a",
+                    "data": {
+                        "code": "function main(){\n\tvar username=c.FormValue(\"username\")\n\tvar password=c.FormValue(\"password\")\n    var header = {\n      \"Content-Type\": [\"application/json\"]\n    }\n    var scim_base = env[\"scim_base\"]\n\tvar req = http_post_with_header(\n      scim_base+\"/app/token\", \n      '{\"key\": \"app1\",\"secret\": \"password1\"}',\n      header);\n  \tvar token = JSON.parse(req.body)[\"token\"]; \n    header[\"Authorization\"] = [\"Bearer \" + token];\n  var requser = http_post_with_header(\n      scim_base+\"/v2/Users/.search\",\n      '{\"filter\":\"userName eq \\\\\"'+username+'\\\\\" and password eq \\\\\"'+password+'\\\\\"\"}',\n      header);\n\t\n  \tnext = \"output_2\"\n \tif (requser.status_code == 200){\n      var scimres = JSON.parse(requser.body)\n      \n      if (scimres[\"totalResults\"] == 1) {\n        next = \"output_1\"\n        payload =  {\n          user_id: scimres[\"Resources\"][0].id,\n          username: username,\n          password: password\n        }\n      }\n    }\n\n  \n\n  \n  \n  \n  \n  \n  \n\n}",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "type": "js"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkred;\"></div><span class=\"material-icons\">source</span>JS Code</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"source\"></i> JS Code</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr/>\n    <textarea class=\"hide_component\" name=\"code\" df-code></textarea>\n    <button class=\"btn-export\" onclick='open_coder(this)'> CODE </button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "5d34d8fd-1a1d-468d-8ce3-9690913bb191",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "d2dbad8a-3eb1-4a40-893f-36fcdbfc1fa4",
+                                    "output": "input_1"
+                                }
+                            ]
+                        },
+                        "output_2": {
+                            "connections": [
+                                {
+                                    "node": "5d34d8fd-1a1d-468d-8ce3-9690913bb191",
+                                    "output": "input_1",
+                                    "points": [
+                                        {
+                                            "pos_x": 997,
+                                            "pos_y": 463
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 711,
+                    "pos_y": 163
+                },
+                "d2dbad8a-3eb1-4a40-893f-36fcdbfc1fa4": {
+                    "id": "d2dbad8a-3eb1-4a40-893f-36fcdbfc1fa4",
+                    "data": {
+                        "code": "function main(){\n    var key = uuid()\n  payload[\"key\"] = key\n \n  var openid_base = env[\"openid_base\"]\n  redis_hset(key, \"user_id\", payload.user_id)\n  redis_hset(key, \"username\", payload.username)\n  redis_hset(key, \"password\", payload.password)\n  redis_expire(key,30)\n  payload[\"url\"]=openid_base+\"/login/key?key=\"+key;\n  \t//c.JSON(200,payload)\n  c.Redirect(301, payload[\"url\"]);\n}",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "type": "js"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkred;\"></div><span class=\"material-icons\">source</span>JS Code</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"source\"></i> JS Code</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr/>\n    <textarea class=\"hide_component\" name=\"code\" df-code></textarea>\n    <button class=\"btn-export\" onclick='open_coder(this)'> CODE </button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "fb378cd4-8f1c-41c5-9d56-01928104fb9a",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {},
+                    "pos_x": 1010,
+                    "pos_y": 196
+                }
+            }
+        },
+        "": {
+            "data": {}
+        },
+        "login": {
+            "data": {
+                "e04a3e36-3591-472d-9098-98b55ac1001c": {
+                    "id": "e04a3e36-3591-472d-9098-98b55ac1001c",
+                    "name": "",
+                    "data": {
+                        "method": "ANY",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "type": "starter",
+                        "urlpattern": "/login2"
+                    },
+                    "class": "",
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkcyan;\"></div><span class=\"material-icons\">video_settings</span>Form Start</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"video_settings\"></i> Form Start</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr/>\n<p>Url</p>\n<input type=\"text\" id=\"urlpattern\" name=\"urlpattern\" df-urlpattern>\n<button  class=\"btn-export\" onclick='window.open(window.location+\"/..\"+getElemenByNameOfChiled(this.parentElement,\"urlpattern\")[0].value)'> OPEN </button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {},
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "417467dd-9a4f-47d4-8203-41948a5ab344",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 347,
+                    "pos_y": 150
+                },
+                "417467dd-9a4f-47d4-8203-41948a5ab344": {
+                    "id": "417467dd-9a4f-47d4-8203-41948a5ab344",
+                    "name": "",
+                    "data": {
+                        "html_form": " <link href=\"/site/bootstrap.min.css\" rel=\"stylesheet\" />\n\n\n    <link href=\"/site/main.css\" rel=\"stylesheet\" />\n    <script src=\"/site/bootstrap.bundle.min.js\"></script>\n\n\t<section class=\"ftco-section\">\n\t\t<div class=\"container\">\n\t\t\t<div class=\"row justify-content-center\">\n\t\t\t\t<div class=\"col-md-12 col-lg-10\">\n\t\t\t\t\t<div class=\"wrap d-md-flex\">\n\t\t\t\t\t\t<div class=\"img\" style=\"background-image: url(/site/login_image.png);\">\n\t\t\t      </div>\n\t\t\t\t\t\t<div class=\"login-wrap p-4 p-md-5\">\n\t\t\t      \t<div class=\"d-flex\">\n\t\t\t      \t\t<div class=\"w-100\">\n\t\t\t      \t\t\t<h3 class=\"mb-4\">Sign In</h3>\n\t\t\t      \t\t</div>\n\t\t\t      \t</div>\n\t\t\t      \t\t<div class=\"form-group mb-3\">\n\t\t\t      \t\t\t<label class=\"label\" for=\"username\">Username</label>\n\t\t\t      \t\t\t<input type=\"text\" class=\"form-control\" name=\"username\" placeholder=\"Username\" required>\n\t\t\t      \t\t</div>\n\t\t            <div class=\"form-group\">\n\t\t            \t<button type=\"submit\" class=\"form-control btn btn-primary rounded submit px-3\">Sign In</button>\n\t\t            </div>\n\t\t        </div>\n\t\t      </div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</section>\n",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "script": "modules/form/js/code",
+                        "type": "js"
+                    },
+                    "class": "",
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkorange;\"></div><span class=\"material-icons\">book</span>Form</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"book\"></i> Form</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr>\n\n<!-- add your form -->\n<textarea class=\"hide_component\" name=\"html_form\" df-html_form=\"<div><input type='submit'><div>\"> </textarea>\n<button class=\"btn-export\" onclick=\"open_coder(this, `htmlmixed`)\"> CODE</button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "e04a3e36-3591-472d-9098-98b55ac1001c",
+                                    "input": "output_1"
+                                },
+                                {
+                                    "node": "121ca5a6-c45e-497f-8a35-366de15ecbf5",
+                                    "input": "output_2"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "bcde5a74-39a2-4a18-8cb0-fe22e11c1547",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 616,
+                    "pos_y": 216
+                },
+                "bcde5a74-39a2-4a18-8cb0-fe22e11c1547": {
+                    "id": "bcde5a74-39a2-4a18-8cb0-fe22e11c1547",
+                    "data": {
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "script": "modules/form_collector/js/code",
+                        "storage_id": "",
+                        "type": "js"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkorange;\"></div>Form Collector</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"\"></i> Form Collector</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr>\n\n<!-- add your form -->\nStorageID: <input type=\"text\" name=\"storage_id\" df-storage_id=\"\" class=\"nflow_field\">\n    \n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "417467dd-9a4f-47d4-8203-41948a5ab344",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "1c1a3bf3-3172-49f2-8f9f-4712d31bdc21",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 818,
+                    "pos_y": 319
+                },
+                "1c1a3bf3-3172-49f2-8f9f-4712d31bdc21": {
+                    "id": "1c1a3bf3-3172-49f2-8f9f-4712d31bdc21",
+                    "name": "",
+                    "data": {
+                        "html_form": " <link href=\"/site/bootstrap.min.css\" rel=\"stylesheet\" />\n\n\n    <link href=\"/site/main.css\" rel=\"stylesheet\" />\n    <script src=\"/site/bootstrap.bundle.min.js\"></script>\n\n\t<section class=\"ftco-section\">\n\t\t<div class=\"container\">\n\t\t\t<div class=\"row justify-content-center\">\n\t\t\t\t<div class=\"col-md-12 col-lg-10\">\n\t\t\t\t\t<div class=\"wrap d-md-flex\">\n\t\t\t\t\t\t<div class=\"img\" style=\"background-image: url(/site/login_image.png);\">\n\t\t\t      </div>\n\t\t\t\t\t\t<div class=\"login-wrap p-4 p-md-5\">\n\t\t\t      \t<div class=\"d-flex\">\n\t\t\t      \t\t<div class=\"w-100\">\n\t\t\t      \t\t\t<h3 class=\"mb-4\">Sign In</h3>\n\t\t\t      \t\t</div>\n\t\t\t      \t</div>\n\t\t            <div class=\"form-group mb-3\">\n\t\t            \t<label class=\"label\" for=\"password\">Password</label>\n\t\t              <input type=\"password\" class=\"form-control\" name=\"password\" placeholder=\"Password\" required>\n\t\t            </div>\n\t\t            <div class=\"form-group\">\n\t\t            \t<button type=\"submit\" class=\"form-control btn btn-primary rounded submit px-3\">Sign In</button>\n\t\t            </div>\n\t\t        </div>\n\t\t      </div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</section>\n",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "script": "modules/form/js/code",
+                        "type": "js"
+                    },
+                    "class": "",
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkorange;\"></div><span class=\"material-icons\">book</span>Form</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"book\"></i> Form</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr>\n\n<!-- add your form -->\n<textarea class=\"hide_component\" name=\"html_form\" df-html_form=\"<div><input type='submit'><div>\"> </textarea>\n<button class=\"btn-export\" onclick=\"open_coder(this, `htmlmixed`)\"> CODE</button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "bcde5a74-39a2-4a18-8cb0-fe22e11c1547",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "887e5ddd-acc8-4748-a96a-f846c05e229e",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 1049,
+                    "pos_y": 423
+                },
+                "887e5ddd-acc8-4748-a96a-f846c05e229e": {
+                    "id": "887e5ddd-acc8-4748-a96a-f846c05e229e",
+                    "name": "",
+                    "data": {
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "script": "modules/form_collector/js/code",
+                        "storage_id": "",
+                        "type": "js"
+                    },
+                    "class": "",
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkorange;\"></div>Form Collector</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"\"></i> Form Collector</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr>\n\n<!-- add your form -->\nStorageID: <input type=\"text\" name=\"storage_id\" df-storage_id=\"\" class=\"nflow_field\">\n    \n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "1c1a3bf3-3172-49f2-8f9f-4712d31bdc21",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "121ca5a6-c45e-497f-8a35-366de15ecbf5",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 1299,
+                    "pos_y": 535
+                },
+                "121ca5a6-c45e-497f-8a35-366de15ecbf5": {
+                    "id": "121ca5a6-c45e-497f-8a35-366de15ecbf5",
+                    "name": "",
+                    "data": {
+                        "code": "function main(){\n\tvar loggin_data = open_session(\"nflow_form\")\n      var username = loggin_data[\"username\"]\n      var password = loggin_data[\"password\"]\n      var scim_base = env[\"scim_base\"]\n\n\n\n    var header = {\n      \"Content-Type\": [\"application/json\"]\n    }\n\tvar req = http_post_with_header(\n      scim_base+\"/app/token\", \n      '{\"key\": \"app1\",\"secret\": \"password1\"}',\n      header);\n  \tvar token = JSON.parse(req.body)[\"token\"]; \n    header[\"Authorization\"] = [\"Bearer \" + token];\n  var requser = http_post_with_header(\n      scim_base+\"/v2/Users/.search\",\n      '{\"filter\":\"userName eq \\\\\"'+username+'\\\\\" and password eq \\\\\"'+password+'\\\\\"\"}',\n      header);\n\t\n  \tnext = \"output_2\"\n \tif (requser.status_code == 200){\n      var scimres = JSON.parse(requser.body)\n      \n      if (scimres[\"totalResults\"] == 1) {\n        next = \"output_1\"\n        payload =  {\n          user_id: scimres[\"Resources\"][0].id,\n          username: username,\n          password: password\n        }\n      }\n    }\n\n  \n\n  \n  \n  \n  \n  \n  \n\n}",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "type": "js"
+                    },
+                    "class": "",
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkred;\"></div><span class=\"material-icons\">source</span>JS Code</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"source\"></i> JS Code</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr/>\n    <textarea class=\"hide_component\" name=\"code\" df-code></textarea>\n    <button class=\"btn-export\" onclick='open_coder(this)'> CODE </button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "887e5ddd-acc8-4748-a96a-f846c05e229e",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "f1ef6fc4-6f67-47cf-84d8-062d023266c8",
+                                    "output": "input_1"
+                                }
+                            ]
+                        },
+                        "output_2": {
+                            "connections": [
+                                {
+                                    "node": "417467dd-9a4f-47d4-8203-41948a5ab344",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 1456,
+                    "pos_y": 702
+                },
+                "f1ef6fc4-6f67-47cf-84d8-062d023266c8": {
+                    "id": "f1ef6fc4-6f67-47cf-84d8-062d023266c8",
+                    "data": {
+                        "code": "function main(){\n  var key = uuid()\n  payload[\"key\"] = key\n  var openid_base = env[\"openid_base\"]\n  redis_hset(key, \"user_id\", payload.user_id)\n  redis_hset(key, \"username\", payload.username)\n  redis_hset(key, \"password\", payload.password)\n  redis_expire(key,30)\n  payload[\"url\"]=openid_base+\"/login/key?key=\"+key;\n  \t//c.JSON(200,payload)\n  c.Redirect(301, payload[\"url\"]);\n}",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "type": "js"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkred;\"></div><span class=\"material-icons\">source</span>JS Code</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"source\"></i> JS Code</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr/>\n    <textarea class=\"hide_component\" name=\"code\" df-code></textarea>\n    <button class=\"btn-export\" onclick='open_coder(this)'> CODE </button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "121ca5a6-c45e-497f-8a35-366de15ecbf5",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {},
+                    "pos_x": 1715,
+                    "pos_y": 798
+                }
+            }
+        },
+        "provisioning": {
+            "data": {
+                "eb7690d3-62f4-4dec-af31-a43c184858f3": {
+                    "id": "eb7690d3-62f4-4dec-af31-a43c184858f3",
+                    "name": "",
+                    "data": {
+                        "method": "ANY",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "type": "starter",
+                        "urlpattern": "/provisioning"
+                    },
+                    "class": "",
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkcyan;\"></div><span class=\"material-icons\">video_settings</span>Form Start</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"video_settings\"></i> Form Start</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr/>\n<p>Url</p>\n<input type=\"text\" id=\"urlpattern\" name=\"urlpattern\" df-urlpattern>\n<button  class=\"btn-export\" onclick='window.open(window.location+\"/..\"+getElemenByNameOfChiled(this.parentElement,\"urlpattern\")[0].value)'> OPEN </button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {},
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "cfcb1dbc-fb5c-4a21-845f-bc2b3da4b714",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 377,
+                    "pos_y": 159
+                },
+                "cfcb1dbc-fb5c-4a21-845f-bc2b3da4b714": {
+                    "id": "cfcb1dbc-fb5c-4a21-845f-bc2b3da4b714",
+                    "name": "",
+                    "data": {
+                        "html_form": " <link href=\"/site/bootstrap.min.css\" rel=\"stylesheet\" />\n\n\n    <link href=\"/site/main.css\" rel=\"stylesheet\" />\n    <script src=\"/site/bootstrap.bundle.min.js\"></script>\n\n\t<section class=\"ftco-section\">\n\t\t<div class=\"container\">\n\t\t\t<div class=\"row justify-content-center\">\n\t\t\t\t<div class=\"col-md-12 col-lg-10\">\n\t\t\t\t\t<div class=\"wrap d-md-flex\">\n\t\t\t\t\t\t<div class=\"img\" style=\"background-image: url(/site/logo_sing_up.png);\">\n\t\t\t      </div>\n\t\t\t\t\t\t<div class=\"login-wrap p-4 p-md-5\">\n\t\t\t      \t<div class=\"d-flex\">\n\t\t\t      \t\t<div class=\"w-100\">\n\t\t\t      \t\t\t<h3 class=\"mb-4\">Sign up</h3>\n\t\t\t      \t\t</div>\n\t\t\t      \t</div>\n                                                    <div class=\"form-group mb-3\">\n\t\t\t      \t\t\t<label class=\"label\" for=\"name\">Name</label>\n\t\t\t      \t\t\t<input type=\"text\" class=\"form-control\" name=\"name\" placeholder=\"Name\" required>\n\t\t\t      \t\t</div>\n                                                    <div class=\"form-group mb-3\">\n\t\t\t      \t\t\t<label class=\"label\" for=\"surname\">Surname</label>\n\t\t\t      \t\t\t<input type=\"text\" class=\"form-control\" name=\"surname\" placeholder=\"Surname\" required>\n\t\t\t      \t\t</div>\n                          <div class=\"form-group mb-3\">\n\t\t\t      \t\t\t<label class=\"label\" for=\"email\">Email</label>\n\t\t\t      \t\t\t<input type=\"text\" class=\"form-control\" name=\"email\" placeholder=\"Email\" required>\n\t\t\t      \t\t</div>\n\t\t\t      \t\t<div class=\"form-group mb-3\">\n\t\t\t      \t\t\t<label class=\"label\" for=\"username\">Username</label>\n\t\t\t      \t\t\t<input type=\"text\" class=\"form-control\" name=\"username\" placeholder=\"Username\" required>\n\t\t\t      \t\t</div>\n\t\t            <div class=\"form-group mb-3\">\n\t\t            \t<label class=\"label\" for=\"password\">Password</label>\n\t\t              <input type=\"password\" class=\"form-control\" name=\"password\" placeholder=\"Password\" required>\n\t\t            </div>\n\t\t            <div class=\"form-group\">\n\t\t            \t<button type=\"submit\" class=\"form-control btn btn-primary rounded submit px-3\">Sign up</button>\n\t\t            </div>\n\t\t        </div>\n\t\t      </div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</section>\n",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "script": "modules/form/js/code",
+                        "type": "js"
+                    },
+                    "class": "",
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkorange;\"></div><span class=\"material-icons\">book</span>Form</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"book\"></i> Form</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr>\n\n<!-- add your form -->\n<textarea class=\"hide_component\" name=\"html_form\" df-html_form=\"<div><input type='submit'><div>\"> </textarea>\n<button class=\"btn-export\" onclick=\"open_coder(this, `htmlmixed`)\"> CODE</button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "eb7690d3-62f4-4dec-af31-a43c184858f3",
+                                    "input": "output_1"
+                                },
+                                {
+                                    "node": "ca7dfd50-3493-44e4-9f08-d0c9b66767d7",
+                                    "input": "output_2"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "191d28f0-0be7-44d1-868b-0ceb5797cb2a",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 619,
+                    "pos_y": 246
+                },
+                "191d28f0-0be7-44d1-868b-0ceb5797cb2a": {
+                    "id": "191d28f0-0be7-44d1-868b-0ceb5797cb2a",
+                    "data": {
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "script": "modules/form_collector/js/code",
+                        "storage_id": "",
+                        "type": "js"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkorange;\"></div>Form Collector</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"\"></i> Form Collector</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr>\n\n<!-- add your form -->\nStorageID: <input type=\"text\" name=\"storage_id\" df-storage_id=\"\" class=\"nflow_field\">\n    \n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "cfcb1dbc-fb5c-4a21-845f-bc2b3da4b714",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "ca7dfd50-3493-44e4-9f08-d0c9b66767d7",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 838,
+                    "pos_y": 344
+                },
+                "ca7dfd50-3493-44e4-9f08-d0c9b66767d7": {
+                    "id": "ca7dfd50-3493-44e4-9f08-d0c9b66767d7",
+                    "name": "",
+                    "data": {
+                        "code": "function main(){\n\tvar loggin_data = open_session(\"nflow_form\")\n      var username = loggin_data[\"username\"]\n      var password = loggin_data[\"password\"]\n      var email = loggin_data[\"email\"]\n\t  var scim_base = env[\"scim_base\"]\n\n\n    var header = {\n      \"Content-Type\": [\"application/json\"]\n    }\n\tvar req = http_post_with_header(\n      scim_base+\"/app/token\", \n      '{\"key\": \"app1\",\"secret\": \"password1\"}',\n      header);\n  \tvar token = JSON.parse(req.body)[\"token\"]; \n    header[\"Authorization\"] = [\"Bearer \" + token];\n  \n  \n  \tvar schemas = [\"urn:ietf:params:scim:schemas:core:2.0:User\"]\n\tvar emails = [{\"display\": email,\"primary\": true, \"type\":\"work\",  \"value\":email}]\n    var user_type = \"user\"\n\tvar user_data = { schemas: schemas, userName: username, password: password, emails: emails, userType: user_type }\n  \n  \n  \n  var requser = http_post_with_header(\n      scim_base+\"/v2/Users\",\n\tJSON.stringify(user_data),\n    header);\n\t\n  \tnext = \"output_2\"\n \tif (requser.status_code == 200){\n      \n        next = \"output_1\"\n\n      \n    }\n\n  \n\n  \n\n}\n\n",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "type": "js"
+                    },
+                    "class": "",
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkred;\"></div><span class=\"material-icons\">source</span>JS Code</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"source\"></i> JS Code</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr/>\n    <textarea class=\"hide_component\" name=\"code\" df-code></textarea>\n    <button class=\"btn-export\" onclick='open_coder(this)'> CODE </button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "191d28f0-0be7-44d1-868b-0ceb5797cb2a",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "639dc58d-38fa-494d-854e-216929cb98ed",
+                                    "output": "input_1"
+                                }
+                            ]
+                        },
+                        "output_2": {
+                            "connections": [
+                                {
+                                    "node": "cfcb1dbc-fb5c-4a21-845f-bc2b3da4b714",
+                                    "output": "input_1",
+                                    "points": [
+                                        {
+                                            "pos_x": 859.9999999999998,
+                                            "pos_y": 607.2499847412107
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 1094,
+                    "pos_y": 439
+                },
+                "639dc58d-38fa-494d-854e-216929cb98ed": {
+                    "id": "639dc58d-38fa-494d-854e-216929cb98ed",
+                    "name": "",
+                    "data": {
+                        "code": "function main(){\n  \n  \tvar scim_base = env[\"scim_base\"]\n\n  \tc.Redirect(301, scim_base+\"/home\");\n}",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "type": "js"
+                    },
+                    "class": "",
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkred;\"></div><span class=\"material-icons\">source</span>JS Code</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"source\"></i> JS Code</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr/>\n    <textarea class=\"hide_component\" name=\"code\" df-code></textarea>\n    <button class=\"btn-export\" onclick='open_coder(this)'> CODE </button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "ca7dfd50-3493-44e4-9f08-d0c9b66767d7",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {},
+                    "pos_x": 1400,
+                    "pos_y": 392
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "title": "End",
+    "in": 1,
+    "out": null,
+    "icon": "",
+    "boxcolor": "darkorange",
+    "custom": false,
+    "param": {
+        "type": "js",
+        "script": "modules/_end/js/code"
+    }
+}

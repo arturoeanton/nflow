@@ -1,0 +1,14 @@
+{
+    "title": "JSON Render",
+    "in": 1,
+    "out": 0,
+    "icon": "source",
+    "boxcolor": "darkviolet",
+    "custom": false,
+    "param": {
+        "field": "",
+        "http_code": "200",
+        "type": "js",
+        "script": "modules/json/js/code"
+    }
+}

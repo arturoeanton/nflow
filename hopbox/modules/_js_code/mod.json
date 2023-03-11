@@ -1,0 +1,16 @@
+{
+    "title": "JS Code",
+    "icon": "source",
+    "in": 1,
+    "out": -1,
+    "custom":false,
+    "editable":false,
+    "boxcolor": "darkred",
+    "fontcolor": "white",
+    "param": {
+        "type":"js",
+        "code":"",
+        "name_box":"",
+        "nflow_auth":"false"
+    }
+}

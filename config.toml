@@ -1,0 +1,27 @@
+[redis]
+host =  "localhost:6379"
+password = ""
+
+
+[plugin]
+plugins = [
+  "plugins_build/mssql.so",
+]
+
+[env]
+scim_base="https://localhost:8443"
+openid_base="https://localhost:8443"
+
+[https_engine]
+enable = true
+cert = "certs/cert.pem"
+key = "certs/key.pem"
+address=":9090"
+description="engine"
+
+[https_designer]
+enable = true
+cert = "certs/cert.pem"
+key = "certs/key.pem"
+address=":9999"
+description="designer"

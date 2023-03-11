@@ -1,0 +1,15 @@
+{
+    "title": "Parallel",
+    "in": 1,
+    "out": 2,
+    "icon": "share",
+    "custom": false,
+    "editable":false,
+    "boxcolor": "darkmagenta",
+    "fontcolor": "white",
+    "param": {
+        "type": "gorutine",
+        "name_box":"",
+        "nflow_auth":"false"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "title": "if higher/lower",
+    "in": 1,
+    "out": 2,
+    "icon": "",
+    "boxcolor": "darkred",
+    "custom": false,
+    "param": {
+        "name_box": "",
+        "field": "",
+        "limit": "0",
+        "type": "js",
+        "script": "modules/if_major/js/code"
+    }
+}

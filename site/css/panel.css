@@ -1,0 +1,118 @@
+.right_panel {
+    background: var(--background-menu);
+    position: absolute;
+    width: 0;
+    height: 80vh;
+    margin: 10vh;
+    right: 0;
+    margin-right: 0px;
+
+    user-select: none;
+    border-radius: 10px 0px 0px 10px;
+    z-index: 999;
+
+}
+
+.top_panel {
+    background: var(--background-menu);
+    position: absolute;
+    top: 0;
+    width: 60%;
+    height: 30px;
+    border-radius: 0 0px 10px 10px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    box-shadow: 0px 1px 1px 0px;
+    z-index: 999;
+    user-select: none;
+}
+
+.bottom_panel {
+    background: var(--background-menu);
+    position: absolute;
+    bottom: -270px;
+    width: 50%;
+    height: 300px;
+    border-radius: 10px 10px 0 0px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    box-shadow: 0px 1px 1px 0px;
+    user-select: none;
+    z-index: 999;
+    display: grid;
+    animation-duration: 0.8s;
+    animation-iteration-count: 1;
+}
+
+@keyframes show_bottom_panle {
+    0% {
+        bottom: -270px;
+    }
+
+    100% {
+        bottom: 0px;
+    }
+}
+
+@keyframes hide_bottom_panle {
+    0% {
+        bottom: 0px;
+    }
+
+    100% {
+        bottom: -270px;
+    }
+}
+
+
+
+.input_panel {
+    position: absolute;
+    display: inline-flex;
+    text-decoration: none;
+    color: var(--font-color-menu);
+    line-height: 30px;
+    margin-left: 20px;
+}
+
+.input_panel>input {
+    position: absolute;
+    height: -webkit-fill-available;
+}
+
+.bottom_panel>.panel_items {
+    position: absolute;
+    right: 25px;
+}
+
+.top_panel>.panel_items {
+    position: absolute;
+    left: 25px;
+}
+
+.top_panel>.panel_items_add_remobe_module {
+    position: absolute;
+    right: 25px;
+}
+
+
+
+.panel_item:hover {
+    background: var(--item-background-hover);
+    color: var(--item-font-color-menu-hover);
+    font-weight: bolder;
+}
+
+.panel_item {
+    background: var(--background-menu);
+    display: inline;
+    text-decoration: none;
+    color: var(--font-color-menu);
+    line-height: 30px;
+    margin-left: 5px;
+    height: 30px;
+    border: 0;
+    cursor: pointer;
+}

@@ -1,0 +1,15 @@
+{
+    "title": "Mustache",
+    "in": 1,
+    "out": 0,
+    "icon": "code",
+    "boxcolor": "darkorange",
+    "custom": false,
+    "param": {
+        "name_box": "",
+        "nflow_auth": "false",
+        "template": "",
+        "type": "js",
+        "script": "modules/mustache/js/code"
+    }
+}

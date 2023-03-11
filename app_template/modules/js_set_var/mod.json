@@ -1,0 +1,15 @@
+{
+    "title": "Set Variable",
+    "in": 1,
+    "out": 1,
+    "icon": "",
+    "boxcolor": "darkred",
+    "custom": false,
+    "param": {
+        "name_box": "",
+        "var_name": "name1",
+        "var_value": "",
+        "type": "js",
+        "script": "modules/js_set_var/js/code"
+    }
+}
