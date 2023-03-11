@@ -20,7 +20,7 @@ address=":9090"
 description="engine"
 
 [https_designer]
-enable = true
+enable = false
 cert = "certs/cert.pem"
 key = "certs/key.pem"
 address=":9999"
