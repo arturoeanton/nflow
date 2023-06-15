@@ -9,7 +9,7 @@ COPY . .
 COPY config.docker.toml config.toml
 
 RUN go mod tidy
-RUN make build
+RUN go build -o nFlow .
 
 # Expose port
 EXPOSE 9090
