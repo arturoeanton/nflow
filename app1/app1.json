@@ -1,0 +1,60 @@
+{
+    "drawflow": {
+        "Home": {
+            "data": {
+                "f040ea2b-b789-4801-8ac4-d798c115bae0": {
+                    "id": "f040ea2b-b789-4801-8ac4-d798c115bae0",
+                    "data": {
+                        "method": "ANY",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "type": "starter",
+                        "urlpattern": "/pepe"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkcyan;\"></div><span class=\"material-icons\">http</span>Http Start</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"http\"></i> Http Start</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\r\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\r\n<hr/>\r\n<p>Url</p>\r\n<input type=\"text\"  name=\"urlpattern\" df-urlpattern>\r\n\r\n<p>Choose Method:</p>\r\n<select name=\"method\" df-method>\r\n  <option value=\"GET\">GET</option>\r\n  <option value=\"POST\">POST</option>\r\n  <option value=\"PUT\">PUT</option>\r\n  <option value=\"PATCH\">PATCH</option>\r\n  <option value=\"DELETE\">DELETE</option>\r\n  <option value=\"ANY\">ANY</option>\r\n</select>\r\n<button  class=\"btn-export\" onclick='window.open(window.location+\"/..\"+getElemenByNameOfChiled(this.parentElement,\"urlpattern\")[0].value)'> OPEN </button>\r\n</div>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {},
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "0a5b23a4-ebac-4399-9201-24005986317e",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 454,
+                    "pos_y": 210
+                },
+                "0a5b23a4-ebac-4399-9201-24005986317e": {
+                    "id": "0a5b23a4-ebac-4399-9201-24005986317e",
+                    "data": {
+                        "code": "function main(){\n\treturn c.JSON(200,{\"hola\":\"como estas\"})\n}",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "type": "js"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkred;\"></div><span class=\"material-icons\">source</span>JS Code</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"source\"></i> JS Code</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\r\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\r\n<hr/>\r\n    <textarea class=\"hide_component\" name=\"code\" df-code></textarea>\r\n    <button class=\"btn-export\" onclick='open_coder(this)'> CODE </button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "f040ea2b-b789-4801-8ac4-d798c115bae0",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {},
+                    "pos_x": 941,
+                    "pos_y": 243
+                }
+            }
+        },
+        "": {
+            "data": {}
+        }
+    }
+}

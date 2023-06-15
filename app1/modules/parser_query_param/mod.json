@@ -1,0 +1,14 @@
+{
+    "title": "Param to Payload",
+    "in": 1,
+    "out": 1,
+    "icon": "filter_alt",
+    "boxcolor": "darkred",
+    "custom": false,
+    "param": {
+        "name_box": "",
+        "nflow_auth": "false",
+        "type": "js",
+        "script": "modules/parser_query_param/js/code"
+    }
+}

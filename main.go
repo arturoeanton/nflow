@@ -177,6 +177,8 @@ func main() {
 	gNFlow.Any("/process/:wid/payload", process.GetProcessPayload)
 	gNFlow.Any("/process/:wid/kill", process.KillWID)
 
+	e2.Any("/:app_name/*", run)
+
 	e.Any("/:app_name/*", run)
 
 	var wg sync.WaitGroup

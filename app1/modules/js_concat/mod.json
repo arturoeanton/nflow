@@ -1,0 +1,18 @@
+{
+    "title": "Concat",
+    "in": 1,
+    "out": 1,
+    "icon": "",
+    "boxcolor": "darkred",
+    "custom": false,
+    "param": {
+        "name_box": "",
+        "elem": "",
+        "field1": "",
+        "connector": " ",
+        "field2": "",
+        "result": "",
+        "type": "js",
+        "script": "modules/js_concat/js/code"
+    }
+}
