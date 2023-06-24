@@ -38,4 +38,29 @@ func addFeatureSession(vm *goja.Runtime, c echo.Context) {
 		s.Save(c.Request(), c.Response())
 	})
 
+	vm.Set("delete_session", func(name string) {
+		s, _ := session.Get(name, c)
+		for k := range s.Values {
+			delete(s.Values, k)
+		}
+		s.Save(c.Request(), c.Response())
+	})
+
+	vm.Set("delete_session_form", func() {
+		s, _ := session.Get("nflow_form", c)
+		for k := range s.Values {
+			delete(s.Values, k)
+		}
+		s.Save(c.Request(), c.Response())
+	})
+
+	vm.Set("open_session_form", func() *map[string]interface{} {
+		s, _ := session.Get("nflow_form", c)
+		var r = make(map[string]interface{})
+		for k, v := range s.Values {
+			r[k.(string)] = v
+		}
+		return &r
+	})
+
 }

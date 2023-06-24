@@ -99,6 +99,149 @@
                     },
                     "pos_x": 376,
                     "pos_y": 392
+                },
+                "cadbbcdc-f875-4ebd-a837-de6128768c71": {
+                    "id": "cadbbcdc-f875-4ebd-a837-de6128768c71",
+                    "data": {
+                        "method": "ANY",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "type": "starter",
+                        "urlpattern": "/pepe"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkcyan;\"></div><span class=\"material-icons\">video_settings</span>Form Start</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"video_settings\"></i> Form Start</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr/>\n<p>Url</p>\n<input type=\"text\" id=\"urlpattern\" name=\"urlpattern\" df-urlpattern>\n<button  class=\"btn-export\" onclick='window.open(window.location+\"/..\"+getElemenByNameOfChiled(this.parentElement,\"urlpattern\")[0].value)'> OPEN </button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {},
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "8ad8e510-4cb5-4d48-8b60-783fdf5f333d",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 283,
+                    "pos_y": 518
+                },
+                "8d914de0-f0bc-4418-9b4a-2fa940a0ee6f": {
+                    "id": "8d914de0-f0bc-4418-9b4a-2fa940a0ee6f",
+                    "data": {
+                        "code": "function main(){\n  \tdata = open_session_form()\n  \tdelete_session_form()\n  \tc.JSON(200,data)\n}",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "type": "js"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkred;\"></div><span class=\"material-icons\">source</span>JS Code</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"source\"></i> JS Code</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr/>\n    <textarea class=\"hide_component\" name=\"code\" df-code></textarea>\n    <button class=\"btn-export\" onclick='open_coder(this)'> CODE </button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "e46bb1b8-875f-4f26-8602-f6e760502fc9",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {},
+                    "pos_x": 1096,
+                    "pos_y": 526
+                },
+                "8ad8e510-4cb5-4d48-8b60-783fdf5f333d": {
+                    "id": "8ad8e510-4cb5-4d48-8b60-783fdf5f333d",
+                    "data": {
+                        "html_form": "<div><input type='input' name='n1'/><input type='submit'/></div>",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "script": "modules/form/js/code",
+                        "type": "js"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkorange;\"></div><span class=\"material-icons\">book</span>Form</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"book\"></i> Form</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr>\n\n<!-- add your form -->\n<textarea class=\"hide_component\" name=\"html_form\" df-html_form=\"<div><input type='input' name='n1'/><input type='submit'/></div>\"> </textarea>\n<button class=\"btn-export\" onclick=\"open_coder(this, `htmlmixed`)\"> CODE</button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "cadbbcdc-f875-4ebd-a837-de6128768c71",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "e46bb1b8-875f-4f26-8602-f6e760502fc9",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 550,
+                    "pos_y": 523
+                },
+                "88efecf6-81c2-42b0-8333-408577ebd183": {
+                    "id": "88efecf6-81c2-42b0-8333-408577ebd183",
+                    "name": "",
+                    "data": {
+                        "html_form": "<div><input type='input' name='n1'/><input type='submit'/></div>",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "script": "nflow/modules/form/js/code",
+                        "type": "js"
+                    },
+                    "class": "",
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkorange;\"></div><span class=\"material-icons\">book</span>Form</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"book\"></i> Form</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr>\n\n<!-- add your form -->\n<textarea class=\"hide_component\" name=\"html_form\" df-html_form=\"<div><input type='input' name='n1'/><input type='submit'/></div>\"> </textarea>\n<button class=\"btn-export\" onclick=\"open_coder(this, `htmlmixed`)\"> CODE</button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": []
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": []
+                        }
+                    },
+                    "pos_x": -9028,
+                    "pos_y": -9247
+                },
+                "e46bb1b8-875f-4f26-8602-f6e760502fc9": {
+                    "id": "e46bb1b8-875f-4f26-8602-f6e760502fc9",
+                    "data": {
+                        "html_form": "<div><input type='input' name='n2'/><input type='submit'/></div>",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "script": "modules/form/js/code",
+                        "type": "js"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkorange;\"></div><span class=\"material-icons\">book</span>Form</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"book\"></i> Form</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr>\n\n<!-- add your form -->\n<textarea class=\"hide_component\" name=\"html_form\" df-html_form=\"<div><input type='input' name='n1'/><input type='submit'/></div>\"> </textarea>\n<button class=\"btn-export\" onclick=\"open_coder(this, `htmlmixed`)\"> CODE</button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "8ad8e510-4cb5-4d48-8b60-783fdf5f333d",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "8d914de0-f0bc-4418-9b4a-2fa940a0ee6f",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 824,
+                    "pos_y": 517
                 }
             }
         },

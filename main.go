@@ -7,6 +7,7 @@ import (
 	"sync"
 
 	"github.com/BurntSushi/toml"
+	"github.com/gorilla/sessions"
 
 	"github.com/arturoeanton/gocommons/utils"
 
@@ -14,6 +15,7 @@ import (
 	"github.com/arturoeanton/nFlow/pkg/process"
 
 	"github.com/google/uuid"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 
@@ -111,6 +113,7 @@ func main() {
 	log.Println("URLBase:" + playbook.Config.URLConfig.URLBase)
 
 	e.Use(middleware.Logger())
+	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 
 	e.Static("/site", *workspace+"site/")
 	e.File("/favicon.ico", *workspace+"site/favicon.ico")
@@ -121,13 +124,15 @@ func main() {
 	playbook.InitUI()
 
 	e2 := echo.New()
+	e2.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 	gNFlow := e2.Group("/:app_name/nflow")
+	gNFlow.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
+
 	gNFlow.Static("/site", "site/")
 	gNFlow.File("/favicon.ico", "site/favicon.ico")
 	gNFlow.File("/", "site/index.html")
 	gNFlow.GET("", playbook.Ui)
 	gNFlow.GET("/", playbook.Ui)
-
 	gNFlow.GET("/app", func(c echo.Context) error {
 		pathBase := playbook.GetPathBase(c)
 		appJson := playbook.GetAppJsonFileName(c)

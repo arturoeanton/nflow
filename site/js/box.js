@@ -78,7 +78,7 @@ function create_box(module) {
         json["param"][i] = param[i]
       }
       json["param"]["type"] = "js"
-      json["param"]["script"] = "nflow/modules/" + module + "/js/code"
+      json["param"]["script"] = "modules/" + module + "/js/code"
 
       var elementTemp = document.createElement("p")
       elementTemp.innerHTML = ch.getDoc().getValue()

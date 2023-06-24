@@ -7,6 +7,7 @@ import (
 
 	"github.com/dop251/goja"
 	"github.com/go-redis/redis"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 )
 
@@ -22,6 +23,16 @@ func addGlobals(vm *goja.Runtime, c echo.Context) {
 	} else {
 		vm.Set("form", (map[string][]string)(form))
 	}
+
+	s, _ := session.Get("nflow_form", c)
+	for k, v := range form {
+		if len(v) == 1 {
+			s.Values[k] = v[0]
+			continue
+		}
+		s.Values[k] = v
+	}
+	s.Save(c.Request(), c.Response())
 
 	vm.Set("profile", nil)
 	//sess_auth, _ := app.Store.Get(c.Request(), "auth-session")

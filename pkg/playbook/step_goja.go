@@ -7,6 +7,7 @@ import (
 	"github.com/arturoeanton/gocommons/utils"
 	"github.com/arturoeanton/nFlow/pkg/process"
 	"github.com/dop251/goja"
+	"github.com/google/uuid"
 	babel "github.com/jvatic/goja-babel"
 	"github.com/labstack/echo/v4"
 )
@@ -25,7 +26,7 @@ func (s *StepJS) Run(cc *Controller, actor *Node, c echo.Context, vm *goja.Runti
 	currentProcess.State = "run"
 	currentProcess.Killeable = true
 	code := "function main(){}"
-
+	actor.Data["storage_id"] = uuid.New().String()
 	if _, ok := actor.Data["compile"]; !ok {
 
 		if _, ok := actor.Data["script"]; ok {
