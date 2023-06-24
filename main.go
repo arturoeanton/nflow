@@ -78,7 +78,7 @@ func run(c echo.Context) error {
 		}
 		playbook.FindNewApp[appJson] = false
 	}
-	runeable, vars, err, code := playbook.GetWorkflow(playbooks[appJson], endpoint, c.Request().Method, appJson)
+	runeable, vars, err, code := playbook.GetWorkflow(c, playbooks[appJson], endpoint, c.Request().Method, appJson)
 	if CheckError(c, err, code) {
 		return nil
 	}

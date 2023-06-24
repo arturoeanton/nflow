@@ -15,6 +15,7 @@ import (
 	"github.com/dop251/goja_nodejs/require"
 	"github.com/dop251/goja_nodejs/util"
 
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 )
 
@@ -222,8 +223,17 @@ func (cc *Controller) Execute(c echo.Context, vm *goja.Runtime, next string, var
 		vm.Set("current_box", next)
 		vm.Set("prev_box", prev_box)
 		prev_box = next
-		next, payload, err = cc.step(c, vm, next, vars, currentProcess, payload)
 
+		vm.Set("payload", payload)
+		payload, _ := vm.RunString(`
+		data = open_session("nflow_form")
+		payload = {
+			...payload,
+			...data
+		};
+		payload;
+		`)
+		next, payload, err = cc.step(c, vm, next, vars, currentProcess, payload)
 		if err != nil {
 			break
 		}
@@ -231,6 +241,12 @@ func (cc *Controller) Execute(c echo.Context, vm *goja.Runtime, next string, var
 		// cut
 		if payload != nil {
 			if rawPayload, ok := payload.Export().(map[string]interface{}); ok {
+				s, _ := session.Get("nflow_form", c)
+				for k, v := range rawPayload {
+					s.Values[k] = v
+				}
+				s.Save(c.Request(), c.Response())
+
 				if raw, ok := rawPayload["break"]; ok {
 					if flag, ok := raw.(bool); ok {
 						if flag {
@@ -245,6 +261,17 @@ func (cc *Controller) Execute(c echo.Context, vm *goja.Runtime, next string, var
 				}
 			}
 		}
+
+	}
+
+	if next == "" {
+		s, _ := session.Get("nflow_form", c)
+		s.Values = make(map[interface{}]interface{})
+		s.Save(c.Request(), c.Response())
+
+		currentProcess.State = "end"
+		currentProcess.Killeable = false
+		currentProcess.Close()
 
 	}
 

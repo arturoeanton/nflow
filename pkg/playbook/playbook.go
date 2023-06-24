@@ -6,6 +6,9 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+
+	"github.com/labstack/echo-contrib/session"
+	"github.com/labstack/echo/v4"
 )
 
 var (
@@ -53,7 +56,7 @@ func comparePath(template string, real string) (bool, Vars) {
 	return true, vars
 }
 
-func GetWorkflow(playbooks map[string]map[string]*Playbook, wfPath string, method string, appName string) (Runeable, Vars, error, int) {
+func GetWorkflow(c echo.Context, playbooks map[string]map[string]*Playbook, wfPath string, method string, appName string) (Runeable, Vars, error, int) {
 
 	for key, flows := range playbooks {
 		for _, pb := range flows {
@@ -62,6 +65,11 @@ func GetWorkflow(playbooks map[string]map[string]*Playbook, wfPath string, metho
 				typeItem := data["type"]
 
 				if typeItem == "starter" {
+
+					s, _ := session.Get("nflow_form", c)
+					s.Values = make(map[interface{}]interface{})
+					s.Save(c.Request(), c.Response())
+
 					methodItem := data["method"]
 					if methodItem != "ANY" {
 						if methodItem != method {
