@@ -13,5 +13,5 @@ Name:<input type="text" name="name_box" df-name_box="" class="nflow_field">
   <option value="DELETE">DELETE</option>
   <option value="ANY">ANY</option>
 </select>
-<button  class="btn-export" onclick='window.open(window.location+"/.."+getElemenByNameOfChiled(this.parentElement,"urlpattern")[0].value)'> OPEN </button>
+<button  class="btn-export" onclick='setFieldNode();save();window.open(window.location+"/.."+getElemenByNameOfChiled(this.parentElement,"urlpattern")[0].value)'> OPEN </button>
 </div>

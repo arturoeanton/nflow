@@ -5,5 +5,8 @@ function main(){
   c.HTML(200,`<form method='post' id="form_main" action='${action}'> 
   	${html_form}
   </form>`)
-  payload = {"break":true}
+  if (payload == undefined || payload == null){
+    payload = {}
+  }
+  payload["break"] = true
 }

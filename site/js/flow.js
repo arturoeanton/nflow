@@ -65,6 +65,10 @@ editor.on('nodeRemoved', function (id) {
     console.log("Node removed " + id);
     id_box_in_prop = undefined
     setFieldNode()
+    panel_prop.innerHTML = ""
+    panel_prop.style.width = 0;
+    panel_prop.style.padding = 0;
+    id_box_in_prop = undefined;
     save()
 })
 
@@ -133,6 +137,11 @@ editor.on('nodeUnselected', function (flag) {
     try {
         console.log('nodeUnselected')
         setFieldNode()
+
+        panel_prop.innerHTML = ""
+        panel_prop.style.width = 0;
+        panel_prop.style.padding = 0;
+        id_box_in_prop = undefined;
 
         btn_play.style.display = "none"
         save()
@@ -370,10 +379,6 @@ function setFieldNode() {
 
         editor.updateNodeDataFromId(id, field_data)
     }
-    panel_prop.innerHTML = ""
-    panel_prop.style.width = 0;
-    panel_prop.style.padding = 0;
-    id_box_in_prop = undefined;
 }
 
 var transform = '';
@@ -542,7 +547,9 @@ function codemirror_new(code1, mode, readOnly) {
     return editor
 }
 
-function save(show) {
+function save(show,callfx) {
+    console.log("setFieldNode")
+    setFieldNode()
     if (flag_running_save) {
         return
     }
@@ -617,6 +624,12 @@ function save(show) {
                 if (data.msg == "ok") {
 
                     console.log("saved!")
+
+                    if (callfx){
+                        flag_running_save = false
+                        callfx()
+                    }
+
                     if (show) {
                         Swal.fire({
                             position: 'top-end',
