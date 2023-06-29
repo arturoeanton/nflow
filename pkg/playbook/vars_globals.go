@@ -2,7 +2,6 @@ package playbook
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/dop251/goja"
@@ -52,7 +51,7 @@ func addGlobals(vm *goja.Runtime, c echo.Context) {
 		RedisClient.Expire(key, time.Duration(s)*time.Second)
 	})
 
-	fmt.Println("REDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDIS")
+	//fmt.Println("REDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDIS")
 	vm.Set("path_base", pathBase)
 	vm.Set("config", Config)
 	vm.Set("env", Config.Env)
