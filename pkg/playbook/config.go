@@ -13,11 +13,13 @@ type ConfigWorkspace struct {
 	HttpsDesingnerConfig HttpsConfig       `toml:"https_designer"`
 }
 type HttpsConfig struct {
-	Enable      bool   `tom:"enable"`
-	Cert        string `tom:"cert"`
-	Key         string `tom:"key"`
-	Address     string `tom:"address"`
-	Description string `tom:"description"`
+	Enable      bool    `tom:"enable"`
+	Cert        string  `tom:"cert"`
+	Key         string  `tom:"key"`
+	Address     string  `tom:"address"`
+	Description string  `tom:"description"`
+	User        *string `tom:"user"`
+	Password    *string `tom:"password"`
 }
 
 type RedisConfig struct {

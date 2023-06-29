@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/subtle"
 	"flag"
 	"log"
 	"strings"
@@ -185,6 +186,28 @@ func main() {
 	e2.Any("/:app_name/*", run)
 
 	e.Any("/:app_name/*", run)
+
+	if playbook.Config.HttpsDesingnerConfig.User != nil {
+		e2.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
+			// Be careful to use constant time comparison to prevent timing attacks
+			if subtle.ConstantTimeCompare([]byte(username), []byte(*playbook.Config.HttpsDesingnerConfig.User)) == 1 &&
+				subtle.ConstantTimeCompare([]byte(password), []byte(*playbook.Config.HttpsDesingnerConfig.Password)) == 1 {
+				return true, nil
+			}
+			return false, nil
+		}))
+	}
+
+	if playbook.Config.HttpsEngineConfig.User != nil {
+		e.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
+			// Be careful to use constant time comparison to prevent timing attacks
+			if subtle.ConstantTimeCompare([]byte(username), []byte(*playbook.Config.HttpsEngineConfig.User)) == 1 &&
+				subtle.ConstantTimeCompare([]byte(password), []byte(*playbook.Config.HttpsEngineConfig.Password)) == 1 {
+				return true, nil
+			}
+			return false, nil
+		}))
+	}
 
 	var wg sync.WaitGroup
 	wg.Add(2)

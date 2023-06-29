@@ -23,8 +23,8 @@
                         }
                     },
                     "outputs": {},
-                    "pos_x": 803,
-                    "pos_y": 538
+                    "pos_x": 1034,
+                    "pos_y": 742
                 },
                 "922539f1-3435-4969-8aa0-1c2a7e277f1f": {
                     "id": "922539f1-3435-4969-8aa0-1c2a7e277f1f",
@@ -47,8 +47,8 @@
                         }
                     },
                     "outputs": {},
-                    "pos_x": 761,
-                    "pos_y": 631
+                    "pos_x": 952,
+                    "pos_y": 887
                 },
                 "dd90692d-00d5-49d6-a1ab-5b7dc52e2d2e": {
                     "id": "dd90692d-00d5-49d6-a1ab-5b7dc52e2d2e",
@@ -72,8 +72,8 @@
                             ]
                         }
                     },
-                    "pos_x": 438,
-                    "pos_y": 621
+                    "pos_x": 307,
+                    "pos_y": 903
                 },
                 "8d914de0-f0bc-4418-9b4a-2fa940a0ee6f": {
                     "id": "8d914de0-f0bc-4418-9b4a-2fa940a0ee6f",
@@ -96,13 +96,13 @@
                         }
                     },
                     "outputs": {},
-                    "pos_x": 1225,
-                    "pos_y": 323
+                    "pos_x": 1163,
+                    "pos_y": 201
                 },
                 "8ad8e510-4cb5-4d48-8b60-783fdf5f333d": {
                     "id": "8ad8e510-4cb5-4d48-8b60-783fdf5f333d",
                     "data": {
-                        "html_form": "<div><input type='input' name='n1'/><input type='submit'/></div>",
+                        "html_form": "<style>\n  input {\n    width:100%\n  }\n</style>\n<div>\n  <input type='input' name='n1'/>\n  <input type='input' name='n3'/>\n  <input type='submit'/>\n</div>",
                         "name_box": "",
                         "nflow_auth": "false",
                         "script": "modules/form/js/code",
@@ -130,8 +130,8 @@
                             ]
                         }
                     },
-                    "pos_x": 552,
-                    "pos_y": 362
+                    "pos_x": 435,
+                    "pos_y": 352
                 },
                 "88efecf6-81c2-42b0-8333-408577ebd183": {
                     "id": "88efecf6-81c2-42b0-8333-408577ebd183",
@@ -162,7 +162,7 @@
                 "e46bb1b8-875f-4f26-8602-f6e760502fc9": {
                     "id": "e46bb1b8-875f-4f26-8602-f6e760502fc9",
                     "data": {
-                        "html_form": "<div><input type='input' name='n2'/><input type='submit'/></div>",
+                        "html_form": "<div>\n  <input type='input' name='n2'/>\n  <input type='submit'/>\n</div>",
                         "name_box": "",
                         "nflow_auth": "false",
                         "script": "modules/form/js/code",
@@ -190,8 +190,8 @@
                             ]
                         }
                     },
-                    "pos_x": 950,
-                    "pos_y": 354
+                    "pos_x": 803,
+                    "pos_y": 238
                 },
                 "20d68d6a-ebde-40da-8926-530c3b2450b8": {
                     "id": "20d68d6a-ebde-40da-8926-530c3b2450b8",
@@ -223,8 +223,8 @@
                             ]
                         }
                     },
-                    "pos_x": 743,
-                    "pos_y": 231
+                    "pos_x": 704,
+                    "pos_y": 448
                 },
                 "39551de7-ddd8-44f0-9361-eff1d35fc139": {
                     "id": "39551de7-ddd8-44f0-9361-eff1d35fc139",
@@ -248,8 +248,8 @@
                             ]
                         }
                     },
-                    "pos_x": 345,
-                    "pos_y": 250
+                    "pos_x": 326,
+                    "pos_y": 130
                 },
                 "bae440a6-8af9-4afb-8aad-97260bc57878": {
                     "id": "bae440a6-8af9-4afb-8aad-97260bc57878",
@@ -273,8 +273,71 @@
                             ]
                         }
                     },
-                    "pos_x": 369,
-                    "pos_y": 515
+                    "pos_x": 353,
+                    "pos_y": 612
+                },
+                "adf43dc4-1637-4a04-b74f-2cc823f6dbe9": {
+                    "id": "adf43dc4-1637-4a04-b74f-2cc823f6dbe9",
+                    "data": {
+                        "code": "",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "type": "js"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkred;\"></div><span class=\"material-icons\">source</span>JS Code</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"source\"></i> JS Code</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr/>\n    <textarea class=\"hide_component\" name=\"code\" df-code></textarea>\n    <button class=\"btn-export\" onclick='open_coder(this)'> CODE </button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": []
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": []
+                        },
+                        "output_2": {
+                            "connections": []
+                        }
+                    },
+                    "pos_x": 1063,
+                    "pos_y": 488
+                },
+                "1eddfe15-b2e5-4a54-829a-066d8487037e": {
+                    "id": "1eddfe15-b2e5-4a54-829a-066d8487037e",
+                    "name": "",
+                    "data": {
+                        "code": "",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "type": "js"
+                    },
+                    "class": "",
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkred;\"></div><span class=\"material-icons\">source</span>JS Code</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"source\"></i> JS Code</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr/>\n    <textarea class=\"hide_component\" name=\"code\" df-code></textarea>\n    <button class=\"btn-export\" onclick='open_coder(this)'> CODE </button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": []
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": []
+                        },
+                        "output_2": {
+                            "connections": []
+                        },
+                        "output_3": {
+                            "connections": []
+                        },
+                        "output_4": {
+                            "connections": []
+                        },
+                        "output_5": {
+                            "connections": []
+                        }
+                    },
+                    "pos_x": 1463,
+                    "pos_y": 440
                 }
             }
         },
