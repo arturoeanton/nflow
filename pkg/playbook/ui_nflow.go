@@ -12,8 +12,8 @@ func Ui(c echo.Context) error {
 	//fmt.Println("header", c.Request().Header)
 	appName := c.Param("app_name")
 	if appName == ":app_name" {
-		appName = "hopbox"
-		c.Redirect(http.StatusTemporaryRedirect, "/hopbox/nflow")
+		appName = "app"
+		c.Redirect(http.StatusTemporaryRedirect, "/app/nflow")
 	}
 	ui, _ := utils.FileToString("site/index.html")
 	c.HTML(200, ui)

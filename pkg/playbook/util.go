@@ -7,17 +7,13 @@ import (
 var PathBase string = "app/"
 
 func GetPathBase(c echo.Context) string {
-	base := "hopbox"
-	if c.Param("app_name") != "" {
-		base = c.Param("app_name")
-	}
+	base := "app"
+
 	return base + "/"
 }
 
 func GetAppJsonFileName(c echo.Context) string {
-	base := "hopbox"
-	if c.Param("app_name") != "" {
-		base = c.Param("app_name")
-	}
+	base := "app"
+
 	return base
 }

@@ -4,6 +4,7 @@ import (
 	"crypto/subtle"
 	"flag"
 	"log"
+	"net/http"
 	"strings"
 	"sync"
 
@@ -21,7 +22,6 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 
 	"github.com/go-redis/redis"
-	"github.com/otiai10/copy"
 )
 
 var playbooks map[string]map[string]map[string]*playbook.Playbook = make(map[string]map[string]map[string]*playbook.Playbook)
@@ -68,7 +68,7 @@ func runNode(c echo.Context) error {
 func run(c echo.Context) error {
 	pathBase := playbook.GetPathBase(c)
 	appJson := playbook.GetAppJsonFileName(c)
-	endpoint := strings.Split(c.Request().RequestURI, "?")[0][len(appJson):]
+	endpoint := strings.Split(c.Request().RequestURI, "?")[0]
 
 	v, ok := playbook.FindNewApp[appJson]
 	if v || !ok {
@@ -126,7 +126,7 @@ func main() {
 
 	e2 := echo.New()
 	e2.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
-	gNFlow := e2.Group("/:app_name/nflow")
+	gNFlow := e2.Group("/nflow")
 	gNFlow.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 
 	gNFlow.Static("/site", "site/")
@@ -139,7 +139,9 @@ func main() {
 		appJson := playbook.GetAppJsonFileName(c)
 
 		if !utils.Exists(pathBase + appJson + ".json") {
-			copy.Copy("app_template", pathBase)
+			c.HTML(http.StatusNotFound, "Not Found")
+			return nil
+			/*copy.Copy("app_template", pathBase)
 			content := `
 			{
 				"drawflow": {
@@ -152,7 +154,7 @@ func main() {
 				}
 			}
 			`
-			utils.StringToFile(pathBase+appJson+".json", content)
+			utils.StringToFile(pathBase+appJson+".json", content)*/
 		}
 		content, _ := utils.FileToString(pathBase + appJson + ".json")
 		c.HTML(200, content)
@@ -183,9 +185,9 @@ func main() {
 	gNFlow.Any("/process/:wid/payload", process.GetProcessPayload)
 	gNFlow.Any("/process/:wid/kill", process.KillWID)
 
-	e2.Any("/:app_name/*", run)
+	e2.Any("/*", run)
 
-	e.Any("/:app_name/*", run)
+	e.Any("/*", run)
 
 	if playbook.Config.HttpsDesingnerConfig.User != nil {
 		e2.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {

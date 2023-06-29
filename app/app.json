@@ -47,8 +47,8 @@
                         }
                     },
                     "outputs": {},
-                    "pos_x": 548,
-                    "pos_y": 370
+                    "pos_x": 528,
+                    "pos_y": 367
                 },
                 "dd90692d-00d5-49d6-a1ab-5b7dc52e2d2e": {
                     "id": "dd90692d-00d5-49d6-a1ab-5b7dc52e2d2e",
@@ -89,7 +89,7 @@
                         "input_1": {
                             "connections": [
                                 {
-                                    "node": "e46bb1b8-875f-4f26-8602-f6e760502fc9",
+                                    "node": "c0047bc9-2134-4163-a2d3-3cbb0e361521",
                                     "input": "output_1"
                                 }
                             ]
@@ -97,40 +97,6 @@
                     },
                     "outputs": {},
                     "pos_x": 1280,
-                    "pos_y": 160
-                },
-                "8ad8e510-4cb5-4d48-8b60-783fdf5f333d": {
-                    "id": "8ad8e510-4cb5-4d48-8b60-783fdf5f333d",
-                    "data": {
-                        "html_form": "<style>\n  input {\n    width:100%\n  }\n</style>\n<div>\n  <input type='input' name='n1'/>\n  <input type='input' name='n3'/>\n  <input type='submit'/>\n</div>",
-                        "name_box": "",
-                        "nflow_auth": "false",
-                        "script": "modules/form/js/code",
-                        "type": "js"
-                    },
-                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkorange;\"></div><span class=\"material-icons\">book</span>Form</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"book\"></i> Form</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr>\n\n<!-- add your form -->\n<textarea class=\"hide_component\" name=\"html_form\" df-html_form=\"<div><input type='input' name='n1'/><input type='submit'/></div>\"> </textarea>\n<button class=\"btn-export\" onclick=\"open_coder(this, `htmlmixed`)\"> CODE</button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
-                    "typenode": false,
-                    "inputs": {
-                        "input_1": {
-                            "connections": [
-                                {
-                                    "node": "39551de7-ddd8-44f0-9361-eff1d35fc139",
-                                    "input": "output_1"
-                                }
-                            ]
-                        }
-                    },
-                    "outputs": {
-                        "output_1": {
-                            "connections": [
-                                {
-                                    "node": "20d68d6a-ebde-40da-8926-530c3b2450b8",
-                                    "output": "input_1"
-                                }
-                            ]
-                        }
-                    },
-                    "pos_x": 534,
                     "pos_y": 160
                 },
                 "88efecf6-81c2-42b0-8333-408577ebd183": {
@@ -159,40 +125,6 @@
                     "pos_x": -9028,
                     "pos_y": -9247
                 },
-                "e46bb1b8-875f-4f26-8602-f6e760502fc9": {
-                    "id": "e46bb1b8-875f-4f26-8602-f6e760502fc9",
-                    "data": {
-                        "html_form": "<div>\n  <input type='input' name='n2'/>\n  <input type='submit'/>\n</div>",
-                        "name_box": "",
-                        "nflow_auth": "false",
-                        "script": "modules/form/js/code",
-                        "type": "js"
-                    },
-                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkorange;\"></div><span class=\"material-icons\">book</span>Form</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"book\"></i> Form</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr>\n\n<!-- add your form -->\n<textarea class=\"hide_component\" name=\"html_form\" df-html_form=\"<div><input type='input' name='n1'/><input type='submit'/></div>\"> </textarea>\n<button class=\"btn-export\" onclick=\"open_coder(this, `htmlmixed`)\"> CODE</button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
-                    "typenode": false,
-                    "inputs": {
-                        "input_1": {
-                            "connections": [
-                                {
-                                    "node": "20d68d6a-ebde-40da-8926-530c3b2450b8",
-                                    "input": "output_1"
-                                }
-                            ]
-                        }
-                    },
-                    "outputs": {
-                        "output_1": {
-                            "connections": [
-                                {
-                                    "node": "8d914de0-f0bc-4418-9b4a-2fa940a0ee6f",
-                                    "output": "input_1"
-                                }
-                            ]
-                        }
-                    },
-                    "pos_x": 1006,
-                    "pos_y": 160
-                },
                 "20d68d6a-ebde-40da-8926-530c3b2450b8": {
                     "id": "20d68d6a-ebde-40da-8926-530c3b2450b8",
                     "data": {
@@ -207,7 +139,7 @@
                         "input_1": {
                             "connections": [
                                 {
-                                    "node": "8ad8e510-4cb5-4d48-8b60-783fdf5f333d",
+                                    "node": "6de8eb5b-e1ab-4e48-8240-0789733eb054",
                                     "input": "output_1"
                                 }
                             ]
@@ -217,7 +149,7 @@
                         "output_1": {
                             "connections": [
                                 {
-                                    "node": "e46bb1b8-875f-4f26-8602-f6e760502fc9",
+                                    "node": "c0047bc9-2134-4163-a2d3-3cbb0e361521",
                                     "output": "input_1"
                                 }
                             ]
@@ -242,7 +174,7 @@
                         "output_1": {
                             "connections": [
                                 {
-                                    "node": "8ad8e510-4cb5-4d48-8b60-783fdf5f333d",
+                                    "node": "6de8eb5b-e1ab-4e48-8240-0789733eb054",
                                     "output": "input_1"
                                 }
                             ]
@@ -307,8 +239,76 @@
                             ]
                         }
                     },
-                    "pos_x": 531,
+                    "pos_x": 529,
                     "pos_y": 262
+                },
+                "6de8eb5b-e1ab-4e48-8240-0789733eb054": {
+                    "id": "6de8eb5b-e1ab-4e48-8240-0789733eb054",
+                    "data": {
+                        "html_form": "<style>\n  input {\n    width:100%\n  }\n</style>\n<div>\n  <input type='input' name='n1'/>\n  <input type='input' name='n3'/>\n  <input type='submit'/>\n</div>",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "script": "modules/form/js/code",
+                        "type": "js"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkorange;\"></div><span class=\"material-icons\">book</span>Form</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"book\"></i> Form</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr>\n\n<!-- add your form -->\n<textarea class=\"hide_component\" name=\"html_form\" df-html_form=\"<div><input type='input' name='n1'/><input type='submit'/></div>\"> </textarea>\n<button class=\"btn-export\" onclick=\"open_coder(this, `htmlmixed`)\"> CODE</button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "39551de7-ddd8-44f0-9361-eff1d35fc139",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "20d68d6a-ebde-40da-8926-530c3b2450b8",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 522,
+                    "pos_y": 160
+                },
+                "c0047bc9-2134-4163-a2d3-3cbb0e361521": {
+                    "id": "c0047bc9-2134-4163-a2d3-3cbb0e361521",
+                    "data": {
+                        "html_form": "<div><input type='input' name='n2'/><input type='submit'/></div>",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "script": "modules/form/js/code",
+                        "type": "js"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkorange;\"></div><span class=\"material-icons\">book</span>Form</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"book\"></i> Form</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr>\n\n<!-- add your form -->\n<textarea class=\"hide_component\" name=\"html_form\" df-html_form=\"<div><input type='input' name='n1'/><input type='submit'/></div>\"> </textarea>\n<button class=\"btn-export\" onclick=\"open_coder(this, `htmlmixed`)\"> CODE</button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "20d68d6a-ebde-40da-8926-530c3b2450b8",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "8d914de0-f0bc-4418-9b4a-2fa940a0ee6f",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 1027,
+                    "pos_y": 163
                 }
             }
         },
