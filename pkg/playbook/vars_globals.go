@@ -17,6 +17,11 @@ var (
 
 func addGlobals(vm *goja.Runtime, c echo.Context) {
 	pathBase := GetPathBase(c)
+	header := make(map[string][]string)
+	if c.Request().Header != nil {
+		header = (map[string][]string)(c.Request().Header)
+	}
+	vm.Set("header", header)
 	form, err1 := c.FormParams()
 	if err1 != nil {
 		vm.Set("form", make(map[string][]string))
