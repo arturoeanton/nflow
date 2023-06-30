@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nFlow Designer</title>
+  
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans|Material+Icons&display=swap">
+
+    <!-- drawflow -->
+    <link rel="stylesheet" href="nflow/design/libs/dataflow/css/drawflow.min.css">
+    <script src="nflow/design/libs/dataflow/drawflow.min.js"></script>
+    <script src="nflow/design/libs/dataflow/sweetalert2@9.js"></script>
+    <script src="nflow/design/libs/dataflow/micromodal.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="nflow/design/libs/dataflow/css/themes/beautiful.css" />
+
+    <link rel="stylesheet" href="nflow/design/css/theme_alert_dark.css">
+    <link rel="stylesheet" href="nflow/design/css/logo.css">
+    <link rel="stylesheet" href="nflow/design/css/app.css">
+    <link rel="stylesheet" href="nflow/design/css/w3.css">
+    <link rel="stylesheet" href="nflow/design/css/menu.css">
+    <link rel="stylesheet" href="nflow/design/css/panel.css">
+    <script src="nflow/design/js/menu.js"></script>
+
+
+
+    <!-- codemirror-->
+
+    <link rel="stylesheet" href="nflow/design/libs/codemirror-5.61.1/lib/codemirror.css">
+
+    <link rel="stylesheet" href="nflow/design/libs/codemirror-5.61.1/addon/fold/foldgutter.css">
+    <link rel="stylesheet" href="nflow/design/libs/codemirror-5.61.1/addon/dialog/dialog.css">
+    <link rel="stylesheet" href="nflow/design/libs/codemirror-5.61.1/theme/monokai.css">
+    <!-- <link rel="stylesheet" href="nflow/design/libs/codemirror-5.61.1/theme/dracula.css">
+    <link rel="stylesheet" href="nflow/design/libs/codemirror-5.61.1/theme/abcdef.css"> -->
+
+    <script src="nflow/design/libs/codemirror-5.61.1/lib/codemirror.js"></script>
+
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/fold/foldcode.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/fold/foldgutter.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/fold/brace-fold.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/fold/xml-fold.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/fold/indent-fold.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/fold/markdown-fold.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/fold/comment-fold.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/hint/show-hint.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/hint/javascript-hint.js"></script>
+
+
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/search/searchcursor.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/search/search.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/dialog/dialog.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/edit/matchbrackets.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/edit/closebrackets.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/comment/comment.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/wrap/hardwrap.js"></script>
+
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/display/fullscreen.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/comment/continuecomment.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/addon/comment/comment.js"></script>
+
+    <script src="nflow/design/libs/codemirror-5.61.1/mode/javascript/javascript.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/mode/xml/xml.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/mode/css/css.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/mode/sql/sql.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/mode/vbscript/vbscript.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="nflow/design/libs/codemirror-5.61.1/keymap/sublime.js"></script>
+
+    <!-- codemirror-->
+</head>
+
+<body>
+    <!--Sidebar-->
+    <div class="menu">
+        <div class="menu_tag">
+            <button class="menu_command" onclick="menu_action()">&times;</button>
+        </div>
+        <div class="menu_logo">    
+                        
+        </div>
+        <div class="menu_search">
+            <input type="text" class="menu_input_search" id="menu_input_search" onkeyup="filter_box()"
+                placeholder="Search...">
+            <button href="#" class="menu_add_item" onclick="create_box('')">
+                <span class="material-icons">
+                    add_box
+                </span>
+            </button>
+        </div>
+        <div class="menu_items">
+        </div>
+    </div>
+
+    <div class="top_panel">
+        <div class="panel_items">
+            <button id="module_Home" class="panel_item"
+                onclick="editor.changeModule('Home'); changeModule(event);">Home</button>
+        </div>
+
+        <div class="panel_items_add_remobe_module">
+            <button href="#" class="panel_item" onclick="add_workspace()">
+                <span class="material-icons">
+                    add
+                </span>
+            </button>
+            <button href="#" class="panel_item" onclick="remove_workspace()">
+                <span class="material-icons">
+                    remove
+                </span></button>
+        </div>
+    </div>
+    <div class="bottom_panel" id="bottom_panel">
+        <div class="input_panel">
+            <button href="#" class="panel_item" id="btn_console" onclick="show_console()" title="Console">
+                <span class="material-icons">
+                    memory
+                </span>
+            </button>
+
+            <button href="#" id="btn_play" class="panel_item" style="display: none;" onclick="play()" title="Play">
+                <span class="material-icons">
+                    play_arrow
+                </span>
+            </button>
+        </div>
+
+        <div class="panel_items">
+            <button href="#" class="panel_item" onclick="editor.zoom_in()" title="Zoom in">
+                <span class="material-icons">
+                    zoom_in
+                </span>
+            </button>
+            <button href="#" class="panel_item" onclick="editor.zoom_reset()" title="Zoom reset">
+                <span class="material-icons">
+                    location_searching
+                </span>
+            </button>
+            <button href="#" class="panel_item" onclick="editor.zoom_out()" title="Zoom out">
+                <span class="material-icons">
+                    zoom_out
+                </span>
+            </button>
+
+            <button href="#" class="panel_item" onclick="logout()" title="Logout">
+                <span class="material-icons">
+                    logout
+                </span>
+            </button>
+        </div>
+        <div style="display: grid; margin-bottom: 3px;">
+            <textarea class="textarea_console" width="100%" id="textarea_console" readonly></textarea>
+            <input id="input_cmd" class="input_cmd" type="text" placeholder=">>command or !command-console">
+        </div>
+    </div>
+
+    <div class="right_panel" id="panel_prop">
+
+    </div>
+
+    <div id="drawflow" ondrop="drop(event)" ondragover="allowDrop(event)" class="drawflow content">
+
+
+    </div>
+
+    <script src="nflow/design/js/flow.js"></script>
+    <script src="nflow/design/js/box.js"></script>
+    <script src="nflow/design/js/app.js"></script>
+    <script src="nflow/design/js/common.js"></script>
+    <script src="nflow/design/js/console.js"></script>
+
+</body>
+
+</html>

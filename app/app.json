@@ -91,6 +91,10 @@
                                 {
                                     "node": "c0047bc9-2134-4163-a2d3-3cbb0e361521",
                                     "input": "output_1"
+                                },
+                                {
+                                    "node": "1b1849de-ed2a-4a79-8601-0f4b4f2ff3d3",
+                                    "input": "output_1"
                                 }
                             ]
                         }
@@ -309,6 +313,66 @@
                     },
                     "pos_x": 1002,
                     "pos_y": 159
+                },
+                "bc06d83b-48ba-4ac0-8014-09708057afc4": {
+                    "id": "bc06d83b-48ba-4ac0-8014-09708057afc4",
+                    "data": {
+                        "method": "ANY",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "type": "starter",
+                        "urlpattern": "/p"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkcyan;\"></div><span class=\"material-icons\">video_settings</span>Form Start</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"video_settings\"></i> Form Start</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr/>\n<p>Url</p>\n<input type=\"text\" id=\"urlpattern\" name=\"urlpattern\" df-urlpattern>\n<button  class=\"btn-export\" onclick='setFieldNode();save();window.open(window.location+\"/..\"+getElemenByNameOfChiled(this.parentElement,\"urlpattern\")[0].value)'> OPEN </button>\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {},
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "1b1849de-ed2a-4a79-8601-0f4b4f2ff3d3",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 254,
+                    "pos_y": 505
+                },
+                "1b1849de-ed2a-4a79-8601-0f4b4f2ff3d3": {
+                    "id": "1b1849de-ed2a-4a79-8601-0f4b4f2ff3d3",
+                    "data": {
+                        "html_form": "<div><input type='input' name='n1'/><input type='submit'/></div>",
+                        "name_box": "",
+                        "nflow_auth": "false",
+                        "script": "modules/form/js/code",
+                        "template": "form1.html",
+                        "type": "js"
+                    },
+                    "html": "<div>\n  \n\n        <div class=\"title-box\">      <div class=\"mark_color_box\" style=\"background:darkorange;\"></div><span class=\"material-icons\">book</span>Form</div>\n            <div>\n                <input type=\"text\" value=\"\" df-name_box=\"\" class=\"df_name_box\"\n                readOnly\n                />\n            </div>\n            </div>\n            <div class=\"form_prop_of_box\" style=\"display:none\">\n                <div>\n\t\t<div class=\"title-box\"><i class=\"book\"></i> Form</div>\n\t\t<div class=\"box\">\n\t\t  Name:<input type=\"text\" name=\"name_box\" df-name_box=\"\" class=\"nflow_field\">\n<div class=\"nflow_auth\">Auth:<input type=\"checkbox\" df-nflow_auth=\"false\" name=\"nflow_auth\"></div>\n<hr>\n\n<!-- add your form -->\n<textarea class=\"hide_component\" name=\"html_form\" df-html_form=\"<div><input type='input' name='n1'/><input type='submit'/></div>\"> </textarea>\n<button class=\"btn-export\" onclick=\"open_coder(this, `htmlmixed`)\"> CODE</button>\n<input type=\"input\" df-template=\"form1.html\" name=\"template\">\n\t\t</div>\n\t  </div>\n            </div>\n        ",
+                    "typenode": false,
+                    "inputs": {
+                        "input_1": {
+                            "connections": [
+                                {
+                                    "node": "bc06d83b-48ba-4ac0-8014-09708057afc4",
+                                    "input": "output_1"
+                                }
+                            ]
+                        }
+                    },
+                    "outputs": {
+                        "output_1": {
+                            "connections": [
+                                {
+                                    "node": "8d914de0-f0bc-4418-9b4a-2fa940a0ee6f",
+                                    "output": "input_1"
+                                }
+                            ]
+                        }
+                    },
+                    "pos_x": 583,
+                    "pos_y": 502
                 }
             }
         },

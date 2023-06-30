@@ -15,7 +15,7 @@ func Ui(c echo.Context) error {
 		appName = "app"
 		c.Redirect(http.StatusTemporaryRedirect, "/app/nflow")
 	}
-	ui, _ := utils.FileToString("site/index.html")
+	ui, _ := utils.FileToString("design/index.html")
 	c.HTML(200, ui)
 	return nil
 }

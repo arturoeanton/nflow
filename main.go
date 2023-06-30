@@ -91,7 +91,6 @@ func run(c echo.Context) error {
 }
 
 func main() {
-	workspace := flag.String("w", "app/", "folder of workspace")
 	flag.Parse()
 	configPath := "config.toml"
 	if utils.Exists(configPath) {
@@ -110,28 +109,29 @@ func main() {
 	})
 
 	e := echo.New()
-	log.Println("PathBase (workspace):" + *workspace)
 	log.Println("URLBase:" + playbook.Config.URLConfig.URLBase)
 
 	e.Use(middleware.Logger())
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 
-	e.Static("/site", *workspace+"site/")
-	e.File("/favicon.ico", *workspace+"site/favicon.ico")
-	e.File("/", *workspace+"site/index.html")
-
-	e.GET("/__health", func(c echo.Context) error { return c.JSON(200, echo.Map{"alive": true}) })
+	e.Static("/site", "site/")
+	e.File("/favicon.ico", "site/favicon.ico")
+	e.File("/", "site/index.html")
 
 	playbook.InitUI()
 
 	e2 := echo.New()
+	e2.Static("/site", "site/")
+	e2.File("/favicon.ico", "site/favicon.ico")
+	e2.File("/", "site/index.html")
+
 	e2.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 	gNFlow := e2.Group("/nflow")
 	gNFlow.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 
-	gNFlow.Static("/site", "site/")
-	gNFlow.File("/favicon.ico", "site/favicon.ico")
-	gNFlow.File("/", "site/index.html")
+	gNFlow.Static("/design", "design/")
+	gNFlow.File("/favicon.ico", "design/favicon.ico")
+	gNFlow.File("/", "design/index.html")
 	gNFlow.GET("", playbook.Ui)
 	gNFlow.GET("/", playbook.Ui)
 	gNFlow.GET("/app", func(c echo.Context) error {

@@ -24,6 +24,7 @@ func (d TemplatePluings) Run(c echo.Context,
 
 func init() {
 	addFeatureTemplater()
+
 }
 
 func (d TemplatePluings) AddFeatureJS() map[string]interface{} {
@@ -35,7 +36,11 @@ func (d TemplatePluings) Name() string {
 }
 
 func templater(code string, data interface{}) string {
-	t := template.Must(template.New("code").Parse(code))
+	t := template.Must(template.New("code").Funcs(template.FuncMap{
+		"unescapeHTML": func(s string) template.HTML {
+			return template.HTML(s)
+		},
+	}).Parse(code))
 	buf := new(bytes.Buffer)
 	_ = t.Execute(buf, data)
 	return buf.String()
