@@ -21,7 +21,7 @@
 
     <link rel="stylesheet" href="nflow/design/css/theme_alert_dark.css">
     <link rel="stylesheet" href="nflow/design/css/logo.css">
-    <link rel="stylesheet" href="nflow/design/css/app.css">
+    <link rel="stylesheet" href="nflow/design/css/app.css?_">
     <link rel="stylesheet" href="nflow/design/css/w3.css">
     <link rel="stylesheet" href="nflow/design/css/menu.css">
     <link rel="stylesheet" href="nflow/design/css/panel.css">
@@ -123,11 +123,7 @@
                 </span>
             </button>
 
-            <button href="#" id="btn_play" class="panel_item" style="display: none;" onclick="play()" title="Play">
-                <span class="material-icons">
-                    play_arrow
-                </span>
-            </button>
+            
         </div>
 
         <div class="panel_items">
@@ -154,8 +150,7 @@
             </button>
         </div>
         <div style="display: grid; margin-bottom: 3px;">
-            <textarea class="textarea_console" width="100%" id="textarea_console" readonly></textarea>
-            <input id="input_cmd" class="input_cmd" type="text" placeholder=">>command or !command-console">
+            <textarea class="textarea_code" width="100%" id="textarea_code" readonly></textarea>
         </div>
     </div>
 

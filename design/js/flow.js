@@ -106,9 +106,13 @@ editor.on('nodeSelected', function (id) {
         }
         elem.value = node_df.data[elem.getAttribute("name")]
     }
+    textarea_code.value =""
     for (var i = 0; i < textareas.length; i++) {
         var elem = textareas[i]
         elem.value = node_df.data[elem.getAttribute("name")]
+        code = elem.value
+        textarea_code.value = elem.value
+        mode_code = elem.getAttribute("name")
     }
 
     for (var i = 0; i < selects.length; i++) {
@@ -120,7 +124,6 @@ editor.on('nodeSelected', function (id) {
 
 
     console.log("Node selected " + id);
-    btn_play.style.display = "block"
     var _in = document.getElementById("node-" + id)
     console.log(_in)
     var scripts = _in.getElementsByTagName("script")
@@ -135,6 +138,7 @@ editor.on('nodeSelected', function (id) {
 var id_box_in_prop = undefined
 editor.on('nodeUnselected', function (flag) {
     try {
+        textarea_code.value =""
         console.log('nodeUnselected')
         setFieldNode()
 
@@ -143,7 +147,6 @@ editor.on('nodeUnselected', function (flag) {
         panel_prop.style.padding = 0;
         id_box_in_prop = undefined;
 
-        btn_play.style.display = "none"
         save()
     } finally {
         current_id = undefined;
@@ -433,6 +436,31 @@ function changeMode(option) {
 }
 
 
+function set_coder(elem, mode) {
+    if (mode == undefined) {
+        mode = "javascript"
+    }
+    var code = elem.previousElementSibling.value
+    Swal.fire({
+        title: 'Coder',
+        html: `<textarea id="code1" >${code}</textarea>`,
+        preConfirm: () => {
+            textarea = elem.previousElementSibling
+            textarea.value = editor.getValue()
+            console.log(textarea)
+            save()
+        }
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+
+    })
+
+    var editor = codemirror_new(textarea_console, mode)
+
+}
+
+
+
 function open_coder(elem, mode) {
     if (mode == undefined) {
         mode = "javascript"
@@ -656,33 +684,6 @@ function save(show,callfx) {
     }
 
 
-}
-
-function play() {
-    if (editor.node_selected == undefined) {
-        alert("error")
-        return
-    }
-
-
-    Swal.fire({
-        title: 'Param in format QueryParam',
-        input: 'text',
-        inputAttributes: {
-            autocapitalize: 'off'
-        },
-        showCancelButton: true,
-        confirmButtonText: 'Ok',
-        showLoaderOnConfirm: true,
-        preConfirm: (query) => {
-            fetch(`nflow/node/run/${editor.module}/${editor.node_selected.id.substr(5)}?${query}`)
-                .then(response => response.text())
-                .then(text => {
-                    open_data(text, "application/ld+json")
-                })
-        },
-        allowOutsideClick: () => !Swal.isLoading()
-    })
 }
 
 function open_data(text, mode, readOnly) {

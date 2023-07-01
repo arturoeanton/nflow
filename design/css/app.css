@@ -126,7 +126,7 @@
   user-select: none;
 }
 
-.textarea_console {
+.textarea_code {
   position: relative;
   width: 97%;
   height: 230px;
@@ -141,10 +141,8 @@
   white-space: nowrap;
   overflow: hidden;
   resize: none;
-  top: 35px;
   white-space: pre-wrap;
   margin: auto;
-  top: 30px;
 
 }
 

@@ -335,7 +335,7 @@
                 "82a3fe82-5306-417d-b5ee-d3fafc90d71b": {
                     "id": "82a3fe82-5306-417d-b5ee-d3fafc90d71b",
                     "data": {
-                        "html_form": "\n<div>\n  <input type='input' name='n1'/>\n  <input type='input' name='n3'/>\n  <input type='submit'/>\n</div>",
+                        "html_form": "<div>\n  <input type='input' name='n1'/>\n  <input type='input' name='n3'/>\n  <input type='submit'/>\n</div>",
                         "name_box": "",
                         "nflow_auth": "false",
                         "script": "modules/form/js/code",
