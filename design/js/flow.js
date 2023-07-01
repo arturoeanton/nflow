@@ -295,7 +295,7 @@ function addNodeToDrawFlow(name, pos_x, pos_y) {
 
         <div class="title-box">      <div class="mark_color_box" style="${style}"></div>${icon}${item.title}</div>
             <div>
-                <input type="text" value="" df-name_box="" class="df_name_box"
+                <input type="text" value="" name="input_box" df-name_box="" class="df_name_box"
                 readOnly
                 />
             </div>

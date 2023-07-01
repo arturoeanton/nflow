@@ -73,7 +73,6 @@ func (cc *Controller) run(c echo.Context, vars Vars, next string, uuid1 string, 
 	console.Enable(vm)
 
 	addFeatureSession(vm, c)
-	addFeatureWsConsole(vm, c)
 
 	addGlobals(vm, c)
 
@@ -155,10 +154,8 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 	t1 := time.Now()
 	sbLog := strings.Builder{}
 	connection_next := "output_1"
-	SendConsoleWS("__node_id:run:" + next)
 	defer func() {
 		diff := time.Now().Sub(t1)
-		SendConsoleWS("__node_id:stop:" + next + ":" + fmt.Sprint(diff))
 		log.Println(sbLog.String() + " - time:" + fmt.Sprint(diff))
 	}()
 	defer func() {

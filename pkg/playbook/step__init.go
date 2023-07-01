@@ -19,5 +19,4 @@ func init() {
 	Steps["js"] = &StepJS{}
 	Steps["dromedary"] = &StepPlugin{}
 	Steps["dromedary_callback"] = &StepPluginCallback{}
-	Steps["websocket"] = &StepWebsocket{}
 }

@@ -178,8 +178,6 @@ func main() {
 
 	gNFlow.Any("/node/run/:flow_name/:node_id", runNode)
 
-	gNFlow.GET("/console/ws", playbook.WebsocketConsole)
-
 	gNFlow.Any("/process", process.GetProcesses)
 	gNFlow.Any("/process/:wid", process.GetProcess)
 	gNFlow.Any("/process/:wid/payload", process.GetProcessPayload)
