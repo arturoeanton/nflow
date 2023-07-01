@@ -436,39 +436,19 @@ function changeMode(option) {
 }
 
 
-function set_coder(elem, mode) {
-    if (mode == undefined) {
-        mode = "javascript"
-    }
-    var code = elem.previousElementSibling.value
-    Swal.fire({
-        title: 'Coder',
-        html: `<textarea id="code1" >${code}</textarea>`,
-        preConfirm: () => {
-            textarea = elem.previousElementSibling
-            textarea.value = editor.getValue()
-            console.log(textarea)
-            save()
-        }
-    }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-
-    })
-
-    var editor = codemirror_new(textarea_console, mode)
-
-}
-
-
 
 function open_coder(elem, mode) {
     if (mode == undefined) {
         mode = "javascript"
     }
     var code = elem.previousElementSibling.value
+    textarea = elem.previousElementSibling
+
     Swal.fire({
         title: 'Coder',
         html: `<textarea id="code1" >${code}</textarea>`,
+        width: '8000px',
+        heigth: '8000px',
         preConfirm: () => {
             textarea = elem.previousElementSibling
             textarea.value = editor.getValue()
@@ -526,6 +506,7 @@ function codemirror_new(code1, mode, readOnly) {
         lineWrapping: false,
         mode: mode,
         theme: "monokai",
+        showFormatButton: true,
         matchBrackets: true,
         autoCloseBrackets: true,
         showCursorWhenSelecting: true,
@@ -535,21 +516,17 @@ function codemirror_new(code1, mode, readOnly) {
         gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
         extraKeys: {
             "Ctrl-Space": autocomplete,
-            "Ctrl-S": function (instance) {
-                if (instance == cm || instance == ch || instance == cj) {
-                    return false;
-                }
+            "Ctrl-S": function (cm) {
+                textarea.value = cm.getValue()
+                console.log(textarea)
                 save(true)
-                return false;
             },
             "Cmd-S": function (instance) {
-                if (instance == cm || instance == ch || instance == cj) {
-                    return false;
-                }
+                textarea.value = cm.getValue()
+                console.log(textarea)
                 save(true)
-                return false;
             },
-            "Ctrl-Q": "toggleComment",
+            "Ctrl-7": "toggleComment",
             "Shift-Ctrl-F": function (cm) {
                 cm.setOption("fullScreen", !cm.getOption("fullScreen"));
             }
@@ -563,7 +540,7 @@ function codemirror_new(code1, mode, readOnly) {
         editor.options.readOnly = true
     }
 
-    editor.setSize(1000, 400);
+    editor.setSize("100%", "600");
     editor.setOption("fullScreen", true);
 
     setTimeout(() => {
@@ -719,6 +696,7 @@ function add_workspace() {
 
             elem = document.getElementById(`module_${name}`)
             elem.click()
+            setFieldNode()
             save()
         },
         allowOutsideClick: () => !Swal.isLoading()
