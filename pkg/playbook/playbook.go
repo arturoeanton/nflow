@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 )
 
@@ -65,10 +64,6 @@ func GetWorkflow(c echo.Context, playbooks map[string]map[string]*Playbook, wfPa
 				typeItem := data["type"]
 
 				if typeItem == "starter" {
-
-					s, _ := session.Get("nflow_form", c)
-					s.Values = make(map[interface{}]interface{})
-					s.Save(c.Request(), c.Response())
 
 					methodItem := data["method"]
 					if methodItem != "ANY" {

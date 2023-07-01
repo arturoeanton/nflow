@@ -30,6 +30,9 @@ func addGlobals(vm *goja.Runtime, c echo.Context) {
 
 	s, _ := session.Get("nflow_form", c)
 	for k, v := range form {
+		if k == "nflow_next_node_run" {
+			continue
+		}
 		if len(v) == 1 {
 			s.Values[k] = v[0]
 			continue

@@ -37,6 +37,7 @@ func CheckError(c echo.Context, err error, code int) bool {
 	return false
 }
 
+/*
 func runNode(c echo.Context) error {
 	pathBase := playbook.GetPathBase(c)
 	appJson := playbook.GetAppJsonFileName(c)
@@ -63,7 +64,7 @@ func runNode(c echo.Context) error {
 
 	uuid1 := uuid.New().String()
 	return cc.Run(c, vars, c.Param("node_id"), uuid1, nil)
-}
+}*/
 
 func run(c echo.Context) error {
 	pathBase := playbook.GetPathBase(c)
@@ -79,14 +80,29 @@ func run(c echo.Context) error {
 		}
 		playbook.FindNewApp[appJson] = false
 	}
+
+	nflow_next_node_run := ""
+	if c.Request().Method == "POST" || c.Request().Method == "PUT" {
+		if c.Request().FormValue("nflow_next_node_run") != "" {
+			if c.Request().Form["nflow_next_node_run"] != nil {
+				nflow_next_node_run = c.Request().Form["nflow_next_node_run"][0]
+			}
+		}
+	}
+
+	if nflow_next_node_run == "" {
+		s, _ := session.Get("nflow_form", c)
+		s.Values = make(map[interface{}]interface{})
+		s.Save(c.Request(), c.Response())
+	}
+
 	runeable, vars, err, code := playbook.GetWorkflow(c, playbooks[appJson], endpoint, c.Request().Method, appJson)
 	if CheckError(c, err, code) {
 		return nil
 	}
 
 	uuid1 := uuid.New().String()
-	e := runeable.Run(c, vars, "", uuid1, nil)
-
+	e := runeable.Run(c, vars, nflow_next_node_run, uuid1, nil)
 	return e
 }
 
@@ -176,7 +192,7 @@ func main() {
 
 	gNFlow.DELETE("/module/:name", playbook.DeleteModule)
 
-	gNFlow.Any("/node/run/:flow_name/:node_id", runNode)
+	//gNFlow.Any("/node/run/:flow_name/:node_id", runNode)
 
 	gNFlow.Any("/process", process.GetProcesses)
 	gNFlow.Any("/process/:wid", process.GetProcess)
