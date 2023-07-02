@@ -1,6 +1,7 @@
 package playbook
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/dop251/goja"
@@ -15,10 +16,10 @@ func addFeatureSession(vm *goja.Runtime, c echo.Context) {
 		s.Save(c.Request(), c.Response())
 	})
 
-	vm.Set("get_session", func(name, k string) *string {
+	vm.Set("get_session", func(name, k string) string {
 		s, _ := session.Get(name, c)
 		r := fmt.Sprint(s.Values[k])
-		return &r
+		return r
 	})
 
 	vm.Set("open_session", func(name string) *map[string]interface{} {
@@ -61,6 +62,43 @@ func addFeatureSession(vm *goja.Runtime, c echo.Context) {
 			r[k.(string)] = v
 		}
 		return &r
+	})
+
+	vm.Set("set_profile", func(v map[string]string) {
+		s, _ := session.Get("auth-session", c)
+		value, _ := json.Marshal(v)
+		s.Values["profile"] = string(value)
+		s.Save(c.Request(), c.Response())
+	})
+
+	vm.Set("get_profile", func() map[string]string {
+		s, _ := session.Get("auth-session", c)
+		var v map[string]string
+		if s.Values["profile"] != nil {
+			er := json.Unmarshal([]byte(s.Values["profile"].(string)), &v)
+			if er == nil {
+				return v
+			}
+		}
+		return make(map[string]string, 0)
+	})
+
+	vm.Set("exist_profile", func() bool {
+		s, _ := session.Get("auth-session", c)
+		var v map[string]string
+		if s.Values["profile"] != nil {
+			er := json.Unmarshal([]byte(s.Values["profile"].(string)), &v)
+			if er == nil {
+				return true
+			}
+		}
+		return false
+	})
+
+	vm.Set("delete_profile", func() {
+		s, _ := session.Get("auth-session", c)
+		delete(s.Values, "profile")
+		s.Save(c.Request(), c.Response())
 	})
 
 }

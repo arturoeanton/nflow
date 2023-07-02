@@ -41,12 +41,6 @@ func addGlobals(vm *goja.Runtime, c echo.Context) {
 	}
 	s.Save(c.Request(), c.Response())
 
-	vm.Set("profile", nil)
-	//sess_auth, _ := app.Store.Get(c.Request(), "auth-session")
-	//if val, ok := sess_auth.Values["profile"]; ok {
-	//	vm.Set("profile", val)
-	//}
-
 	vm.Set("redis_hset", RedisClient.HSet)
 	vm.Set("redis_hget", RedisClient.HGet)
 	vm.Set("redis_hdel", RedisClient.HDel)

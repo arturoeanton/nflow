@@ -1,0 +1,14 @@
+{
+    "title": "Validate Login",
+    "in": 1,
+    "out": null,
+    "icon": "",
+    "boxcolor": "darkorange",
+    "custom": false,
+    "param": {
+        "name_box": "",
+        "nflow_auth": "false",
+        "type": "js",
+        "script": "modules/Validate Login/js/code"
+    }
+}

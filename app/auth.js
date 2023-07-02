@@ -1,5 +1,7 @@
 function main(){
-    if (profile == null) {
+
+
+    if (!exist_profile() ) {
         next = "login"
         return
     }

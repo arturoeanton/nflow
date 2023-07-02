@@ -116,11 +116,12 @@ func (cc *Controller) run(c echo.Context, vars Vars, next string, uuid1 string, 
 		}
 		if flagString != "false" {
 			//execute auth.js
-			//nsess_auth, _ := app.Store.Get(c.Request(), "auth-session")
-			//sess_auth.Values["redirect_url"] = c.Request().URL.Path
-			///sess_auth.Save(c.Request(), c.Response())
-			//profile := sess_auth.Values["profile"]
-			//vm.Set("profile", profile)
+			auth_session, _ := session.Get("auth-session", c)
+			auth_session.Values["redirect_url"] = c.Request().URL.Path
+			auth_session.Save(c.Request(), c.Response())
+
+			profile := auth_session.Values["profile"]
+			vm.Set("profile", profile)
 			vm.Set("next", next)
 			vm.Set("auth_flag", flagString)
 			vm.Set("url_access", c.Request().URL.Path)
