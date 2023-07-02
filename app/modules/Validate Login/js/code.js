@@ -17,6 +17,6 @@ function main(){
       	set_profile({"username":payload["username"]})
   		return c.HTML(200," <script>window.location.href = '"+url_back+"'</script>")
     }
-    return c.HTML(200," Error Login")
+    return c.HTML(200," Error Login <br/>  <a href='/home' >Home</a>")
 
 }
