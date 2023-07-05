@@ -107,7 +107,7 @@ func (cc *Controller) run(c echo.Context, vars Vars, next string, uuid1 string, 
 		node_auth = cc.Start
 	}
 
-	// Exceute AUTH.js?
+	// Exceute auth of default.js?
 	if flag, ok := node_auth.Data["nflow_auth"]; ok {
 		flagString, ok := flag.(string)
 		if !ok {
@@ -115,8 +115,13 @@ func (cc *Controller) run(c echo.Context, vars Vars, next string, uuid1 string, 
 			flagString = fmt.Sprint(flagBool)
 		}
 		if flagString != "false" {
-			//execute auth.js
-			auth_session, _ := session.Get("auth-session", c)
+			//execute auth of default.js
+			auth_session, err := session.Get("auth-session", c)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
+				return nil
+			}
+
 			auth_session.Values["redirect_url"] = c.Request().URL.Path
 			auth_session.Save(c.Request(), c.Response())
 
@@ -126,13 +131,18 @@ func (cc *Controller) run(c echo.Context, vars Vars, next string, uuid1 string, 
 			vm.Set("auth_flag", flagString)
 			vm.Set("url_access", c.Request().URL.Path)
 
-			pathAuth := pathBase + "auth.js"
-			fmt.Println(pathAuth)
-			code, _ := utils.FileToString(pathAuth)
-			code += "\nmain()"
-			_, err := vm.RunString(code)
+			defaultjs := pathBase + "default.js"
+			code, err := utils.FileToString(defaultjs)
 			if err != nil {
 				c.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
+				return nil
+			}
+
+			code += "\nauth()"
+			_, err = vm.RunString(code)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
+				return nil
 			}
 
 			next = vm.Get("next").String()
@@ -155,9 +165,43 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 	t1 := time.Now()
 	sbLog := strings.Builder{}
 	connection_next := "output_1"
+
+	var actor *Node
+	var box_id string
+	var box_name string
+	var box_type string
 	defer func() {
-		diff := time.Now().Sub(t1)
-		log.Println(sbLog.String() + " - time:" + fmt.Sprint(diff))
+		now := time.Now()
+		diff := now.Sub(t1)
+
+		go func(c echo.Context, actor *Node, box_id string, box_name string, box_type string, connection_next string, diff time.Duration) {
+			//log.Println(sbLog.String() + " - time:" + fmt.Sprint(diff))
+			pathBase := GetPathBase(c)
+			defaultjs := pathBase + "default.js"
+			code, err := utils.FileToString(defaultjs)
+			if err != nil {
+				log.Println(err)
+				return
+			}
+
+			vm.Set("box_id", box_id)
+			vm.Set("box_name", box_name)
+			vm.Set("box_type", box_type)
+			vm.Set("connection_next", connection_next)
+
+			vm.Set("duration_mc", diff.Microseconds())
+			vm.Set("duration_ms", diff.Milliseconds())
+			vm.Set("duration_s", diff.Seconds())
+
+			code += "\nlog()"
+			_, err = vm.RunString(code)
+			if err != nil {
+				log.Println(err)
+				return
+			}
+
+		}(c, actor, box_id, box_name, box_type, connection_next, diff)
+
 	}()
 	defer func() {
 		err := recover()
@@ -175,18 +219,21 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 		log.Println(next)
 	}
 	pb := *cc.Playbook
-	actor := pb[next]
+	actor = pb[next]
 	sbLog.WriteString("- IDBox:" + next)
 	currentProcess.UUIDBoxCurrent = next
+	box_id = next
 
 	if nameBox, ok := actor.Data["name_box"]; ok {
-		sbLog.WriteString("- NameBox:" + nameBox.(string))
+		box_name = nameBox.(string)
+		sbLog.WriteString("- NameBox:" + box_name)
 	}
 
 	currentProcess.Type = ""
 	if pType, ok := actor.Data["type"]; ok {
 		currentProcess.Type = pType.(string)
 	}
+	box_type = currentProcess.Type
 
 	sbLog.WriteString(" - Type:" + currentProcess.Type)
 	if s, ok := Steps[currentProcess.Type]; ok {

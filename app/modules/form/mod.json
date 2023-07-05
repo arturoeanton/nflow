@@ -7,7 +7,6 @@
     "custom": false,
     "param": {
         "name_box": "",
-        "nflow_auth": "false",
         "html_form": "<div><input type='input' name='n1'/><input type='submit'/></div>",
         "template": "form1.html",
         "type": "js",

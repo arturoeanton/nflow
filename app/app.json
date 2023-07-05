@@ -16,19 +16,19 @@
                         "input_1": {
                             "connections": [
                                 {
-                                    "node": "c5221c80-92d0-41bc-98e0-c9d117a1b2e0",
-                                    "input": "output_2"
-                                },
-                                {
                                     "node": "79db20d7-a350-4bd3-87f8-0b0468313e20",
                                     "input": "output_1"
+                                },
+                                {
+                                    "node": "c5221c80-92d0-41bc-98e0-c9d117a1b2e0",
+                                    "input": "output_2"
                                 }
                             ]
                         }
                     },
                     "outputs": {},
-                    "pos_x": 1401,
-                    "pos_y": 154
+                    "pos_x": 1379,
+                    "pos_y": 125
                 },
                 "66308384-c966-4dee-af14-b5a65177ad19": {
                     "id": "66308384-c966-4dee-af14-b5a65177ad19",
@@ -84,7 +84,7 @@
                     "id": "10a96bc6-3816-4013-8931-1b6ff699c6d9",
                     "data": {
                         "method": "ANY",
-                        "name_box": "",
+                        "name_box": "Home",
                         "nflow_auth": "true",
                         "type": "starter",
                         "urlpattern": "/home"
@@ -224,7 +224,7 @@
                     "id": "c5221c80-92d0-41bc-98e0-c9d117a1b2e0",
                     "data": {
                         "code": "function main(){\n  \tconsole.log(\"paso\")\n  \tif (payload[\"n1\"]  == \"jump\") {\n      next = \"output_2\"\n    }\n\tpayload[\"n1\"] = payload[\"n1\"] + \"_! modificado por js jeje\"\n  \tpayload[\"otro_campo\"] = \"agregado por js.\"\n  \n  \t\n  \n}",
-                        "name_box": "",
+                        "name_box": "Validate 1",
                         "nflow_auth": "false",
                         "type": "js"
                     },
@@ -256,16 +256,16 @@
                                     "output": "input_1",
                                     "points": [
                                         {
-                                            "pos_x": 1125,
-                                            "pos_y": 303
+                                            "pos_x": 1159,
+                                            "pos_y": 290.00001525878906
                                         }
                                     ]
                                 }
                             ]
                         }
                     },
-                    "pos_x": 794,
-                    "pos_y": 143
+                    "pos_x": 765,
+                    "pos_y": 139
                 },
                 "de5bcff2-76b7-4cc9-b970-84b0dcfaeeee": {
                     "id": "de5bcff2-76b7-4cc9-b970-84b0dcfaeeee",
@@ -367,7 +367,7 @@
                     "id": "307699c8-243b-4518-8aaf-478931e33709",
                     "data": {
                         "html_form": "<div>\n  <input type='input' name='n1'/>\n  <input type='input' name='n3'/>\n  <input type='submit'/>\n</div>",
-                        "name_box": "",
+                        "name_box": "Form Datos1",
                         "nflow_auth": "false",
                         "script": "modules/form/js/code",
                         "template": "form1.html",
@@ -396,13 +396,13 @@
                         }
                     },
                     "pos_x": 535,
-                    "pos_y": 143
+                    "pos_y": 142
                 },
                 "79db20d7-a350-4bd3-87f8-0b0468313e20": {
                     "id": "79db20d7-a350-4bd3-87f8-0b0468313e20",
                     "data": {
                         "html_form": "<div><input type='input' name='n2'/><input type='submit'/></div>",
-                        "name_box": "",
+                        "name_box": "Form Datos 2",
                         "nflow_auth": "false",
                         "script": "modules/form/js/code",
                         "template": "form1.html",
@@ -430,8 +430,8 @@
                             ]
                         }
                     },
-                    "pos_x": 1071,
-                    "pos_y": 122
+                    "pos_x": 1069,
+                    "pos_y": 135
                 },
                 "d1e1a40f-7ed7-4e3b-806f-56bd198d30f3": {
                     "id": "d1e1a40f-7ed7-4e3b-806f-56bd198d30f3",
@@ -538,8 +538,8 @@
                         }
                     },
                     "outputs": {},
-                    "pos_x": 951,
-                    "pos_y": 599
+                    "pos_x": 789,
+                    "pos_y": 591
                 }
             }
         },
