@@ -15,6 +15,7 @@ func SaveApp(c echo.Context) error {
 	appJson := GetAppJsonFileName(c)
 	pathBase := GetPathBase(c)
 	FindNewApp[appJson] = true
+
 	bytes, err := ioutil.ReadAll(c.Request().Body)
 	if err != nil {
 		log.Fatalln(err)

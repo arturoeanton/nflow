@@ -8,6 +8,7 @@ type ConfigWorkspace struct {
 	MongoConfig          MongoConfig       `toml:"mongo"`
 	PluginConfig         PluginConfig      `toml:"plugin"`
 	RedisConfig          RedisConfig       `toml:"redis"`
+	RedisSessionConfig   RedisConfig       `toml:"redis_session"`
 	Env                  map[string]string `toml:"env"`
 	HttpsEngineConfig    HttpsConfig       `toml:"https_engine"`
 	HttpsDesingnerConfig HttpsConfig       `toml:"https_designer"`
@@ -20,6 +21,11 @@ type HttpsConfig struct {
 	Description string  `tom:"description"`
 	User        *string `tom:"user"`
 	Password    *string `tom:"password"`
+}
+
+type RedisSessionConfig struct {
+	Host     string `tom:"host"`
+	Password string `tom:"password"`
 }
 
 type RedisConfig struct {
