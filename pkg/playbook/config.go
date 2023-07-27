@@ -29,8 +29,9 @@ type RedisSessionConfig struct {
 }
 
 type RedisConfig struct {
-	Host     string `tom:"host"`
-	Password string `tom:"password"`
+	Host              string `tom:"host"`
+	Password          string `tom:"password"`
+	MaxConnectionPool int    `tom:"max_connection_pool"`
 }
 
 type MongoConfig struct {

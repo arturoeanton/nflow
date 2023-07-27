@@ -1,7 +1,11 @@
+[redis_session]
+host =  ""
+password = ""
+max_connection_pool = 100
+
 [redis]
 host =  "localhost:6379"
 password = ""
-
 
 [env]
 scim_base="https://localhost:8443"
