@@ -15,7 +15,6 @@ require (
 	github.com/labstack/echo-contrib v0.15.0
 	github.com/labstack/echo/v4 v4.10.2
 	github.com/piggyman007/echo-session v3.2.0+incompatible
-	github.com/redis/go-redis/v9 v9.0.5
 	github.com/sazito/mosalat v0.0.4
 	github.com/scorredoira/email v0.0.0-20191107070024-dc7b732c55da
 	golang.org/x/net v0.12.0
@@ -24,8 +23,6 @@ require (
 require (
 	github.com/antonlindstrom/pgstore v0.0.0-20220421113606-e3a6e3fed12a // indirect
 	github.com/boj/redistore v0.0.0-20180917114910-cd5dcc76aeff // indirect
-	github.com/cespare/xxhash/v2 v2.2.0 // indirect
-	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/dlclark/regexp2 v1.10.0 // indirect
 	github.com/go-sourcemap/sourcemap v2.1.3+incompatible // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect

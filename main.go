@@ -3,20 +3,21 @@ package main
 import (
 	"crypto/subtle"
 	"flag"
-	"github.com/go-redis/redis"
-	"github.com/labstack/echo-contrib/session"
 	"log"
 	"net/http"
 	"strings"
 	"sync"
 
+	"github.com/go-redis/redis"
+	"github.com/labstack/echo-contrib/session"
+
 	"github.com/BurntSushi/toml"
 	"github.com/arturoeanton/gocommons/utils"
-	"github.com/gorilla/sessions"
-	customsession "github.com/piggyman007/echo-session"
 
+	"github.com/arturoeanton/nFlow/pkg/commons"
 	"github.com/arturoeanton/nFlow/pkg/playbook"
 	"github.com/arturoeanton/nFlow/pkg/process"
+
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -126,7 +127,7 @@ func main() {
 	log.Println("URLBase:" + playbook.Config.URLConfig.URLBase)
 
 	e.Use(middleware.Logger())
-	e.Use(session.Middleware(GetSessionStore(&playbook.Config.RedisSessionConfig)))
+	e.Use(session.Middleware(commons.GetSessionStore(&playbook.Config.RedisSessionConfig)))
 
 	e.Static("/site", "site/")
 	e.File("/favicon.ico", "site/favicon.ico")
@@ -139,9 +140,9 @@ func main() {
 	e2.File("/favicon.ico", "site/favicon.ico")
 	e2.File("/", "site/index.html")
 
-	e2.Use(session.Middleware(GetSessionStore(&playbook.Config.RedisSessionConfig)))
+	e2.Use(session.Middleware(commons.GetSessionStore(&playbook.Config.RedisSessionConfig)))
 	gNFlow := e2.Group("/nflow")
-	gNFlow.Use(session.Middleware(GetSessionStore(&playbook.Config.RedisSessionConfig)))
+	gNFlow.Use(session.Middleware(commons.GetSessionStore(&playbook.Config.RedisSessionConfig)))
 
 	gNFlow.Static("/design", "design/")
 	gNFlow.File("/favicon.ico", "design/favicon.ico")
@@ -255,22 +256,4 @@ func RunServer(e *echo.Echo, httpsConfig *playbook.HttpsConfig) {
 		log.Println("(" + httpsConfig.Description + ")Starting server without TLS:" + httpsConfig.Address)
 		e.Start(httpsConfig.Address)
 	}
-}
-
-func GetSessionStore(redisSessionConfig *playbook.RedisConfig) sessions.Store {
-	if redisSessionConfig.Host != "" {
-		store, err := customsession.NewRedisStore(redisSessionConfig.MaxConnectionPool, "tcp", redisSessionConfig.Host, redisSessionConfig.Password) // set redis store
-		if err != nil {
-			log.Printf("could not create redis store: %s - using cookie store instead", err.Error())
-			return sessions.NewCookieStore([]byte("secret"))
-		}
-		opts := customsession.Options{
-			MaxAge:   3600, // session timeout in seconds
-			Secure:   true, // secure cookie flag
-			HttpOnly: true, // httponly flag
-		}
-		store.Options(opts)
-		return store
-	}
-	return sessions.NewCookieStore([]byte("secret"))
 }
