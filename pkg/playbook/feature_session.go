@@ -72,15 +72,7 @@ func addFeatureSession(vm *goja.Runtime, c echo.Context) {
 	})
 
 	vm.Set("get_profile", func() map[string]string {
-		s, _ := session.Get("auth-session", c)
-		var v map[string]string
-		if s.Values["profile"] != nil {
-			er := json.Unmarshal([]byte(s.Values["profile"].(string)), &v)
-			if er == nil {
-				return v
-			}
-		}
-		return make(map[string]string, 0)
+		return GetProfile(c)
 	})
 
 	vm.Set("exist_profile", func() bool {
@@ -101,4 +93,16 @@ func addFeatureSession(vm *goja.Runtime, c echo.Context) {
 		s.Save(c.Request(), c.Response())
 	})
 
+}
+
+func GetProfile(c echo.Context) map[string]string {
+	s, _ := session.Get("auth-session", c)
+	var v map[string]string
+	if s.Values["profile"] != nil {
+		er := json.Unmarshal([]byte(s.Values["profile"].(string)), &v)
+		if er == nil {
+			return v
+		}
+	}
+	return make(map[string]string, 0)
 }

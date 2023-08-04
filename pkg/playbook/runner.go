@@ -13,6 +13,7 @@ import (
 	"github.com/dop251/goja_nodejs/console"
 	"github.com/dop251/goja_nodejs/require"
 	"github.com/dop251/goja_nodejs/util"
+	"github.com/google/uuid"
 
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -178,6 +179,16 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 	sbLog := strings.Builder{}
 	connection_next := "output_1"
 
+	log_session, err := session.Get("log-session", c)
+	if err != nil {
+		log.Println(err)
+	}
+	if log_session.Values["log_id"] == nil {
+		log_session.Values["log_id"] = uuid.New().String()
+		log_session.Save(c.Request(), c.Response())
+	}
+	log_id := log_session.Values["log_id"].(string)
+
 	var actor *Node
 	var box_id string
 	var box_name string
@@ -185,6 +196,37 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 	defer func() {
 		now := time.Now()
 		diff := now.Sub(t1)
+
+		go func(log_id string, c echo.Context, box_id string, box_name string, box_type string, connection_next string, diff time.Duration) {
+			if Config.DatabaseNflow.QueryInsertLog == "" {
+				return
+			}
+
+			db, err := GetDB()
+			if err != nil {
+				log.Println(err)
+				return
+			}
+			ctx := c.Request().Context()
+			conn, err := db.Conn(ctx)
+			if err != nil {
+				return
+			}
+			defer conn.Close()
+			profile := GetProfile(c)
+			username := ""
+			if profile != nil {
+				if _, ok := profile["username"]; ok {
+					username = profile["username"]
+				}
+			}
+			url := c.Request().URL.Path
+
+			_, err = conn.ExecContext(ctx, Config.DatabaseNflow.QueryInsertLog, log_id, box_id, box_name, box_type, url, username, connection_next, fmt.Sprintf("%dm", diff.Milliseconds()))
+			if err != nil {
+				log.Println(err)
+			}
+		}(log_id, c, box_id, box_name, box_type, connection_next, diff)
 
 		go func(c echo.Context, actor *Node, box_id string, box_name string, box_type string, connection_next string, diff time.Duration) {
 			//log.Println(sbLog.String() + " - time:" + fmt.Sprint(diff))
@@ -220,7 +262,6 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 			_, err = vm.RunString(code)
 			if err != nil {
 				log.Println(err)
-				return
 			}
 
 		}(c, actor, box_id, box_name, box_type, connection_next, diff)

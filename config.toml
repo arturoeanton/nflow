@@ -8,10 +8,10 @@ host = ""
 password = ""
 
 [database_nflow]
-#driver = "sqlite3"
-#dsn = "app/app.sqlite"
-driver = "postgres"
-dsn = "postgres://postgres:nflowsecret@localhost:5432/nflow?sslmode=disable"
+driver = "sqlite3"
+dsn = "app/app.sqlite"
+#driver = "postgres"
+#dsn = "postgres://postgres:nflowsecret@localhost:5432/nflow?sslmode=disable"
 QueryGetApp = "SELECT json , default_js FROM nflow  where name = $1"
 QueryGetModules = "SELECT form, mod, code, name FROM modules order by upper(name) desc"
 QueryCountModulesByName = "SELECT COUNT(*) c FROM modules WHERE name = $1"
@@ -22,6 +22,7 @@ QueryUpdateCodeModuleByName = "UPDATE modules SET code = $1 WHERE name = $2"
 QueryUpdateApp = "UPDATE nflow SET json = $1 WHERE name = $2"
 QueryInsertModule = "INSERT INTO modules (name, form, mod, code) VALUES ($1,$2,$3, $4)"
 QueryDeleteModule = "DELETE FROM modules WHERE name = $1"
+QueryInsertLog = "INSERT INTO tracker (log_id, box_id, box_name, box_type, url, username, connection_next, duration) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) "
 
 
 [env]

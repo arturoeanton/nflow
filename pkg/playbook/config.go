@@ -28,6 +28,7 @@ type DatabaseNflow struct {
 	QueryUpdateApp              string `tom:"QueryUpdateApp"`
 	QueryInsertModule           string `tom:"QueryInsertModule"`
 	QueryDeleteModule           string `tom:"QueryDeleteModule"`
+	QueryInsertLog              string `tom:"QueryInsertLog"`
 }
 type HttpsConfig struct {
 	Enable      bool    `tom:"enable"`
