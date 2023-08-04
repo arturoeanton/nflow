@@ -2,12 +2,11 @@ package playbook
 
 import (
 	"bytes"
+	"database/sql"
 	"encoding/json"
-	"io/ioutil"
+	"log"
 	"net/http"
-	"os"
 
-	"github.com/arturoeanton/gocommons/utils"
 	"github.com/labstack/echo/v4"
 )
 
@@ -26,27 +25,46 @@ type Module struct {
 }
 
 func GetModules(c echo.Context) error {
-	pathBase := GetPathBase(c)
+
 	modules := make(map[string]Module)
 
 	jsonStr := ""
-	files, err := ioutil.ReadDir(pathBase + "modules/")
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
-	}
-	for _, f := range files {
 
-		if !f.IsDir() {
-			continue
+	ctx := c.Request().Context()
+	db, err := GetDB()
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	conn, err := db.Conn(ctx)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+	rows, err := conn.QueryContext(ctx, Config.DatabaseNflow.QueryGetModules)
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+	var form string
+	var mod string
+	var code sql.NullString
+	var name string
+	for rows.Next() {
+		err := rows.Scan(&form, &mod, &code, &name)
+		if err != nil {
+			//continue
+			log.Println(err)
+			return err
 		}
 
 		module := Module{}
-		jsonStr, _ = utils.FileToString(pathBase + "modules/" + f.Name() + "/mod.json")
+		jsonStr = mod
 		err = json.Unmarshal([]byte(jsonStr), &module)
 		if err != nil {
 			flag := true
 			module = Module{
-				Title:    f.Name(),
+				Title:    name,
 				Icon:     "fas fa-bomb",
 				In:       0,
 				Out:      0,
@@ -58,24 +76,23 @@ func GetModules(c echo.Context) error {
 			continue
 		}
 		if module.Title == "" {
-			module.Title = f.Name()
+			module.Title = name
 		}
 		if module.Editable == nil {
 			flag := true
 			module.Editable = &flag
 		}
 		if module.Custom {
-			module.HTMLForm, _ = utils.FileToString(pathBase + "modules/" + f.Name() + "/" + f.Name() + ".html")
+			module.HTMLForm = form
 		} else {
-			html, _ := utils.FileToString(pathBase + "modules/" + f.Name() + "/" + f.Name() + ".html")
 			module.HTMLForm = `<div>
 		<div class="title-box"><i class="` + module.Icon + `"></i> ` + module.Title + `</div>
 		<div class="box">
-		  ` + html + `
+		  ` + form + `
 		</div>
 	  </div>`
 		}
-		modules[f.Name()] = module
+		modules[name] = module
 	}
 
 	c.JSON(http.StatusOK, modules)
@@ -83,87 +100,204 @@ func GetModules(c echo.Context) error {
 }
 
 func GetManifest(c echo.Context) error {
-	pathBase := GetPathBase(c)
+	ctx := c.Request().Context()
+	db, err := GetDB()
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	conn, err := db.Conn(ctx)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
 	name := c.Param("name")
-	code, _ := utils.FileToString(pathBase + "modules/" + name + "/mod.json")
-	c.String(http.StatusOK, code)
+	row := conn.QueryRowContext(ctx, Config.DatabaseNflow.QueryGetModuleByName, name)
+	var form string
+	var mod string
+	var code sql.NullString
+	err = row.Scan(&form, &mod, &code)
+	if err != nil {
+		return err
+	}
+	c.String(http.StatusOK, mod)
 	return nil
 }
 
 func GetBox(c echo.Context) error {
-	pathBase := GetPathBase(c)
+	ctx := c.Request().Context()
+	db, err := GetDB()
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	conn, err := db.Conn(ctx)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
 	name := c.Param("name")
-	code, _ := utils.FileToString(pathBase + "modules/" + name + "/" + name + ".html")
-	c.String(http.StatusOK, code)
+	row := conn.QueryRowContext(ctx, Config.DatabaseNflow.QueryGetModuleByName, name)
+	var form string
+	var mod string
+	var code sql.NullString
+	err = row.Scan(&form, &mod, &code)
+	if err != nil {
+		return err
+	}
+	c.String(http.StatusOK, form)
 	return nil
 }
 
 func GetCode(c echo.Context) error {
-	pathBase := GetPathBase(c)
+	ctx := c.Request().Context()
+	db, err := GetDB()
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	conn, err := db.Conn(ctx)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
 	name := c.Param("name")
-	code, _ := utils.FileToString(pathBase + "modules/" + name + "/js/code.js")
-	c.String(http.StatusOK, code)
+	row := conn.QueryRowContext(ctx, Config.DatabaseNflow.QueryGetModuleByName, name)
+	var form string
+	var mod string
+	var code sql.NullString
+	err = row.Scan(&form, &mod, &code)
+	if err != nil {
+		return err
+	}
+	c.String(http.StatusOK, code.String)
 	return nil
 }
 
 func PostManifest(c echo.Context) error {
-	pathBase := GetPathBase(c)
+	ctx := c.Request().Context()
+	db, err := GetDB()
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	conn, err := db.Conn(ctx)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
 	name := c.Param("name")
-	path := pathBase + "modules/" + name
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		os.Mkdir(path, 0755)
+	selectCount := Config.DatabaseNflow.QueryCountModulesByName
+	row := conn.QueryRowContext(ctx, selectCount, name)
+	var count int
+	err = row.Scan(&count)
+	if err != nil {
+		return err
 	}
 
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(c.Request().Body)
 	code := buf.String()
-	utils.StringToFile(path+"/mod.json", code)
+	if count == 0 {
+		_, err = conn.ExecContext(ctx, Config.DatabaseNflow.QueryInsertModule, name, "", code, "")
+	} else {
+		_, err = conn.ExecContext(ctx, Config.DatabaseNflow.QueryUpdateModModuleByName, code, name)
+	}
+	if err != nil {
+		return err
+	}
 	c.String(http.StatusOK, code)
 	return nil
 }
 
 func PostBox(c echo.Context) error {
-	pathBase := GetPathBase(c)
-	name := c.Param("name")
-	path := pathBase + "modules/" + name
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		os.Mkdir(path, 0755)
+	ctx := c.Request().Context()
+	db, err := GetDB()
+	if err != nil {
+		log.Println(err)
+		return nil
 	}
-
+	conn, err := db.Conn(ctx)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+	name := c.Param("name")
+	selectCount := Config.DatabaseNflow.QueryCountModulesByName
+	row := conn.QueryRowContext(ctx, selectCount, name)
+	var count int
+	err = row.Scan(&count)
+	if err != nil {
+		return err
+	}
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(c.Request().Body)
 	code := buf.String()
-	utils.StringToFile(path+"/"+name+".html", code)
+	if count == 0 {
+		_, err = conn.ExecContext(ctx, Config.DatabaseNflow.QueryInsertModule, name, code, "", "")
+	} else {
+		_, err = conn.ExecContext(ctx, Config.DatabaseNflow.QueryUpdateFormModuleByName, code, name)
+	}
+	if err != nil {
+		return err
+	}
 	c.String(http.StatusOK, code)
 	return nil
 }
 
 func PostCode(c echo.Context) error {
-	pathBase := GetPathBase(c)
+	ctx := c.Request().Context()
+	db, err := GetDB()
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	conn, err := db.Conn(ctx)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
 	name := c.Param("name")
-	path := pathBase + "modules/" + name
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		os.Mkdir(path, 0755)
+	selectCount := Config.DatabaseNflow.QueryCountModulesByName
+	row := conn.QueryRowContext(ctx, selectCount, name)
+	var count int
+	err = row.Scan(&count)
+	if err != nil {
+		return err
 	}
-
-	path = path + "/js"
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		os.Mkdir(path, 0755)
-	}
-
 	buf := new(bytes.Buffer)
 	buf.ReadFrom(c.Request().Body)
 	code := buf.String()
-	utils.StringToFile(path+"/code.js", code)
+	if count == 0 {
+		_, err = conn.ExecContext(ctx, Config.DatabaseNflow.QueryInsertModule, name, "", "", code)
+	} else {
+		_, err = conn.ExecContext(ctx, Config.DatabaseNflow.QueryUpdateCodeModuleByName, code, name)
+	}
+	if err != nil {
+		return err
+	}
 	c.String(http.StatusOK, code)
 	return nil
 }
 
 func DeleteModule(c echo.Context) error {
-	pathBase := GetPathBase(c)
+	ctx := c.Request().Context()
+	db, err := GetDB()
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+	conn, err := db.Conn(ctx)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
 	name := c.Param("name")
-	path := pathBase + "modules/" + name
-	os.RemoveAll(path)
+	delete := Config.DatabaseNflow.QueryDeleteModule
+	_, err = conn.ExecContext(ctx, delete, name)
+	if err != nil {
+		return err
+	}
 	c.NoContent(200)
 	return nil
 }

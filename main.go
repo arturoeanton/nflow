@@ -21,6 +21,10 @@ import (
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+
+	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 var playbooks map[string]map[string]map[string]*playbook.Playbook = make(map[string]map[string]map[string]*playbook.Playbook)
@@ -36,44 +40,29 @@ func CheckError(c echo.Context, err error, code int) bool {
 	return false
 }
 
-/*
-func runNode(c echo.Context) error {
-	pathBase := playbook.GetPathBase(c)
-	appJson := playbook.GetAppJsonFileName(c)
-	v, ok := playbook.FindNewApp[appJson]
-	if v || !ok {
-		var err error
-		playbooks[appJson], err = playbook.GetPlaybook(pathBase, appJson)
-		if CheckError(c, err, 500) {
-			return nil
-		}
-		playbook.FindNewApp[appJson] = false
-	}
-
-	cc := playbook.Controller{
-		Methods:  []string{c.Request().Method},
-		Playbook: playbooks[appJson][c.Param("flow_name")]["data"],
-		FlowName: c.Param("flow_name"),
-		AppName:  appJson,
-	}
-	vars := playbook.Vars{}
-	for k := range c.QueryParams() {
-		vars[k] = c.QueryParam(k)
-	}
-
-	uuid1 := uuid.New().String()
-	return cc.Run(c, vars, c.Param("node_id"), uuid1, nil)
-}*/
-
 func run(c echo.Context) error {
-	pathBase := playbook.GetPathBase(c)
-	appJson := playbook.GetAppJsonFileName(c)
+	ctx := c.Request().Context()
+	db, err := playbook.GetDB()
+	if err != nil {
+		log.Println(err)
+		c.HTML(http.StatusNotFound, "Not Found")
+		return nil
+	}
+	conn, err := db.Conn(ctx)
+	if err != nil {
+		log.Println(err)
+		c.HTML(http.StatusNotFound, "Not Found")
+		return nil
+	}
+	defer conn.Close()
+
+	appJson := "app"
 	endpoint := strings.Split(c.Request().RequestURI, "?")[0]
 
 	v, ok := playbook.FindNewApp[appJson]
 	if v || !ok {
 		var err error
-		playbooks[appJson], err = playbook.GetPlaybook(pathBase, appJson)
+		playbooks[appJson], err = playbook.GetPlaybook(ctx, conn, appJson)
 		if CheckError(c, err, 500) {
 			return nil
 		}
@@ -150,29 +139,46 @@ func main() {
 	gNFlow.GET("", playbook.Ui)
 	gNFlow.GET("/", playbook.Ui)
 	gNFlow.GET("/app", func(c echo.Context) error {
-		pathBase := playbook.GetPathBase(c)
-		appJson := playbook.GetAppJsonFileName(c)
-
-		if !utils.Exists(pathBase + appJson + ".json") {
+		ctx := c.Request().Context()
+		db, err := playbook.GetDB()
+		if err != nil {
+			log.Println(err)
 			c.HTML(http.StatusNotFound, "Not Found")
 			return nil
-			/*copy.Copy("app_template", pathBase)
-			content := `
-			{
-				"drawflow": {
-					"Home": {
-						"data": {}
-					},
-					"": {
-						"data": {}
-					}
-				}
-			}
-			`
-			utils.StringToFile(pathBase+appJson+".json", content)*/
 		}
-		content, _ := utils.FileToString(pathBase + appJson + ".json")
-		c.HTML(200, content)
+
+		conn, err := db.Conn(ctx)
+		if err != nil {
+			log.Println(err)
+			c.HTML(http.StatusNotFound, "Not Found")
+			return nil
+		}
+		defer conn.Close()
+		appJson := "app"
+		rows, err := conn.QueryContext(ctx, playbook.Config.DatabaseNflow.QueryGetApp, appJson)
+		if err != nil {
+			log.Println(err)
+			c.HTML(http.StatusNotFound, "Not Found")
+			return nil
+		}
+		defer rows.Close()
+		var json string
+		var default_js string
+		for rows.Next() {
+			err := rows.Scan(&json, &default_js)
+			if err != nil {
+				log.Println(err)
+				c.HTML(http.StatusNotFound, "Not Found")
+				return nil
+			}
+		}
+		if err := rows.Err(); err != nil {
+			log.Println(err)
+			c.HTML(http.StatusNotFound, "Not Found")
+			return nil
+		}
+
+		c.HTML(200, json)
 		return nil
 	})
 	gNFlow.POST("/app", playbook.SaveApp)

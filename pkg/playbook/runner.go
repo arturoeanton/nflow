@@ -8,7 +8,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/arturoeanton/gocommons/utils"
 	"github.com/arturoeanton/nFlow/pkg/process"
 	"github.com/dop251/goja"
 	"github.com/dop251/goja_nodejs/console"
@@ -33,7 +32,6 @@ func (cc *Controller) RunWithCallback(c echo.Context, vars Vars, next string, uu
 }
 
 func (cc *Controller) run(c echo.Context, vars Vars, next string, uuid1 string, payload goja.Value, fork bool) error {
-	pathBase := GetPathBase(c)
 
 	var p *process.Process
 
@@ -131,8 +129,22 @@ func (cc *Controller) run(c echo.Context, vars Vars, next string, uuid1 string, 
 			vm.Set("auth_flag", flagString)
 			vm.Set("url_access", c.Request().URL.Path)
 
-			defaultjs := pathBase + "default.js"
-			code, err := utils.FileToString(defaultjs)
+			ctx := c.Request().Context()
+			db, err := GetDB()
+			if err != nil {
+				log.Println(err)
+				return nil
+			}
+			conn, err := db.Conn(ctx)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
+				return nil
+			}
+			defer conn.Close()
+			row := conn.QueryRowContext(ctx, Config.DatabaseNflow.QueryGetApp, "app")
+			var code string
+			var json_code string
+			err = row.Scan(&json_code, &code)
 			if err != nil {
 				c.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
 				return nil
@@ -176,11 +188,22 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 
 		go func(c echo.Context, actor *Node, box_id string, box_name string, box_type string, connection_next string, diff time.Duration) {
 			//log.Println(sbLog.String() + " - time:" + fmt.Sprint(diff))
-			pathBase := GetPathBase(c)
-			defaultjs := pathBase + "default.js"
-			code, err := utils.FileToString(defaultjs)
+			ctx := c.Request().Context()
+			db, err := GetDB()
 			if err != nil {
 				log.Println(err)
+				return
+			}
+			conn, err := db.Conn(ctx)
+			if err != nil {
+				return
+			}
+			defer conn.Close()
+			row := conn.QueryRowContext(ctx, Config.DatabaseNflow.QueryGetApp, "app")
+			var code string
+			var json_code string
+			err = row.Scan(&json_code, &code)
+			if err != nil {
 				return
 			}
 

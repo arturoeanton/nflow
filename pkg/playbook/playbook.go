@@ -1,9 +1,11 @@
 package playbook
 
 import (
+	"context"
+	"database/sql"
 	"encoding/json"
 	"errors"
-	"io/ioutil"
+	"log"
 	"net/http"
 	"strings"
 
@@ -17,14 +19,29 @@ var (
 	// PathBase is ...
 )
 
-func GetPlaybook(pathBase string, pbName string) (map[string]map[string]*Playbook, error) {
-	file, err := ioutil.ReadFile(pathBase + "/" + pbName + ".json")
+func GetPlaybook(ctx context.Context, conn *sql.Conn, pbName string) (map[string]map[string]*Playbook, error) {
+	rows, err := conn.QueryContext(ctx, Config.DatabaseNflow.QueryGetApp, pbName)
 	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	defer rows.Close()
+	var flow_json string
+	var default_js string
+	for rows.Next() {
+		err := rows.Scan(&flow_json, &default_js)
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+	}
+	if err := rows.Err(); err != nil {
+		log.Println(err)
 		return nil, err
 	}
 
 	data := make(map[string]map[string]map[string]*Playbook)
-	err = json.Unmarshal([]byte(file), &data)
+	err = json.Unmarshal([]byte(flow_json), &data)
 	if err != nil {
 		return nil, err
 	}

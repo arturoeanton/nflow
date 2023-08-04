@@ -9,11 +9,14 @@ require (
 	github.com/dop251/goja v0.0.0-20230605162241-28ee0ee714f3
 	github.com/dop251/goja_nodejs v0.0.0-20230602164024-804a84515562
 	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/go-sql-driver/mysql v1.7.1
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/sessions v1.2.1
 	github.com/jvatic/goja-babel v0.0.0-20230609111255-f06544f3dccb
 	github.com/labstack/echo-contrib v0.15.0
 	github.com/labstack/echo/v4 v4.10.2
+	github.com/lib/pq v1.10.5
+	github.com/mattn/go-sqlite3 v1.14.17
 	github.com/piggyman007/echo-session v3.2.0+incompatible
 	github.com/sazito/mosalat v0.0.4
 	github.com/scorredoira/email v0.0.0-20191107070024-dc7b732c55da
@@ -32,7 +35,6 @@ require (
 	github.com/gorilla/securecookie v1.1.1 // indirect
 	github.com/labstack/echo v3.3.10+incompatible // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
-	github.com/lib/pq v1.10.5 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect

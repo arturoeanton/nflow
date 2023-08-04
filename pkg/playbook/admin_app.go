@@ -1,9 +1,10 @@
 package playbook
 
 import (
-	"io/ioutil"
+	"bufio"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/labstack/echo/v4"
 )
@@ -11,19 +12,60 @@ import (
 var FindNewApp map[string]bool = make(map[string]bool)
 
 func SaveApp(c echo.Context) error {
-
-	appJson := GetAppJsonFileName(c)
-	pathBase := GetPathBase(c)
-	FindNewApp[appJson] = true
-
-	bytes, err := ioutil.ReadAll(c.Request().Body)
+	appJson := "app"
+	ctx := c.Request().Context()
+	db, err := GetDB()
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
+		c.HTML(http.StatusNotFound, "Not Found")
+		return nil
 	}
-	err1 := ioutil.WriteFile(pathBase+appJson+".json", bytes, 0644)
-	if err1 != nil {
-		c.JSON(http.StatusInternalServerError, echo.Map{"msg": err1.Error()})
+	conn, err := db.Conn(ctx)
+	if err != nil {
+		log.Println(err)
+		c.HTML(http.StatusNotFound, "Not Found")
+		return nil
 	}
+	defer conn.Close()
+
+	scanner := bufio.NewScanner(c.Request().Body)
+
+	// Creamos un Builder para concatenar las líneas en un string
+	var builder strings.Builder
+
+	// Iteramos sobre cada línea y la agregamos al Builder
+	for scanner.Scan() {
+		builder.WriteString(scanner.Text())
+	}
+
+	// Comprobamos si hubo algún error en el scanner
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	// Obtenemos el string resultante
+	result := builder.String()
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, echo.Map{"msg": err.Error()})
+		return nil
+	}
+
+	resul, err := conn.ExecContext(ctx, Config.DatabaseNflow.QueryUpdateApp, result, appJson)
+
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusNotFound, echo.Map{"msg": err.Error()})
+		return nil
+	}
+	_, err = resul.RowsAffected()
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusNotFound, echo.Map{"msg": err.Error()})
+		return nil
+	}
+
+	FindNewApp[appJson] = true
 
 	return c.JSON(200, echo.Map{"msg": "ok"})
 }

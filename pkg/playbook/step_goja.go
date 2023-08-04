@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/arturoeanton/gocommons/utils"
 	"github.com/arturoeanton/nFlow/pkg/process"
 	"github.com/dop251/goja"
 	"github.com/google/uuid"
@@ -13,15 +12,24 @@ import (
 )
 
 var (
-	semVM     = make(chan int, 50) // 70 aguanto - 80 no aguanto
-	isem  int = 0
+	semVM = make(chan int, 50) // 70 aguanto - 80 no aguanto
 )
 
 type StepJS struct {
 }
 
 func (s *StepJS) Run(cc *Controller, actor *Node, c echo.Context, vm *goja.Runtime, connection_next string, vars Vars, currentProcess *process.Process, payload goja.Value) (string, goja.Value, error) {
-	pathBase := GetPathBase(c)
+	ctx := c.Request().Context()
+	db, err := GetDB()
+	if err != nil {
+		log.Println(err)
+		return "", payload, err
+	}
+	conn, err := db.Conn(ctx)
+	if err != nil {
+		return "", payload, err
+	}
+	defer conn.Close()
 
 	currentProcess.State = "run"
 	currentProcess.Killeable = true
@@ -30,9 +38,12 @@ func (s *StepJS) Run(cc *Controller, actor *Node, c echo.Context, vm *goja.Runti
 	if _, ok := actor.Data["compile"]; !ok {
 
 		if _, ok := actor.Data["script"]; ok {
-			filename := pathBase + actor.Data["script"].(string) + ".js"
-			if utils.Exists(filename) {
-				code, _ = utils.FileToString(filename)
+			row := conn.QueryRowContext(ctx, Config.DatabaseNflow.QueryGetModuleByName, actor.Data["script"].(string))
+			var form string
+			var mod string
+			var code string
+			err = row.Scan(&form, &mod, &code)
+			if err == nil {
 				code = babelTransform(code)
 				actor.Data["compile"] = code
 			}
@@ -66,7 +77,7 @@ func (s *StepJS) Run(cc *Controller, actor *Node, c echo.Context, vm *goja.Runti
 	vm.Set("__flow_name", cc.FlowName)
 	vm.Set("__flow_app", cc.AppName)
 
-	err := func() error {
+	err = func() error {
 		defer func() {
 			err := recover()
 			if err != nil {
@@ -74,9 +85,7 @@ func (s *StepJS) Run(cc *Controller, actor *Node, c echo.Context, vm *goja.Runti
 			}
 		}()
 		semVM <- 1
-		isem++
 		_, err := vm.RunString(code)
-		isem--
 		<-semVM
 		return err
 	}()

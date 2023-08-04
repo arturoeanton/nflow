@@ -12,6 +12,22 @@ type ConfigWorkspace struct {
 	Env                  map[string]string `toml:"env"`
 	HttpsEngineConfig    HttpsConfig       `toml:"https_engine"`
 	HttpsDesingnerConfig HttpsConfig       `toml:"https_designer"`
+	DatabaseNflow        DatabaseNflow     `toml:"database_nflow"`
+}
+
+type DatabaseNflow struct {
+	Driver                      string `tom:"driver"`
+	DSN                         string `tom:"dsn"`
+	QueryGetApp                 string `tom:"QueryGetApp"`
+	QueryGetModules             string `tom:"QueryGetModules"`
+	QueryCountModulesByName     string `tom:"QueryCountModulesByName"`
+	QueryGetModuleByName        string `tom:"QueryGetModuleByName"`
+	QueryUpdateModModuleByName  string `tom:"QueryUpdateModModuleByName"`
+	QueryUpdateFormModuleByName string `tom:"QueryUpdateFormModuleByName"`
+	QueryUpdateCodeModuleByName string `tom:"QueryUpdateCodeModuleByName"`
+	QueryUpdateApp              string `tom:"QueryUpdateApp"`
+	QueryInsertModule           string `tom:"QueryInsertModule"`
+	QueryDeleteModule           string `tom:"QueryDeleteModule"`
 }
 type HttpsConfig struct {
 	Enable      bool    `tom:"enable"`

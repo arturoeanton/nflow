@@ -2,6 +2,7 @@ package playbook
 
 import (
 	"context"
+	"database/sql"
 	"time"
 
 	"github.com/dop251/goja"
@@ -12,10 +13,21 @@ import (
 
 var (
 	RedisClient *redis.Client
+	db          *sql.DB
 )
 
+func GetDB() (*sql.DB, error) {
+	if db == nil {
+		var err error
+		db, err = sql.Open(Config.DatabaseNflow.Driver, Config.DatabaseNflow.DSN)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return db, nil
+}
+
 func addGlobals(vm *goja.Runtime, c echo.Context) {
-	pathBase := GetPathBase(c)
 	header := make(map[string][]string)
 	if c.Request().Header != nil {
 		header = (map[string][]string)(c.Request().Header)
@@ -49,7 +61,6 @@ func addGlobals(vm *goja.Runtime, c echo.Context) {
 	})
 
 	//fmt.Println("REDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDISREDIS")
-	vm.Set("path_base", pathBase)
 	vm.Set("config", Config)
 	vm.Set("env", Config.Env)
 

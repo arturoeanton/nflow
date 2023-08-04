@@ -1,22 +1,39 @@
 [redis_session]
-host =  ""
+host = ""
 password = ""
 max_connection_pool = 100
 
 [redis]
-host =  "localhost:6379"
+host = ""
 password = ""
 
+[database_nflow]
+driver = "sqlite3"
+dsn = "app/app.sqlite"
+#driver = "postgres"
+#dsn = "postgres://postgres:nflowsecret@localhost:5432/nflow?sslmode=disable"
+QueryGetApp = "SELECT json , default_js FROM nflow  where name = $1"
+QueryGetModules = "SELECT form, mod, code, name FROM modules "
+QueryCountModulesByName = "SELECT COUNT(*) c FROM modules WHERE name = $1"
+QueryGetModuleByName = "SELECT form, mod, code FROM modules WHERE name = $1"
+QueryUpdateModModuleByName = "UPDATE modules SET mod = $1 WHERE name = $2"
+QueryUpdateFormModuleByName = "UPDATE modules SET form = $1 WHERE name = $2"
+QueryUpdateCodeModuleByName = "UPDATE modules SET code = $1 WHERE name = $2"
+QueryUpdateApp = "UPDATE nflow SET json = $1 WHERE name = $2"
+QueryInsertModule = "INSERT INTO modules (name, form, mod, code) VALUES ($1,$2,$3, $4)"
+QueryDeleteModule = "DELETE FROM modules WHERE name = $1"
+
+
 [env]
-scim_base="https://localhost:8443"
-openid_base="https://localhost:8443"
+scim_base = "https://localhost:8443"
+openid_base = "https://localhost:8443"
 
 [https_engine]
 enable = true
 cert = "certs/cert.pem"
 key = "certs/key.pem"
-address=":9090"
-description="engine"
+address = ":9090"
+description = "engine"
 #user="user"
 #password="user"
 
@@ -24,7 +41,7 @@ description="engine"
 enable = false
 cert = "certs/cert.pem"
 key = "certs/key.pem"
-address=":9999"
-description="designer"
-user="admin"
-password="admin"
+address = ":9999"
+description = "designer"
+user = "admin"
+password = "admin"
