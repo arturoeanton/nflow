@@ -162,7 +162,7 @@ func main() {
 			return nil
 		}
 		defer rows.Close()
-		var json string
+		json := "{}"
 		var default_js string
 		for rows.Next() {
 			err := rows.Scan(&json, &default_js)

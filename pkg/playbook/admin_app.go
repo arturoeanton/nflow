@@ -54,9 +54,19 @@ func SaveApp(c echo.Context) error {
 	resul, err := conn.ExecContext(ctx, Config.DatabaseNflow.QueryUpdateApp, result, appJson)
 
 	if err != nil {
-		log.Println(err)
-		c.JSON(http.StatusNotFound, echo.Map{"msg": err.Error()})
-		return nil
+		conn2, err := db.Conn(ctx)
+		if err != nil {
+			log.Println(err)
+			c.HTML(http.StatusNotFound, "Not Found")
+			return nil
+		}
+		defer conn2.Close()
+		resul, err = conn2.ExecContext(ctx, Config.DatabaseNflow.QueryUpdateApp, result, appJson)
+		if err != nil {
+			log.Println(err)
+			c.JSON(http.StatusNotFound, echo.Map{"msg": err.Error()})
+			return nil
+		}
 	}
 	_, err = resul.RowsAffected()
 	if err != nil {
