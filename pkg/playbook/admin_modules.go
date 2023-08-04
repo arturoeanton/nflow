@@ -26,8 +26,6 @@ type Module struct {
 
 func GetModules(c echo.Context) error {
 
-	modules := make(map[string]Module)
-
 	jsonStr := ""
 
 	ctx := c.Request().Context()
@@ -50,6 +48,11 @@ func GetModules(c echo.Context) error {
 	var mod string
 	var code sql.NullString
 	var name string
+
+	modules := make([]struct {
+		Key    string `json:"key"`
+		Module Module `json:"module"`
+	}, 0) //make(map[string]Module)
 	for rows.Next() {
 		err := rows.Scan(&form, &mod, &code, &name)
 		if err != nil {
@@ -92,7 +95,11 @@ func GetModules(c echo.Context) error {
 		</div>
 	  </div>`
 		}
-		modules[name] = module
+		//modules[name] = module
+		modules = append(modules, struct {
+			Key    string `json:"key"`
+			Module Module `json:"module"`
+		}{Key: name, Module: module})
 	}
 
 	c.JSON(http.StatusOK, modules)

@@ -206,35 +206,38 @@ function filter_box() {
   var f = menu_input_search.value
   fetch('nflow/modules')
     .then(response => response.json())
-    .then(function (data) {
+    .then(function (item) {
       modules_bar = document.querySelector(".menu > .menu_items")
       modules_bar.innerHTML = ""
 
-      for (const key in data) {
+      for (const i in item) {
+        var key = item[i].key;
+        var data = item[i].module
+        console.log(key)
         data.name = key
         data.html = ""
-        modules[key] = data[key]
+        modules[key] = data
         f = f.toUpperCase()
         re = new RegExp(`${f}.*`)
-        if (data[key].title.toUpperCase().match(re)) {
+        if (data.title.toUpperCase().match(re)) {
           var editable = ""
-          if (data[key].editable) {
+          if (data.editable) {
             editable = `
                         <span class="material-icons" style="left: 230px;    cursor: pointer;" onclick="deleteModule('${key}')" >delete</span>
                         <span class="material-icons" style="left: 250px;  cursor: pointer;" onclick="create_box('${key}')">edit</span>
                         `
           }
           style = ""
-          if (data[key]["boxcolor"] != "" && data[key]["boxcolor"] != undefined) {
-            style = "background:" + data[key]["boxcolor"] + ";"
+          if (data["boxcolor"] != "" && data["boxcolor"] != undefined) {
+            style = "background:" + data["boxcolor"] + ";"
           }
           modules_bar.innerHTML += ` 
                         <div class="drag-drawflow menu_item" draggable="true" ondragstart="drag(event)" data-node="${key}">
                         <div class="mark_menu_color_box" style="${style}"></div>
-                        <span style="margin:10px; text-overflow: ellipsis;white-space: nowrap;">${editable}${data[key].title}</span>
+                        <span style="margin:10px; text-overflow: ellipsis;white-space: nowrap;">${editable}${data.title}</span>
                         </div>`
 
-          modules[key].html = data[key]["HTMLForm"]
+          modules[key].html = data["HTMLForm"]
         }
       }
     }).catch(function (err) {
