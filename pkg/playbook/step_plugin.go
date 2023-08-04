@@ -33,8 +33,6 @@ func (s *StepPlugin) Run(cc *Controller, actor *Node, c echo.Context, vm *goja.R
 	if actor.Outputs != nil {
 		if actor.Outputs[next] != nil {
 			next = actor.Outputs[next].Connections[0].Node
-		} else {
-			connection_next = ""
 		}
 	}
 	return next, payload, err

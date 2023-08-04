@@ -57,7 +57,7 @@ func Intellisense(c echo.Context) error {
 	}
 
 	for key := range jsVars {
-		jsWords = append(jsWords, fmt.Sprintf("%s", key))
+		jsWords = append(jsWords, key)
 	}
 
 	jsWords = append(jsWords, "function (){\n}")

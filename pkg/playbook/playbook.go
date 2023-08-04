@@ -72,7 +72,7 @@ func comparePath(template string, real string) (bool, Vars) {
 	return true, vars
 }
 
-func GetWorkflow(c echo.Context, playbooks map[string]map[string]*Playbook, wfPath string, method string, appName string) (Runeable, Vars, error, int) {
+func GetWorkflow(c echo.Context, playbooks map[string]map[string]*Playbook, wfPath string, method string, appName string) (Runeable, Vars, int, error) {
 
 	for key, flows := range playbooks {
 		for _, pb := range flows {
@@ -99,7 +99,7 @@ func GetWorkflow(c echo.Context, playbooks map[string]map[string]*Playbook, wfPa
 							AppName:  appName,
 						}
 
-						return Runeable(&c), vars, nil, http.StatusOK
+						return Runeable(&c), vars, http.StatusOK, nil
 					}
 				}
 			}
@@ -119,5 +119,5 @@ func GetWorkflow(c echo.Context, playbooks map[string]map[string]*Playbook, wfPa
 			}
 		}
 	*/
-	return nil, nil, errors.New("not found"), http.StatusNotFound
+	return nil, nil, http.StatusNotFound, errors.New("not found")
 }
