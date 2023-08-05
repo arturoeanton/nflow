@@ -84,7 +84,7 @@ func run(c echo.Context) error {
 		s.Save(c.Request(), c.Response())
 	}
 
-	runeable, vars, code, err := playbook.GetWorkflow(c, playbooks[appJson], endpoint, c.Request().Method, appJson)
+	runeable, vars, code, _, err := playbook.GetWorkflow(c, playbooks[appJson], endpoint, c.Request().Method, appJson)
 	if CheckError(c, err, code) {
 		return nil
 	}

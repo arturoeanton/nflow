@@ -1,6 +1,7 @@
 package playbook
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -185,9 +186,20 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 	}
 	if log_session.Values["log_id"] == nil {
 		log_session.Values["log_id"] = uuid.New().String()
-		log_session.Save(c.Request(), c.Response())
+		log_session.Values["order_box"] = 0
 	}
-	log_id := log_session.Values["log_id"].(string)
+
+	var log_id string
+	var order_box int
+
+	func() {
+
+		log_id = log_session.Values["log_id"].(string)
+		order_box = log_session.Values["order_box"].(int) + 1
+		log_session.Values["order_box"] = order_box
+		log_session.Save(c.Request(), c.Response())
+
+	}()
 
 	var actor *Node
 	var box_id string
@@ -197,7 +209,7 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 		now := time.Now()
 		diff := now.Sub(t1)
 
-		go func(log_id string, c echo.Context, box_id string, box_name string, box_type string, connection_next string, diff time.Duration) {
+		go func(log_id string, c echo.Context, box_id string, box_name string, box_type string, connection_next string, diff time.Duration, order_box int, payload goja.Value) {
 			if Config.DatabaseNflow.QueryInsertLog == "" {
 				return
 			}
@@ -207,7 +219,7 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 				log.Println(err)
 				return
 			}
-			ctx := c.Request().Context()
+			ctx := context.Background()
 			conn, err := db.Conn(ctx)
 			if err != nil {
 				return
@@ -220,13 +232,59 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 					username = profile["username"]
 				}
 			}
-			url := c.Request().URL.Path
 
-			_, err = conn.ExecContext(ctx, Config.DatabaseNflow.QueryInsertLog, log_id, box_id, box_name, box_type, url, username, connection_next, fmt.Sprintf("%dm", diff.Milliseconds()))
+			jsonPayload, err := json.Marshal(payload.Export())
+			if err != nil {
+				jsonPayload = []byte("{}")
+			}
+			ip := ""
+			realip := ""
+			url := ""
+			userAgent := ""
+			queryParam := ""
+			hostname := ""
+			host := ""
+
+			func() {
+				defer func() {
+					if err := recover(); err != nil {
+						log.Println(err)
+					}
+				}()
+				ip = c.Request().RemoteAddr
+				realip = c.RealIP()
+				url = c.Request().URL.RawPath
+				userAgent = c.Request().UserAgent()
+				queryParam = c.Request().URL.Query().Encode()
+				hostname = c.Request().URL.Hostname()
+				host = c.Request().Host
+
+			}()
+
+			_, err = conn.ExecContext(ctx, Config.DatabaseNflow.QueryInsertLog,
+				log_id,                                  // $1
+				box_id,                                  // $2
+				box_name,                                // $3
+				box_type,                                // $4
+				url,                                     // $5
+				username,                                // $6
+				connection_next,                         // $7
+				fmt.Sprintf("%dm", diff.Milliseconds()), // $8
+				order_box,                               // $9
+				string(jsonPayload),                     // $10
+				ip,                                      // $11
+				realip,                                  // $12
+				userAgent,                               // $13
+				queryParam,                              // $14
+				hostname,                                // $15
+				host,                                    // $16
+
+			)
 			if err != nil {
 				log.Println(err)
 			}
-		}(log_id, c, box_id, box_name, box_type, connection_next, diff)
+
+		}(log_id, c, box_id, box_name, box_type, connection_next, diff, order_box, payload)
 
 		go func(c echo.Context, actor *Node, box_id string, box_name string, box_type string, connection_next string, diff time.Duration) {
 			//log.Println(sbLog.String() + " - time:" + fmt.Sprint(diff))

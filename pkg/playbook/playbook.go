@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 )
 
@@ -72,13 +73,13 @@ func comparePath(template string, real string) (bool, Vars) {
 	return true, vars
 }
 
-func GetWorkflow(c echo.Context, playbooks map[string]map[string]*Playbook, wfPath string, method string, appName string) (Runeable, Vars, int, error) {
+func GetWorkflow(c echo.Context, playbooks map[string]map[string]*Playbook, wfPath string, method string, appName string) (Runeable, Vars, int, string, error) {
 
 	for key, flows := range playbooks {
 		for _, pb := range flows {
 			for _, item := range *pb {
 				data := item.Data
-				typeItem := data["type"]
+				typeItem := data["type"].(string)
 
 				if typeItem == "starter" {
 
@@ -91,6 +92,22 @@ func GetWorkflow(c echo.Context, playbooks map[string]map[string]*Playbook, wfPa
 					urlpattern := data["urlpattern"].(string)
 					flag, vars := comparePath(urlpattern, wfPath)
 					if flag {
+						if method == "GET" {
+							if reset_order_box, ok := data["reset_order_box"]; ok {
+								if reset_order_box == "true" {
+									if typeItem == "starter" {
+										// Check if is a new session and reset order_box log-session
+										log_session, err := session.Get("log-session", c)
+										if err != nil {
+											log.Println(err)
+										}
+										log_session.Values["order_box"] = 0
+										log_session.Save(c.Request(), c.Response())
+									}
+								}
+							}
+						}
+
 						c := Controller{
 							Methods:  []string{method},
 							Start:    item,
@@ -99,7 +116,7 @@ func GetWorkflow(c echo.Context, playbooks map[string]map[string]*Playbook, wfPa
 							AppName:  appName,
 						}
 
-						return Runeable(&c), vars, http.StatusOK, nil
+						return Runeable(&c), vars, http.StatusOK, typeItem, nil
 					}
 				}
 			}
@@ -119,5 +136,5 @@ func GetWorkflow(c echo.Context, playbooks map[string]map[string]*Playbook, wfPa
 			}
 		}
 	*/
-	return nil, nil, http.StatusNotFound, errors.New("not found")
+	return nil, nil, http.StatusNotFound, "", errors.New("not found")
 }

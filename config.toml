@@ -22,7 +22,7 @@ QueryUpdateCodeModuleByName = "UPDATE modules SET code = $1 WHERE name = $2"
 QueryUpdateApp = "UPDATE nflow SET json = $1 WHERE name = $2"
 QueryInsertModule = "INSERT INTO modules (name, form, mod, code) VALUES ($1,$2,$3, $4)"
 QueryDeleteModule = "DELETE FROM modules WHERE name = $1"
-QueryInsertLog = "INSERT INTO tracker (log_id, box_id, box_name, box_type, url, username, connection_next, duration) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) "
+QueryInsertLog = "INSERT INTO tracker (log_id, box_id, box_name, box_type, url, username, connection_next, duration, order_box, payload, ip,real_ip,user_agent,query_param,hostname,host) VALUES ($1,$2,$3,$4,$5,$6,$7,$8, $9, $10, $11, $12, $13, $14, $15, $16) "
 
 
 [env]
