@@ -13,6 +13,32 @@ CREATE TABLE IF NOT EXISTS "nflow" (
   "default_js" text
 );
 
+
+-- Primero, creamos la secuencia
+CREATE SEQUENCE tracker_id_seq;
+
+-- Ahora, creamos la tabla usando el tipo de dato "serial" para "id"
+CREATE TABLE IF NOT EXISTS tracker (
+  id serial PRIMARY KEY,
+  log_id text,
+  box_id text,
+  box_name text,
+  box_type text,
+  url text,
+  username text,
+  connection_next text,
+  duration text,
+  created timestamp DEFAULT CURRENT_TIMESTAMP,
+  order_box integer,
+  payload text,
+  ip char(128),
+  real_ip char(128),
+  user_agent char(800),
+  query_param text,
+  hostname char(500),
+  host char(500)
+);
+
 INSERT INTO modules (id, name, form, mod, code) VALUES (DEFAULT, '_end', '<hr>
 
 <!-- add your form -->
