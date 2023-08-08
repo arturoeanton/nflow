@@ -7,7 +7,7 @@ FROM
 	tracker
 GROUP BY
 	box_id,
-	box_name
+	box_name;
 -- cantidad de veces que paso una session por cada caja
 SELECT
 	log_id,
@@ -19,8 +19,8 @@ FROM
 GROUP BY
 	log_id,
 	box_id,
-	box_name
-    
+	box_name;
+
 -- son la cantidad de veces que paso una session distinta por la caja
 SELECT
 t.box_id, t.box_name, count(*)
@@ -37,8 +37,7 @@ FROM
 			box_id,
 			box_name
 	) t
-GROUP BY t.box_id, t.box_name
-;
+GROUP BY t.box_id, t.box_name;
 
 
 
