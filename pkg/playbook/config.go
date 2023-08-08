@@ -18,6 +18,7 @@ type ConfigWorkspace struct {
 type DatabaseNflow struct {
 	Driver                      string `tom:"driver"`
 	DSN                         string `tom:"dsn"`
+	QueryGetUser                string `tom:"QueryGetUser"`
 	QueryGetApp                 string `tom:"QueryGetApp"`
 	QueryGetModules             string `tom:"QueryGetModules"`
 	QueryCountModulesByName     string `tom:"QueryCountModulesByName"`
@@ -31,13 +32,12 @@ type DatabaseNflow struct {
 	QueryInsertLog              string `tom:"QueryInsertLog"`
 }
 type HttpsConfig struct {
-	Enable      bool    `tom:"enable"`
-	Cert        string  `tom:"cert"`
-	Key         string  `tom:"key"`
-	Address     string  `tom:"address"`
-	Description string  `tom:"description"`
-	User        *string `tom:"user"`
-	Password    *string `tom:"password"`
+	Enable      bool   `tom:"enable"`
+	Cert        string `tom:"cert"`
+	Key         string `tom:"key"`
+	Address     string `tom:"address"`
+	Description string `tom:"description"`
+	HTTPBasic   bool   `tom:"httpbasic"`
 }
 
 type RedisSessionConfig struct {
@@ -48,7 +48,7 @@ type RedisSessionConfig struct {
 type RedisConfig struct {
 	Host              string `tom:"host"`
 	Password          string `tom:"password"`
-	MaxConnectionPool int    `tom:"max_connection_pool"`
+	MaxConnectionPool int    `tom:"maxconnectionpool"`
 }
 
 type MongoConfig struct {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/subtle"
+	"errors"
 	"flag"
 	"log"
 	"net/http"
@@ -208,23 +209,34 @@ func main() {
 
 	e.Any("/*", run)
 
-	if playbook.Config.HttpsDesingnerConfig.User != nil {
+	if playbook.Config.HttpsDesingnerConfig.HTTPBasic {
 		e2.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
-			// Be careful to use constant time comparison to prevent timing attacks
-			if subtle.ConstantTimeCompare([]byte(username), []byte(*playbook.Config.HttpsDesingnerConfig.User)) == 1 &&
-				subtle.ConstantTimeCompare([]byte(password), []byte(*playbook.Config.HttpsDesingnerConfig.Password)) == 1 {
+
+			user := playbook.GetUserFromDB(username)
+			if user == nil {
+				return false, errors.New("user not found")
+			}
+			validate := playbook.ValidateUserDB(username, password)
+			if !validate {
+				return false, errors.New("user not found")
+			}
+			if subtle.ConstantTimeCompare([]byte(user["rol"].(string)), []byte("ROL_DEV")) == 1 {
 				return true, nil
 			}
+
 			return false, nil
 		}))
 	}
 
-	if playbook.Config.HttpsEngineConfig.User != nil {
+	if playbook.Config.HttpsEngineConfig.HTTPBasic {
 		e.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
-			// Be careful to use constant time comparison to prevent timing attacks
-			if subtle.ConstantTimeCompare([]byte(username), []byte(*playbook.Config.HttpsEngineConfig.User)) == 1 &&
-				subtle.ConstantTimeCompare([]byte(password), []byte(*playbook.Config.HttpsEngineConfig.Password)) == 1 {
-				return true, nil
+			user := playbook.GetUserFromDB(username)
+			if user == nil {
+				return false, errors.New("user not found")
+			}
+			validate := playbook.ValidateUserDB(username, password)
+			if !validate {
+				return false, errors.New("user not found")
 			}
 			return false, nil
 		}))
