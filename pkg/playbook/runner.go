@@ -74,6 +74,8 @@ func (cc *Controller) run(c echo.Context, vars Vars, next string, uuid1 string, 
 
 	addFeatureSession(vm, c)
 	addFeatureUsers(vm, c)
+	addFeatureToken(vm, c)
+	addFeatureTemplte(vm, c)
 
 	addGlobals(vm, c)
 

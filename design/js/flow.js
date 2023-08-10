@@ -72,7 +72,8 @@ editor.on('nodeRemoved', function (id) {
     save()
 })
 
-editor.on('nodeSelected', function (id) {
+function nodeSelectedCustom (id) {
+    console.log(1)
     current_id = id;
     panel_prop.style.width = "400px";
     panel_prop.style.color = "white";
@@ -80,8 +81,17 @@ editor.on('nodeSelected', function (id) {
 
     id_box_in_prop = id
 
-    var node_df = editor.getNodeFromId(id_box_in_prop)
+    while(1){
+        try{
+            document.querySelector("#node-" + id_box_in_prop + " > script").remove()
+        } catch(e){
+            console.log("clear scripts")
+            break
+        }
+    }
 
+    var node_df = editor.getNodeFromId(id_box_in_prop)
+    console.log(node_df)
     try {
         var form_prop = document.querySelector("#node-" + id_box_in_prop + " .form_prop_of_box")
         panel_prop.innerHTML = form_prop.innerHTML
@@ -89,6 +99,14 @@ editor.on('nodeSelected', function (id) {
         panel_prop.innerHTML = node_df.html
     }
 
+    while(1){
+        try{
+            document.querySelector("#node-" + id_box_in_prop + " > script").remove()
+        } catch(e){
+            console.log("clear scripts")
+            break
+        }
+    }
 
     var inputs = document.querySelectorAll("#panel_prop  input")
     var textareas = document.querySelectorAll("#panel_prop  textarea")
@@ -133,7 +151,9 @@ editor.on('nodeSelected', function (id) {
         _in.appendChild(scriptNode);
     }
     save()
-})
+}
+
+editor.on('nodeSelected', nodeSelectedCustom)
 
 var id_box_in_prop = undefined
 editor.on('nodeUnselected', function (flag) {
@@ -463,6 +483,79 @@ function open_coder(elem, mode) {
 
 }
 
+function save_template(name, code_template){
+
+    var _datos = {
+        name: name,
+        content : code_template
+    }
+
+    fetch("/nflow/templates", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(_datos),
+    });
+
+ 
+}
+
+
+function create_template(name, code_template){
+
+    var _datos = {
+        name: name,
+        content : code_template
+    }
+
+    fetch("/nflow/templates", {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(_datos),
+    }).then (response => response.json())
+    .then(data =>{
+        console.log(data);
+        nodeSelectedCustom(id_box_in_prop);
+    })
+
+ 
+}
+function open_template(elem,name) {
+    mode = "htmlmixed"
+    
+
+    fetch("/nflow/templates/"+name)
+    .then(response => response.json())
+    .then(template => {
+        Swal.fire({
+            title: 'Coder',
+            html: `<textarea id="code1" >${ template.content}</textarea>`,
+            width: '8000px',
+            heigth: '8000px',
+            preConfirm: () => {
+                if (confirm("Are you sure to save the template?\nThis template will change for all boxes.") == true) {
+                    console.log(editor.getValue())
+                    save_template(name,editor.getValue())
+                  } else {
+                  }
+                
+            }
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+    
+        })
+        var editor = codemirror_new(code1, mode)
+        
+    })
+}
+
+
+
 var words = undefined
 fetch("nflow/ui/intellisense").then(response => response.json()).then(data => { words = data["js_words"] })
 
@@ -585,6 +678,7 @@ function save(show,callfx) {
                             var sub_elems = null
                             try {
                                 sub_elems = elem.querySelectorAll("[name='" + data_key + "']")
+                                console.log(key)
                             } catch (e) {
                                 console.log(key)
                                 console.log(e)
