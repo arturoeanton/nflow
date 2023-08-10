@@ -1,5 +1,10 @@
 package playbook
 
+import (
+	"context"
+	"log"
+)
+
 // ConfigWorkspace is ...
 type ConfigWorkspace struct {
 	ConfigBasedate       ConfigBasedate    `toml:"database"`
@@ -18,6 +23,7 @@ type ConfigWorkspace struct {
 type DatabaseNflow struct {
 	Driver                      string `tom:"driver"`
 	DSN                         string `tom:"dsn"`
+	Query                       string `tom:"query"`
 	QueryGetUser                string `tom:"QueryGetUser"`
 	QueryGetApp                 string `tom:"QueryGetApp"`
 	QueryGetModules             string `tom:"QueryGetModules"`
@@ -83,4 +89,59 @@ type ConfigMail struct {
 	MailSMTPPort string `toml:"port"`
 	MailFrom     string `toml:"from"`
 	MailPassword string `toml:"password"`
+}
+
+func UpdateQueries() {
+	log.Println("Updating queries")
+	if Config.DatabaseNflow.Query == "" {
+		Config.DatabaseNflow.Query = "SELECT name,query FROM queries"
+	}
+	db, err := GetDB()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	conn, err := db.Conn(context.Background())
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	defer conn.Close()
+	queries := make(map[string]string)
+	rows, err := conn.QueryContext(context.Background(), Config.DatabaseNflow.Query)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var name, query string
+		err = rows.Scan(&name, &query)
+		if err != nil {
+			log.Println(err)
+			return
+		}
+		queries[name] = query
+	}
+	Config.DatabaseNflow.QueryGetUser = queries["QueryGetUser"]
+	Config.DatabaseNflow.QueryGetApp = queries["QueryGetApp"]
+	Config.DatabaseNflow.QueryGetModules = queries["QueryGetModules"]
+	Config.DatabaseNflow.QueryCountModulesByName = queries["QueryCountModulesByName"]
+	Config.DatabaseNflow.QueryGetModuleByName = queries["QueryGetModuleByName"]
+	Config.DatabaseNflow.QueryUpdateModModuleByName = queries["QueryUpdateModModuleByName"]
+	Config.DatabaseNflow.QueryUpdateFormModuleByName = queries["QueryUpdateFormModuleByName"]
+	Config.DatabaseNflow.QueryUpdateCodeModuleByName = queries["QueryUpdateCodeModuleByName"]
+	Config.DatabaseNflow.QueryUpdateApp = queries["QueryUpdateApp"]
+	Config.DatabaseNflow.QueryInsertModule = queries["QueryInsertModule"]
+	Config.DatabaseNflow.QueryDeleteModule = queries["QueryDeleteModule"]
+	Config.DatabaseNflow.QueryInsertLog = queries["QueryInsertLog"]
+	Config.DatabaseNflow.QueryGetToken = queries["QueryGetToken"]
+	Config.DatabaseNflow.QueryGetTemplateCount = queries["QueryGetTemplateCount"]
+	Config.DatabaseNflow.QueryGetTemplate = queries["QueryGetTemplate"]
+	Config.DatabaseNflow.QueryGetTemplates = queries["QueryGetTemplates"]
+	Config.DatabaseNflow.QueryUpdateTemplate = queries["QueryUpdateTemplate"]
+	Config.DatabaseNflow.QueryInsertTemplate = queries["QueryInsertTemplate"]
+	Config.DatabaseNflow.QueryDeleteTemplate = queries["QueryDeleteTemplate"]
+	log.Println("Queries updated")
+
 }

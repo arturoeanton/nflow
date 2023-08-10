@@ -10,6 +10,7 @@ import (
 
 func Ui(c echo.Context) error {
 	//fmt.Println("header", c.Request().Header)
+	UpdateQueries()
 	appName := c.Param("app_name")
 	if appName == ":app_name" {
 		appName = "app"

@@ -125,6 +125,8 @@ func main() {
 
 	playbook.InitUI()
 
+	playbook.UpdateQueries()
+
 	e2 := echo.New()
 	e2.Static("/site", "site/")
 	e2.File("/favicon.ico", "site/favicon.ico")

@@ -3,7 +3,9 @@ package playbook
 import (
 	"context"
 	"crypto/subtle"
+	"fmt"
 	"log"
+	"time"
 
 	"github.com/dop251/goja"
 	"github.com/labstack/echo/v4"
@@ -66,15 +68,34 @@ func GetTokenFromDB(param_name string) []map[string]interface{} {
 	return ret
 }
 
-func ValidateTokenDB(name string, token string) bool {
+func ValidateTokenDB(c echo.Context, name string) bool {
 	arrayToken := GetTokenFromDB(name)
 	if arrayToken == nil {
 		return false
 	}
 	for _, tokenMap := range arrayToken {
 		if !tokenMap["active"].(bool) {
-			return false
+			continue
 		}
+		token := ""
+		id := tokenMap["id"].(int)
+		if tokenMap["header"] != nil {
+			key_header := tokenMap["header"].(string)
+			if c.Request().Header.Get(key_header) == "" {
+				log.Println("header not found in register [" + fmt.Sprint(id) + "]-[" + name + "]  database")
+				continue
+			}
+			token = c.Request().Header.Get(key_header)
+		}
+
+		if tokenMap["expired"] != nil {
+			expiredTime := int64(tokenMap["expired"].(int64))
+			if time.Now().Unix() > expiredTime {
+				log.Println("El token [" + fmt.Sprint(id) + "]-[" + name + "]  ha expirado.")
+				continue
+			}
+		}
+
 		if subtle.ConstantTimeCompare([]byte(tokenMap["token_type"].(string)+" "+tokenMap["token"].(string)), []byte(token)) == 1 {
 			return true
 		}
@@ -84,8 +105,8 @@ func ValidateTokenDB(name string, token string) bool {
 
 func addFeatureToken(vm *goja.Runtime, c echo.Context) {
 
-	vm.Set("validate_token", func(name string, token string) bool {
-		return ValidateTokenDB(name, token)
+	vm.Set("validate_token", func(name string) bool {
+		return ValidateTokenDB(c, name)
 	})
 
 	vm.Set("get_token", func(name string) []map[string]interface{} {
