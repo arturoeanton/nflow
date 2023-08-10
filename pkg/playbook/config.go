@@ -36,6 +36,7 @@ type DatabaseNflow struct {
 	QueryGetTemplates           string `tom:"QueryGetTemplates"`
 	QueryUpdateTemplate         string `tom:"QueryUpdateTemplate"`
 	QueryInsertTemplate         string `tom:"QueryInsertTemplate"`
+	QueryDeleteTemplate         string `tom:"QueryDeleteTemplate"`
 }
 type HttpsConfig struct {
 	Enable      bool   `tom:"enable"`

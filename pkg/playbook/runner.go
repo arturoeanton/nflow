@@ -290,6 +290,13 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 		}(log_id, c, box_id, box_name, box_type, connection_next, diff, order_box, payload)
 
 		go func(c echo.Context, actor *Node, box_id string, box_name string, box_type string, connection_next string, diff time.Duration) {
+
+			defer func() {
+				if err := recover(); err != nil {
+					log.Println(err)
+				}
+			}()
+
 			//log.Println(sbLog.String() + " - time:" + fmt.Sprint(diff))
 			ctx := c.Request().Context()
 			db, err := GetDB()
