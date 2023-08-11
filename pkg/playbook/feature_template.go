@@ -2,7 +2,6 @@ package playbook
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/dop251/goja"
@@ -21,27 +20,19 @@ func GetTemplateFromDB(param_name string) string {
 		return ""
 	}
 	defer conn.Close()
-	rows, err := conn.QueryContext(context.Background(), Config.DatabaseNflow.QueryGetTemplate, param_name)
-	fmt.Println(param_name)
-	if err != nil {
-		log.Println(err)
-		return ""
-	}
-	defer rows.Close()
+	row := conn.QueryRowContext(context.Background(), Config.DatabaseNflow.QueryGetTemplate, param_name)
+
 	var id int
 	var name string
 	var content string
 
-	for rows.Next() {
-		err := rows.Scan(&id, &name, &content)
-		if err != nil {
-			log.Println(err)
-			return ""
-		}
-		return content
+	err = row.Scan(&id, &name, &content)
+	if err != nil {
+		log.Println(err)
+		return ""
 	}
 
-	return ""
+	return content
 }
 
 func addFeatureTemplte(vm *goja.Runtime, c echo.Context) {

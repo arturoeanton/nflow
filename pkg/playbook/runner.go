@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"sync"
 	"time"
 
 	"github.com/arturoeanton/nFlow/pkg/process"
@@ -23,6 +24,7 @@ import (
 var (
 	registry *require.Registry
 	jsVars   map[string]string = make(map[string]string)
+	wg       sync.WaitGroup    = sync.WaitGroup{}
 )
 
 func (cc *Controller) Run(c echo.Context, vars Vars, next string, uuid1 string, payload goja.Value) error {
@@ -173,7 +175,7 @@ func (cc *Controller) run(c echo.Context, vars Vars, next string, uuid1 string, 
 		}
 	}
 
-	cc.Execute(c, vm, next, vars, p, payload)
+	cc.Execute(c, vm, next, vars, p, payload, fork)
 
 	return nil
 }
@@ -392,37 +394,59 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 	return connection_next, payload, nil
 }
 
-func (cc *Controller) Execute(c echo.Context, vm *goja.Runtime, next string, vars Vars, currentProcess *process.Process, payload goja.Value) {
+func (cc *Controller) Execute(c echo.Context, vm *goja.Runtime, next string, vars Vars, currentProcess *process.Process, payload goja.Value, fork bool) {
 	var err error
 	prev_box := ""
+	if fork {
+		fmt.Println("fork")
+	}
 	for next != "" {
 
 		vm.Set("current_box", next)
 		vm.Set("prev_box", prev_box)
+
 		prev_box = next
 
-		vm.Set("payload", payload)
-		payload, _ := vm.RunString(`
-		data = open_session("nflow_form")
-		payload = {
-			...payload,
-			...data
-		};
-		payload;
-		`)
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			s, _ := session.Get("nflow_form", c)
+			payload_map := make(map[string]interface{})
+
+			if payload != nil {
+				payload_map = payload.Export().(map[string]interface{})
+			}
+
+			for k, v := range s.Values {
+				payload_map[k.(string)] = v
+			}
+
+			payload = vm.ToValue(payload_map)
+		}()
+		wg.Wait()
+
 		next, payload, err = cc.step(c, vm, next, vars, currentProcess, payload)
 		if err != nil {
 			break
+		}
+		if fork {
+			fmt.Println("fork")
 		}
 
 		// cut
 		if payload != nil {
 			if rawPayload, ok := payload.Export().(map[string]interface{}); ok {
-				s, _ := session.Get("nflow_form", c)
-				for k, v := range rawPayload {
-					s.Values[k] = v
-				}
-				s.Save(c.Request(), c.Response())
+				wg.Add(1)
+				go func() {
+					defer wg.Done()
+					s, _ := session.Get("nflow_form", c)
+					for k, v := range rawPayload {
+						s.Values[k] = v
+					}
+
+					s.Save(c.Request(), c.Response())
+				}()
+				wg.Wait()
 
 				if raw, ok := rawPayload["break"]; ok {
 					if flag, ok := raw.(bool); ok {
@@ -441,7 +465,7 @@ func (cc *Controller) Execute(c echo.Context, vm *goja.Runtime, next string, var
 
 	}
 
-	if next == "" {
+	if next == "" && !fork {
 		s, _ := session.Get("nflow_form", c)
 		s.Values = make(map[interface{}]interface{})
 		s.Save(c.Request(), c.Response())

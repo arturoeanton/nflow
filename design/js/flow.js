@@ -502,6 +502,25 @@ function save_template(name, code_template){
  
 }
 
+function delete_template(name){
+
+   
+
+    fetch("/nflow/templates/"+name, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }).then (response => response.json())
+    .then(data =>{
+        nodeSelectedCustom(id_box_in_prop);
+    })
+
+ 
+}
+
+
 
 function create_template(name, code_template){
 

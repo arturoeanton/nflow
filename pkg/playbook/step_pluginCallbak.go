@@ -50,7 +50,7 @@ func (s *StepPluginCallback) Run(cc *Controller, actor *Node, c echo.Context, vm
 				wg.Add(1)
 				go func() {
 					defer wg.Done()
-					cc.Execute(c, vm, next2, vars, secondProcess, payload)
+					cc.Execute(c, vm, next2, vars, secondProcess, payload, false)
 				}()
 				wg.Wait()
 			}
