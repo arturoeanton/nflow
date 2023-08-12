@@ -206,11 +206,26 @@ editor.on('connectionRemoved', function (connection) {
 })
 
 editor.on('mouseMove', function (position) {
+   
+
     //console.log('Position mouse x:' + position.x + ' y:' + position.y);
 })
 
+function moveNode(id, x, y){
+    editor.drawflow.drawflow[editor.module].data[id].pos_x = x;
+    editor.drawflow.drawflow[editor.module].data[id].pos_y = y;
+    document.getElementById("node-"+id).style.top = y+"px";
+    document.getElementById("node-"+id).style.left = x+"px";
+    editor.updateConnectionNodes("node-"+id);
+}
+
+delta_x=10
+delta_y=15
 editor.on('nodeMoved', function (id) {
-    console.log("Node moved " + id);
+    var node = editor.getNodeFromId(id);
+    var x = node.pos_x + (delta_x-(node.pos_x %delta_x))
+    var y = node.pos_y + (delta_y-(node.pos_y %delta_y))
+    moveNode(id_box_in_prop,x,y)
     save()
 })
 
