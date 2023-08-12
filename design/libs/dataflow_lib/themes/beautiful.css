@@ -4,6 +4,11 @@
     --dfNodeBorderRadius: 20px;
     --background-box-title: #404346;
     --color-box-title: white;
+
+    --dfBackgroundColor: rgba(255, 255, 255, 1);
+    --dfBackgroundSize: 50px;
+    --dfBackgroundImage: linear-gradient(to right, rgba(126, 126, 126, 1) 1px, transparent 1px), linear-gradient(to bottom, rgba(126, 126, 126, 1) 1px, transparent 1px);
+  
   }
   
   .swal2-popup{
@@ -25,8 +30,12 @@
     width: 100vw ;
     height: 100vh;
     top: 0px;
-    background: var(--background-color);
-    background-size: 25px 25px;
+    /* background: var(--background-color);
+    background-size: 25px 25px; */
+
+    background: var(--dfBackgroundColor);
+    background-size: var(--dfBackgroundSize) var(--dfBackgroundSize);
+    background-image: var(--dfBackgroundImage);
   }
   
   @media only screen and (max-width: 768px) {

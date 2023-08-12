@@ -75,12 +75,12 @@ editor.on('nodeRemoved', function (id) {
 function nodeSelectedCustom (id) {
     console.log(1)
     current_id = id;
-    panel_prop.style.width = "400px";
     panel_prop.style.color = "white";
     panel_prop.style.padding = "20px";
 
     id_box_in_prop = id
-
+    bottom_panel.style.animationName = "show_bottom_panle"
+    bottom_panel.style.bottom = "0px"
     while(1){
         try{
             document.querySelector("#node-" + id_box_in_prop + " > script").remove()
@@ -163,13 +163,14 @@ editor.on('nodeUnselected', function (flag) {
         setFieldNode()
 
         panel_prop.innerHTML = ""
-        panel_prop.style.width = 0;
         panel_prop.style.padding = 0;
         id_box_in_prop = undefined;
 
         save()
     } finally {
         current_id = undefined;
+        bottom_panel.style.animationName = "hide_bottom_panle"
+        bottom_panel.style.bottom = "-270px"
     }
 
 })

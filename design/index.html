@@ -17,11 +17,11 @@
     <script src="nflow/design/libs/dataflow_lib/micromodal.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="nflow/design/libs/dataflow_lib/drawflow.css?_=1">
-    <link rel="stylesheet" type="text/css" href="nflow/design/libs/dataflow_lib/themes/beautiful.css" />
+    <link rel="stylesheet" type="text/css" href="nflow/design/libs/dataflow_lib/themes/beautiful.css?_=1" />
 
     <link rel="stylesheet" href="nflow/design/css/theme_alert_dark.css">
     <link rel="stylesheet" href="nflow/design/css/logo.css">
-    <link rel="stylesheet" href="nflow/design/css/app.css?_=1">
+    <link rel="stylesheet" href="nflow/design/css/app.css?_=2">
     <link rel="stylesheet" href="nflow/design/css/w3.css">
     <link rel="stylesheet" href="nflow/design/css/menu.css">
     <link rel="stylesheet" href="nflow/design/css/panel.css">
@@ -149,12 +149,17 @@
                 </span>
             </button>
         </div>
-        <div style="display: grid; margin-bottom: 3px;">
+        
+        <div style="display: contents; ">
+            <div id="panel_prop" style="    margin: 25px;">
+        </div>
+        </div>
+        <div style="display: none; margin-bottom: 3px;">
             <textarea class="textarea_code" width="100%" id="textarea_code" readonly></textarea>
         </div>
     </div>
 
-    <div class="right_panel" id="panel_prop">
+    <!-- <div class="right_panel" > -->
 
     </div>
 
@@ -163,10 +168,13 @@
 
     </div>
 
-    <script src="nflow/design/js/flow.js?_=15"></script>
+    <script src="nflow/design/js/flow.js?_=16"></script>
     <script src="nflow/design/js/box.js?=1"></script>
     <script src="nflow/design/js/app.js"></script>
     <script src="nflow/design/js/common.js"></script>
+    <script>
+        menu_action()
+    </script>
 
 </body>
 
