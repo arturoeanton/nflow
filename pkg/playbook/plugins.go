@@ -1,9 +1,8 @@
 package playbook
 
 import (
-	"github.com/labstack/echo/v4"
-
 	"github.com/arturoeanton/nFlow/pkg/plugins"
+	"github.com/labstack/echo/v4"
 )
 
 type NflowPlugin interface {
@@ -31,5 +30,9 @@ func LoadPlugins() {
 
 	pluing5 := plugins.RulePlugin("rule")
 	Plugins[pluing5.Name()] = pluing5
+
+	pluing6 := plugins.TwilioPlugin("twilio")
+	pluing6.Initialize(Config.TwilioConfig.Enable, Config.TwilioConfig.AccountSid, Config.TwilioConfig.AuthToken, Config.TwilioConfig.VerifyServiceID)
+	Plugins[pluing6.Name()] = pluing6
 
 }

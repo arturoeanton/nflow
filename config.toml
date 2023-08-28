@@ -7,6 +7,12 @@ max_connection_pool = 100
 host = ""
 password = ""
 
+[twilio]
+enable = true
+account_sid = "AC5faf5af2c2d4a3166fe339c676046f40"
+auth_token = "8e966cee467a4594c223e8cbda2f28b7"
+verify_service_id = "VAe7de420693649621e981a08ef0ca15c6"
+
 [database_nflow]
 driver = "sqlite3"
 dsn = "app/app.sqlite"
