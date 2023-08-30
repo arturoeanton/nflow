@@ -300,7 +300,7 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 			}()
 
 			//log.Println(sbLog.String() + " - time:" + fmt.Sprint(diff))
-			ctx := c.Request().Context()
+			ctx := context.Background()
 			db, err := GetDB()
 			if err != nil {
 				log.Println(err)

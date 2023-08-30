@@ -1,6 +1,7 @@
 package plugins
 
 import (
+	"encoding/base64"
 	"io/ioutil"
 	"log"
 	"net/url"
@@ -69,6 +70,13 @@ func addFeatureCommon() {
 			elem = elem.(map[string]interface{})[v]
 		}
 		return elem
+	}
+
+	fxsGoja["atob"] = func(value string) string {
+		if d, err := base64.StdEncoding.DecodeString(value); err == nil {
+			return string(d)
+		}
+		return ""
 	}
 
 	fxsGoja["set_env"] = func(key string, value string) {
