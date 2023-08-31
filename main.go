@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/subtle"
+	"crypto/tls"
 	"errors"
 	"flag"
 	"log"
@@ -107,10 +108,18 @@ func main() {
 
 	playbook.LoadPlugins()
 
+	var tlsconfig *tls.Config
+	if playbook.Config.RedisConfig.Tls {
+		tlsconfig = &tls.Config{
+			InsecureSkipVerify: playbook.Config.RedisConfig.TlsSkipVerify,
+		}
+	}
+
 	playbook.RedisClient = redis.NewClient(&redis.Options{
-		Addr:     playbook.Config.RedisConfig.Host,
-		Password: playbook.Config.RedisConfig.Password, // no password set
-		DB:       0,                                    // use default DB
+		Addr:      playbook.Config.RedisConfig.Host,
+		Password:  playbook.Config.RedisConfig.Password, // no password set
+		DB:        0,                                    // use default DB
+		TLSConfig: tlsconfig,
 	})
 
 	e := echo.New()

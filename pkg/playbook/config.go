@@ -63,6 +63,8 @@ type RedisConfig struct {
 	Host              string `tom:"host"`
 	Password          string `tom:"password"`
 	MaxConnectionPool int    `tom:"maxconnectionpool"`
+	Tls               bool   `tom:"tls"`
+	TlsSkipVerify     bool   `tom:"tlsskipverify"`
 }
 
 type TwilioConfig struct {

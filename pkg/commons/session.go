@@ -13,7 +13,7 @@ import (
 func GetSessionStore(redisSessionConfig *playbook.RedisConfig) sessions.Store {
 	if redisSessionConfig.Host != "" {
 		// tls
-		options_redis := []redis.DialOption{redis.DialUseTLS(true)}
+		options_redis := []redis.DialOption{redis.DialUseTLS(redisSessionConfig.Tls), redis.DialTLSSkipVerify(redisSessionConfig.TlsSkipVerify)}
 		store, err := customsession.NewRedisStore(redisSessionConfig.MaxConnectionPool, "tcp", redisSessionConfig.Host, redisSessionConfig.Password, options_redis) // set redis store
 		if err != nil {
 			log.Printf("could not create redis store: %s - using cookie store instead", err.Error())
