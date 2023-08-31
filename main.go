@@ -2,7 +2,6 @@ package main
 
 import (
 	"crypto/subtle"
-	"crypto/tls"
 	"errors"
 	"flag"
 	"log"
@@ -108,25 +107,17 @@ func main() {
 
 	playbook.LoadPlugins()
 
-	var tlsconfig *tls.Config
-	if playbook.Config.RedisConfig.Tls {
-		tlsconfig = &tls.Config{
-			InsecureSkipVerify: playbook.Config.RedisConfig.TlsSkipVerify,
-		}
-	}
-
 	playbook.RedisClient = redis.NewClient(&redis.Options{
-		Addr:      playbook.Config.RedisConfig.Host,
-		Password:  playbook.Config.RedisConfig.Password, // no password set
-		DB:        0,                                    // use default DB
-		TLSConfig: tlsconfig,
+		Addr:     playbook.Config.RedisConfig.Host,
+		Password: playbook.Config.RedisConfig.Password, // no password set
+		DB:       0,                                    // use default DB
 	})
 
 	e := echo.New()
 	log.Println("URLBase:" + playbook.Config.URLConfig.URLBase)
 
 	e.Use(middleware.Logger())
-	e.Use(session.Middleware(commons.GetSessionStore(&playbook.Config.RedisSessionConfig)))
+	e.Use(session.Middleware(commons.GetSessionStore(&playbook.Config.PgSessionConfig)))
 
 	e.Static("/site", "site/")
 	e.File("/favicon.ico", "site/favicon.ico")
@@ -141,9 +132,9 @@ func main() {
 	e2.File("/favicon.ico", "site/favicon.ico")
 	e2.File("/", "site/index.html")
 
-	e2.Use(session.Middleware(commons.GetSessionStore(&playbook.Config.RedisSessionConfig)))
+	e2.Use(session.Middleware(commons.GetSessionStore(&playbook.Config.PgSessionConfig)))
 	gNFlow := e2.Group("/nflow")
-	gNFlow.Use(session.Middleware(commons.GetSessionStore(&playbook.Config.RedisSessionConfig)))
+	gNFlow.Use(session.Middleware(commons.GetSessionStore(&playbook.Config.PgSessionConfig)))
 
 	gNFlow.Static("/design", "design/")
 	gNFlow.File("/favicon.ico", "design/favicon.ico")

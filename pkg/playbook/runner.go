@@ -199,6 +199,12 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 
 	func() {
 
+		defer func() {
+			if err := recover(); err != nil {
+				log.Println(err)
+			}
+		}()
+
 		log_id = log_session.Values["log_id"].(string)
 		order_box = log_session.Values["order_box"].(int) + 1
 		log_session.Values["order_box"] = order_box
@@ -410,7 +416,10 @@ func (cc *Controller) Execute(c echo.Context, vm *goja.Runtime, next string, var
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			s, _ := session.Get("nflow_form", c)
+			s, err := session.Get("nflow_form", c)
+			if err != nil {
+				log.Println(err)
+			}
 			payload_map := make(map[string]interface{})
 
 			if payload != nil {
@@ -418,6 +427,9 @@ func (cc *Controller) Execute(c echo.Context, vm *goja.Runtime, next string, var
 			}
 
 			for k, v := range s.Values {
+				if k == "break" {
+					continue
+				}
 				payload_map[k.(string)] = v
 			}
 

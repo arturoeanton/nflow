@@ -13,7 +13,7 @@ type ConfigWorkspace struct {
 	MongoConfig          MongoConfig       `toml:"mongo"`
 	PluginConfig         PluginConfig      `toml:"plugin"`
 	RedisConfig          RedisConfig       `toml:"redis"`
-	RedisSessionConfig   RedisConfig       `toml:"redis_session"`
+	PgSessionConfig      PgSessionConfig   `toml:"pg_session"`
 	TwilioConfig         TwilioConfig      `toml:"twilio"`
 	Env                  map[string]string `toml:"env"`
 	HttpsEngineConfig    HttpsConfig       `toml:"https_engine"`
@@ -54,17 +54,14 @@ type HttpsConfig struct {
 	HTTPBasic   bool   `tom:"httpbasic"`
 }
 
-type RedisSessionConfig struct {
-	Host     string `tom:"host"`
-	Password string `tom:"password"`
+type PgSessionConfig struct {
+	Url string `tom:"url"`
 }
 
 type RedisConfig struct {
 	Host              string `tom:"host"`
 	Password          string `tom:"password"`
 	MaxConnectionPool int    `tom:"maxconnectionpool"`
-	Tls               bool   `tom:"tls"`
-	TlsSkipVerify     bool   `tom:"tlsskipverify"`
 }
 
 type TwilioConfig struct {
