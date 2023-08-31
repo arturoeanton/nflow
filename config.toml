@@ -1,5 +1,5 @@
 [pg_session]
-url = "postgresql://doadmin:AVNS_uaqmcQGHUiHqZY8z4wF@datawarehouse-zzy-3-do-user-10181495-0.b.db.ondigitalocean.com:25060/nflow_prod?sslmode=require"
+url = ""
 
 
 [redis]
