@@ -1,6 +1,0 @@
-projectKey=nflow
-serverUrl=http://localhost:8084
-serverVersion=8.7.1.42226
-dashboardUrl=http://localhost:8084/dashboard?id=nflow
-ceTaskId=AYpRTzU9SgpSWZ5_fqcf
-ceTaskUrl=http://localhost:8084/api/ce/task?id=AYpRTzU9SgpSWZ5_fqcf
