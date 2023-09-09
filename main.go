@@ -16,6 +16,7 @@ import (
 	"github.com/arturoeanton/gocommons/utils"
 
 	"github.com/arturoeanton/nFlow/pkg/commons"
+	"github.com/arturoeanton/nFlow/pkg/literals"
 	"github.com/arturoeanton/nFlow/pkg/playbook"
 	"github.com/arturoeanton/nFlow/pkg/process"
 
@@ -46,19 +47,18 @@ func run(c echo.Context) error {
 	db, err := playbook.GetDB()
 	if err != nil {
 		log.Println(err)
-		c.HTML(http.StatusNotFound, "Not Found")
+		c.HTML(http.StatusNotFound, literals.NOT_FOUND)
 		return nil
 	}
 	conn, err := db.Conn(ctx)
 	if err != nil {
 		log.Println(err)
-		c.HTML(http.StatusNotFound, "Not Found")
+		c.HTML(http.StatusNotFound, literals.NOT_FOUND)
 		return nil
 	}
 	defer conn.Close()
 
 	appJson := "app"
-	endpoint := strings.Split(c.Request().RequestURI, "?")[0]
 
 	v, ok := playbook.FindNewApp[appJson]
 	if v || !ok {
@@ -70,16 +70,27 @@ func run(c echo.Context) error {
 		playbook.FindNewApp[appJson] = false
 	}
 
-	nflow_next_node_run := ""
-	if c.Request().Method == "POST" || c.Request().Method == "PUT" {
-		if c.Request().FormValue("nflow_next_node_run") != "" {
-			if c.Request().Form["nflow_next_node_run"] != nil {
-				nflow_next_node_run = c.Request().Form["nflow_next_node_run"][0]
+	endpoint := strings.Split(c.Request().RequestURI, "?")[0]
+	nflowNextNodeRun := ""
+	endpointParts := strings.Split(endpoint, "/")
+	lenEndpointParts := len(endpointParts)
+	if lenEndpointParts > 3 {
+		lastPart := endpointParts[lenEndpointParts-1]
+		if lastPart == "form_nf" {
+			nflowNextNodeRun = endpointParts[lenEndpointParts-2]
+			endpoint = strings.Join(endpointParts[:lenEndpointParts-3], "/")
+		}
+	} else {
+		if c.Request().Method == "POST" || c.Request().Method == "PUT" {
+			if c.Request().FormValue("nflow_next_node_run") != "" {
+				if c.Request().Form["nflow_next_node_run"] != nil {
+					nflowNextNodeRun = c.Request().Form["nflow_next_node_run"][0]
+				}
 			}
 		}
 	}
 
-	if nflow_next_node_run == "" {
+	if nflowNextNodeRun == "" {
 		s, _ := session.Get("nflow_form", c)
 		s.Values = make(map[interface{}]interface{})
 		s.Save(c.Request(), c.Response())
@@ -91,7 +102,7 @@ func run(c echo.Context) error {
 	}
 
 	uuid1 := uuid.New().String()
-	e := runeable.Run(c, vars, nflow_next_node_run, uuid1, nil)
+	e := runeable.Run(c, vars, nflowNextNodeRun, endpoint, uuid1, nil)
 	return e
 }
 
@@ -120,7 +131,7 @@ func main() {
 	e.Use(session.Middleware(commons.GetSessionStore(&playbook.Config.PgSessionConfig)))
 
 	e.Static("/site", "site/")
-	e.File("/favicon.ico", "site/favicon.ico")
+	e.File(literals.FAVICON, literals.FAVICON_PATH)
 	e.File("/", "site/index.html")
 
 	playbook.InitUI()
@@ -129,7 +140,7 @@ func main() {
 
 	e2 := echo.New()
 	e2.Static("/site", "site/")
-	e2.File("/favicon.ico", "site/favicon.ico")
+	e2.File(literals.FAVICON, literals.FAVICON_PATH)
 	e2.File("/", "site/index.html")
 
 	e2.Use(session.Middleware(commons.GetSessionStore(&playbook.Config.PgSessionConfig)))
@@ -153,14 +164,14 @@ func main() {
 		db, err := playbook.GetDB()
 		if err != nil {
 			log.Println(err)
-			c.HTML(http.StatusNotFound, "Not Found")
+			c.HTML(http.StatusNotFound, literals.NOT_FOUND)
 			return nil
 		}
 
 		conn, err := db.Conn(ctx)
 		if err != nil {
 			log.Println(err)
-			c.HTML(http.StatusNotFound, "Not Found")
+			c.HTML(http.StatusNotFound, literals.NOT_FOUND)
 			return nil
 		}
 		defer conn.Close()
@@ -168,23 +179,23 @@ func main() {
 		rows, err := conn.QueryContext(ctx, playbook.Config.DatabaseNflow.QueryGetApp, appJson)
 		if err != nil {
 			log.Println(err)
-			c.HTML(http.StatusNotFound, "Not Found")
+			c.HTML(http.StatusNotFound, literals.NOT_FOUND)
 			return nil
 		}
 		defer rows.Close()
 		json := "{}"
-		var default_js string
+		var defaultJs string
 		for rows.Next() {
-			err := rows.Scan(&json, &default_js)
+			err := rows.Scan(&json, &defaultJs)
 			if err != nil {
 				log.Println(err)
-				c.HTML(http.StatusNotFound, "Not Found")
+				c.HTML(http.StatusNotFound, literals.NOT_FOUND)
 				return nil
 			}
 		}
 		if err := rows.Err(); err != nil {
 			log.Println(err)
-			c.HTML(http.StatusNotFound, "Not Found")
+			c.HTML(http.StatusNotFound, literals.NOT_FOUND)
 			return nil
 		}
 
@@ -223,11 +234,11 @@ func main() {
 
 			user := playbook.GetUserFromDB(username)
 			if user == nil {
-				return false, errors.New("user not found")
+				return false, errors.New(literals.USER_NOT_FOUND)
 			}
 			validate := playbook.ValidateUserDB(username, password)
 			if !validate {
-				return false, errors.New("user not found")
+				return false, errors.New(literals.USER_NOT_FOUND)
 			}
 			if subtle.ConstantTimeCompare([]byte(user["rol"].(string)), []byte("ROL_DEV")) == 1 {
 				return true, nil

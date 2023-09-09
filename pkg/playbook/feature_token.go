@@ -11,7 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func GetTokenFromDB(param_name string) []map[string]interface{} {
+func GetTokenFromDB(paramName string) []map[string]interface{} {
 	db, err := GetDB()
 	if err != nil {
 		log.Println(err)
@@ -23,7 +23,7 @@ func GetTokenFromDB(param_name string) []map[string]interface{} {
 		return nil
 	}
 	defer conn.Close()
-	rows, err := conn.QueryContext(context.Background(), Config.DatabaseNflow.QueryGetToken, param_name)
+	rows, err := conn.QueryContext(context.Background(), Config.DatabaseNflow.QueryGetToken, paramName)
 	if err != nil {
 		log.Println(err)
 		return nil
@@ -36,12 +36,12 @@ func GetTokenFromDB(param_name string) []map[string]interface{} {
 	var expired interface{}
 	var active bool
 	var header string
-	var token_type string
+	var tokenType string
 	ret := make([]map[string]interface{}, 0)
 	found := false
 	for rows.Next() {
 		found = true
-		err := rows.Scan(&id, &name, &token, &start, &expired, &active, &header, &token_type)
+		err := rows.Scan(&id, &name, &token, &start, &expired, &active, &header, &tokenType)
 		if err != nil {
 			log.Println(err)
 			return nil
@@ -54,7 +54,7 @@ func GetTokenFromDB(param_name string) []map[string]interface{} {
 		mapUser["expired"] = expired
 		mapUser["active"] = active
 		mapUser["header"] = header
-		mapUser["token_type"] = token_type
+		mapUser["tokenType"] = tokenType
 		ret = append(ret, mapUser)
 	}
 	if err := rows.Err(); err != nil {
@@ -80,12 +80,12 @@ func ValidateTokenDB(c echo.Context, name string) bool {
 		token := ""
 		id := tokenMap["id"].(int)
 		if tokenMap["header"] != nil {
-			key_header := tokenMap["header"].(string)
-			if c.Request().Header.Get(key_header) == "" {
+			keyHeader := tokenMap["header"].(string)
+			if c.Request().Header.Get(keyHeader) == "" {
 				log.Println("header not found in register [" + fmt.Sprint(id) + "]-[" + name + "]  database")
 				continue
 			}
-			token = c.Request().Header.Get(key_header)
+			token = c.Request().Header.Get(keyHeader)
 		}
 
 		if tokenMap["expired"] != nil {
@@ -96,7 +96,7 @@ func ValidateTokenDB(c echo.Context, name string) bool {
 			}
 		}
 
-		if subtle.ConstantTimeCompare([]byte(tokenMap["token_type"].(string)+" "+tokenMap["token"].(string)), []byte(token)) == 1 {
+		if subtle.ConstantTimeCompare([]byte(tokenMap["tokenType"].(string)+" "+tokenMap["token"].(string)), []byte(token)) == 1 {
 			return true
 		}
 	}

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/arturoeanton/nFlow/pkg/literals"
 	"github.com/dop251/goja"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
@@ -65,7 +66,7 @@ func addFeatureSession(vm *goja.Runtime, c echo.Context) {
 	})
 
 	vm.Set("set_profile", func(v map[string]string) {
-		s, _ := session.Get("auth-session", c)
+		s, _ := session.Get(literals.AUTH_SESSION, c)
 		value, _ := json.Marshal(v)
 		s.Values["profile"] = string(value)
 		s.Save(c.Request(), c.Response())
@@ -76,7 +77,7 @@ func addFeatureSession(vm *goja.Runtime, c echo.Context) {
 	})
 
 	vm.Set("exist_profile", func() bool {
-		s, _ := session.Get("auth-session", c)
+		s, _ := session.Get(literals.AUTH_SESSION, c)
 		var v map[string]string
 		if s.Values["profile"] != nil {
 			er := json.Unmarshal([]byte(s.Values["profile"].(string)), &v)
@@ -88,7 +89,7 @@ func addFeatureSession(vm *goja.Runtime, c echo.Context) {
 	})
 
 	vm.Set("delete_profile", func() {
-		s, _ := session.Get("auth-session", c)
+		s, _ := session.Get(literals.AUTH_SESSION, c)
 		delete(s.Values, "profile")
 		s.Save(c.Request(), c.Response())
 	})
@@ -96,7 +97,7 @@ func addFeatureSession(vm *goja.Runtime, c echo.Context) {
 }
 
 func GetProfile(c echo.Context) map[string]string {
-	s, _ := session.Get("auth-session", c)
+	s, _ := session.Get(literals.AUTH_SESSION, c)
 	var v map[string]string
 	if s.Values["profile"] != nil {
 		er := json.Unmarshal([]byte(s.Values["profile"].(string)), &v)

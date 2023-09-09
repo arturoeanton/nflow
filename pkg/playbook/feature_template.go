@@ -8,7 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func GetTemplateFromDB(param_name string) string {
+func GetTemplateFromDB(paramName string) string {
 	db, err := GetDB()
 	if err != nil {
 		log.Println(err)
@@ -20,7 +20,7 @@ func GetTemplateFromDB(param_name string) string {
 		return ""
 	}
 	defer conn.Close()
-	row := conn.QueryRowContext(context.Background(), Config.DatabaseNflow.QueryGetTemplate, param_name)
+	row := conn.QueryRowContext(context.Background(), Config.DatabaseNflow.QueryGetTemplate, paramName)
 
 	var id int
 	var name string
@@ -37,8 +37,8 @@ func GetTemplateFromDB(param_name string) string {
 
 func addFeatureTemplte(vm *goja.Runtime, c echo.Context) {
 
-	vm.Set("get_template", func(param_name string) string {
-		return GetTemplateFromDB(param_name)
+	vm.Set("get_template", func(paramName string) string {
+		return GetTemplateFromDB(paramName)
 	})
 
 }

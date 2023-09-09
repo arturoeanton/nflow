@@ -6,7 +6,7 @@ import (
 )
 
 type NflowPlugin interface {
-	Run(c echo.Context, vars map[string]string, payload_in interface{}, dromedary_data string, callback chan string) (payload_out interface{}, next string, err error)
+	Run(c echo.Context, vars map[string]string, payloadIn interface{}, dromedary_data string, callback chan string) (payload_out interface{}, next string, err error)
 	Name() string
 	AddFeatureJS() map[string]interface{}
 }

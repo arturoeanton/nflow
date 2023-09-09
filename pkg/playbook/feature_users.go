@@ -11,17 +11,17 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func calcularSHA512_256(texto string) string {
-	sha512_256 := sha512.New512_256()
-	sha512_256.Write([]byte(texto))
-	hashBytes := sha512_256.Sum(nil)
+func calcularSHA512to256(texto string) string {
+	sha512to256 := sha512.New512_256()
+	sha512to256.Write([]byte(texto))
+	hashBytes := sha512to256.Sum(nil)
 	return hex.EncodeToString(hashBytes)
 }
 
-func calcularSHA512_224(texto string) string {
-	sha512_256 := sha512.New512_224()
-	sha512_256.Write([]byte(texto))
-	hashBytes := sha512_256.Sum(nil)
+func calcularSHA512to224(texto string) string {
+	sha512to256 := sha512.New512_224()
+	sha512to256.Write([]byte(texto))
+	hashBytes := sha512to256.Sum(nil)
 	return hex.EncodeToString(hashBytes)
 }
 
@@ -32,7 +32,7 @@ func calcularSHA512(texto string) string {
 	return hex.EncodeToString(hashBytes)
 }
 
-func GetUserFromDB(param_username string) map[string]interface{} {
+func GetUserFromDB(paramUsername string) map[string]interface{} {
 	db, err := GetDB()
 	if err != nil {
 		log.Println(err)
@@ -44,7 +44,7 @@ func GetUserFromDB(param_username string) map[string]interface{} {
 		return nil
 	}
 	defer conn.Close()
-	rows, err := conn.QueryContext(context.Background(), Config.DatabaseNflow.QueryGetUser, param_username)
+	rows, err := conn.QueryContext(context.Background(), Config.DatabaseNflow.QueryGetUser, paramUsername)
 	if err != nil {
 		log.Println(err)
 		return nil
@@ -89,8 +89,8 @@ func ValidateUserDB(username string, password string) bool {
 	if !user["active"].(bool) {
 		return false
 	}
-	passwordSha512_256 := calcularSHA512_256(password)
-	return subtle.ConstantTimeCompare([]byte(user["password"].(string)), []byte(passwordSha512_256)) == 1
+	passwordSha512to256 := calcularSHA512to256(password)
+	return subtle.ConstantTimeCompare([]byte(user["password"].(string)), []byte(passwordSha512to256)) == 1
 }
 
 func addFeatureUsers(vm *goja.Runtime, c echo.Context) {
@@ -101,10 +101,10 @@ func addFeatureUsers(vm *goja.Runtime, c echo.Context) {
 		return GetUserFromDB(username)
 	})
 	vm.Set("calcular_sha512_256", func(texto string) string {
-		return calcularSHA512_256(texto)
+		return calcularSHA512to256(texto)
 	})
 	vm.Set("calcular_sha512_224", func(texto string) string {
-		return calcularSHA512_224(texto)
+		return calcularSHA512to224(texto)
 	})
 	vm.Set("calcular_sha512", func(texto string) string {
 		return calcularSHA512(texto)

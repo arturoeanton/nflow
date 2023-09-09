@@ -16,9 +16,9 @@ var (
 )
 
 func (d ClientHTTP) Run(c echo.Context,
-	vars map[string]string, payload_in interface{}, dromedary_data string,
+	vars map[string]string, payloadIn interface{}, dromedaryData string,
 	callback chan string,
-) (payload_out interface{}, next string, err error) {
+) (payloadOut interface{}, next string, err error) {
 	return nil, "output_1", nil
 }
 

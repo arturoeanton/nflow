@@ -12,7 +12,7 @@ import (
 type StepPlugin struct {
 }
 
-func (s *StepPlugin) Run(cc *Controller, actor *Node, c echo.Context, vm *goja.Runtime, connection_next string, vars Vars, currentProcess *process.Process, payload goja.Value) (string, goja.Value, error) {
+func (s *StepPlugin) Run(cc *Controller, actor *Node, c echo.Context, vm *goja.Runtime, connectionNext string, vars Vars, currentProcess *process.Process, payload goja.Value) (string, goja.Value, error) {
 	currentProcess.State = "run"
 	currentProcess.Killeable = true
 	name := actor.Data["dromedary_name"].(string)

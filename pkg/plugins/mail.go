@@ -23,9 +23,9 @@ var (
 )
 
 func (d MailPlugin) Run(c echo.Context,
-	vars map[string]string, payload_in interface{}, dromadery_data string,
+	vars map[string]string, payloadIn interface{}, dromaderyData string,
 	callback chan string,
-) (payload_out interface{}, next string, err error) {
+) (payloadOut interface{}, next string, err error) {
 	return nil, "output_1", nil
 }
 

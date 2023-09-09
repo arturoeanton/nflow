@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/arturoeanton/nFlow/pkg/literals"
 	"github.com/labstack/echo/v4"
 )
 
@@ -17,13 +18,13 @@ func SaveApp(c echo.Context) error {
 	db, err := GetDB()
 	if err != nil {
 		log.Println(err)
-		c.HTML(http.StatusNotFound, "Not Found")
+		c.HTML(http.StatusNotFound, literals.NOT_FOUND)
 		return nil
 	}
 	conn, err := db.Conn(ctx)
 	if err != nil {
 		log.Println(err)
-		c.HTML(http.StatusNotFound, "Not Found")
+		c.HTML(http.StatusNotFound, literals.NOT_FOUND)
 		return nil
 	}
 	defer conn.Close()

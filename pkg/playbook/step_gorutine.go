@@ -36,22 +36,22 @@ func CloneValue(value goja.Value, vm *goja.Runtime) goja.Value {
 	return runtime.ToValue(clonedValue)
 }
 
-func (s *StepGorutine) Run(cc *Controller, actor *Node, c echo.Context, vm *goja.Runtime, connection_next string, vars Vars, currentProcess *process.Process, payload goja.Value) (string, goja.Value, error) {
+func (s *StepGorutine) Run(cc *Controller, actor *Node, c echo.Context, vm *goja.Runtime, connectionNext string, vars Vars, currentProcess *process.Process, payload goja.Value) (string, goja.Value, error) {
 	currentProcess.State = "run"
-	payload_clone1 := CloneValue(payload, vm)
-	payload_clone2 := CloneValue(payload, vm)
+	payloadClone1 := CloneValue(payload, vm)
+	payloadClone2 := CloneValue(payload, vm)
 	if actor.Outputs["output_2"] != nil {
 		next2 := actor.Outputs["output_2"].Connections[0].Node
 		uuid2 := uuid.New().String()
 		c.Response().Header().Add("Dromedary-Wid-2", uuid2)
 		// fmt.Println("gorutine")
-		// fmt.Printf("%+v\n", payload_clone1.Export())
-		go cc.RunWithCallback(c, vars, next2, uuid2, payload_clone1)
+		// fmt.Printf("%+v\n", payloadClone1.Export())
+		go cc.RunWithCallback(c, vars, next2, "go_rutine_"+uuid2, uuid2, payloadClone1)
 	}
-	connection_next = actor.Outputs[connection_next].Connections[0].Node
+	connectionNext = actor.Outputs[connectionNext].Connections[0].Node
 	currentProcess.State = "end"
 
 	// fmt.Println("gorutine2")
-	// fmt.Printf("%+v\n", payload_clone2.Export())
-	return connection_next, payload_clone2, nil
+	// fmt.Printf("%+v\n", payloadClone2.Export())
+	return connectionNext, payloadClone2, nil
 }

@@ -31,7 +31,7 @@ type Vars map[string]string
 
 type Runeable interface {
 	GetMethods() []string
-	Run(c echo.Context, vars Vars, next string, uuid1 string, payload goja.Value) error
+	Run(c echo.Context, vars Vars, next string, endpoint string, uuid1 string, payload goja.Value) error
 }
 
 func (cc *Controller) GetMethods() []string {

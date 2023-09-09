@@ -27,10 +27,10 @@ func GetPlaybook(ctx context.Context, conn *sql.Conn, pbName string) (map[string
 		return nil, err
 	}
 	defer rows.Close()
-	var flow_json string
-	var default_js string
+	var flowJson string
+	var defaultJs string
 	for rows.Next() {
-		err := rows.Scan(&flow_json, &default_js)
+		err := rows.Scan(&flowJson, &defaultJs)
 		if err != nil {
 			log.Println(err)
 			return nil, err
@@ -42,7 +42,7 @@ func GetPlaybook(ctx context.Context, conn *sql.Conn, pbName string) (map[string
 	}
 
 	data := make(map[string]map[string]map[string]*Playbook)
-	err = json.Unmarshal([]byte(flow_json), &data)
+	err = json.Unmarshal([]byte(flowJson), &data)
 	if err != nil {
 		return nil, err
 	}

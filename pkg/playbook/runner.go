@@ -27,15 +27,15 @@ var (
 	wg       sync.WaitGroup    = sync.WaitGroup{}
 )
 
-func (cc *Controller) Run(c echo.Context, vars Vars, next string, uuid1 string, payload goja.Value) error {
-	return cc.run(c, vars, next, uuid1, payload, false)
+func (cc *Controller) Run(c echo.Context, vars Vars, next string, endpoint string, uuid1 string, payload goja.Value) error {
+	return cc.run(c, vars, next, endpoint, uuid1, payload, false)
 }
 
-func (cc *Controller) RunWithCallback(c echo.Context, vars Vars, next string, uuid1 string, payload goja.Value) error {
-	return cc.run(c, vars, next, uuid1, payload, true)
+func (cc *Controller) RunWithCallback(c echo.Context, vars Vars, next string, endpoint string, uuid1 string, payload goja.Value) error {
+	return cc.run(c, vars, next, endpoint, uuid1, payload, true)
 }
 
-func (cc *Controller) run(c echo.Context, vars Vars, next string, uuid1 string, payload goja.Value, fork bool) error {
+func (cc *Controller) run(c echo.Context, vars Vars, next string, endpoint string, uuid1 string, payload goja.Value, fork bool) error {
 
 	var p *process.Process
 
@@ -89,6 +89,7 @@ func (cc *Controller) run(c echo.Context, vars Vars, next string, uuid1 string, 
 
 	vm.Set("c", c)
 	vm.Set("echo_context", c)
+	vm.Set("nflow_endpoint", endpoint)
 
 	postData := make(map[string]interface{})
 	func() {
@@ -106,14 +107,14 @@ func (cc *Controller) run(c echo.Context, vars Vars, next string, uuid1 string, 
 	})
 
 	pb := *cc.Playbook
-	node_auth := pb[next]
+	nodeAuth := pb[next]
 	if next == "" {
 		next = cc.Start.Outputs["output_1"].Connections[0].Node
-		node_auth = cc.Start
+		nodeAuth = cc.Start
 	}
 
 	// Exceute auth of default.js?
-	if flag, ok := node_auth.Data["nflow_auth"]; ok {
+	if flag, ok := nodeAuth.Data["nflow_auth"]; ok {
 		flagString, ok := flag.(string)
 		if !ok {
 			flagBool := flag.(bool)
@@ -150,8 +151,8 @@ func (cc *Controller) run(c echo.Context, vars Vars, next string, uuid1 string, 
 			defer conn.Close()
 			row := conn.QueryRowContext(ctx, Config.DatabaseNflow.QueryGetApp, "app")
 			var code string
-			var json_code string
-			err = row.Scan(&json_code, &code)
+			var jsonCode string
+			err = row.Scan(&jsonCode, &code)
 			if err != nil {
 				c.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
 				return nil
@@ -183,7 +184,7 @@ func (cc *Controller) run(c echo.Context, vars Vars, next string, uuid1 string, 
 func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars Vars, currentProcess *process.Process, payload goja.Value) (string, goja.Value, error) {
 	t1 := time.Now()
 	sbLog := strings.Builder{}
-	connection_next := "output_1"
+	connectionNext := "output_1"
 
 	log_session, err := session.Get("log-session", c)
 	if err != nil {
@@ -194,8 +195,8 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 		log_session.Values["order_box"] = 0
 	}
 
-	var log_id string
-	var order_box int
+	var logId string
+	var orderBox int
 
 	func() {
 
@@ -205,22 +206,22 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 			}
 		}()
 
-		log_id = log_session.Values["log_id"].(string)
-		order_box = log_session.Values["order_box"].(int) + 1
-		log_session.Values["order_box"] = order_box
+		logId = log_session.Values["log_id"].(string)
+		orderBox = log_session.Values["order_box"].(int) + 1
+		log_session.Values["order_box"] = orderBox
 		log_session.Save(c.Request(), c.Response())
 
 	}()
 
 	var actor *Node
-	var box_id string
-	var box_name string
-	var box_type string
+	var boxId string
+	var boxName string
+	var boxType string
 	defer func() {
 		now := time.Now()
 		diff := now.Sub(t1)
 
-		go func(log_id string, c echo.Context, box_id string, box_name string, box_type string, connection_next string, diff time.Duration, order_box int, payload goja.Value) {
+		go func(logId string, c echo.Context, boxId string, boxName string, boxType string, connectionNext string, diff time.Duration, orderBox int, payload goja.Value) {
 			if Config.DatabaseNflow.QueryInsertLog == "" {
 				return
 			}
@@ -273,15 +274,15 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 			}()
 
 			_, err = conn.ExecContext(ctx, Config.DatabaseNflow.QueryInsertLog,
-				log_id,                                  // $1
-				box_id,                                  // $2
-				box_name,                                // $3
-				box_type,                                // $4
+				logId,                                   // $1
+				boxId,                                   // $2
+				boxName,                                 // $3
+				boxType,                                 // $4
 				url,                                     // $5
 				username,                                // $6
-				connection_next,                         // $7
+				connectionNext,                          // $7
 				fmt.Sprintf("%dm", diff.Milliseconds()), // $8
-				order_box,                               // $9
+				orderBox,                                // $9
 				string(jsonPayload),                     // $10
 				ip,                                      // $11
 				realip,                                  // $12
@@ -295,9 +296,9 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 				log.Println(err)
 			}
 
-		}(log_id, c, box_id, box_name, box_type, connection_next, diff, order_box, payload)
+		}(logId, c, boxId, boxName, boxType, connectionNext, diff, orderBox, payload)
 
-		go func(c echo.Context, actor *Node, box_id string, box_name string, box_type string, connection_next string, diff time.Duration) {
+		go func(c echo.Context, actor *Node, boxId string, boxName string, boxType string, connectionNext string, diff time.Duration) {
 
 			defer func() {
 				if err := recover(); err != nil {
@@ -319,16 +320,16 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 			defer conn.Close()
 			row := conn.QueryRowContext(ctx, Config.DatabaseNflow.QueryGetApp, "app")
 			var code string
-			var json_code string
-			err = row.Scan(&json_code, &code)
+			var jsonCode string
+			err = row.Scan(&jsonCode, &code)
 			if err != nil {
 				return
 			}
 
-			vm.Set("box_id", box_id)
-			vm.Set("box_name", box_name)
-			vm.Set("box_type", box_type)
-			vm.Set("connection_next", connection_next)
+			vm.Set("box_id", boxId)
+			vm.Set("box_name", boxName)
+			vm.Set("box_ype", boxType)
+			vm.Set("connection_next", connectionNext)
 
 			vm.Set("duration_mc", diff.Microseconds())
 			vm.Set("duration_ms", diff.Milliseconds())
@@ -340,7 +341,7 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 				log.Println(err)
 			}
 
-		}(c, actor, box_id, box_name, box_type, connection_next, diff)
+		}(c, actor, boxId, boxName, boxType, connectionNext, diff)
 
 	}()
 	defer func() {
@@ -362,23 +363,23 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 	actor = pb[next]
 	sbLog.WriteString("- IDBox:" + next)
 	currentProcess.UUIDBoxCurrent = next
-	box_id = next
+	boxId = next
 
 	if nameBox, ok := actor.Data["name_box"]; ok {
-		box_name = nameBox.(string)
-		sbLog.WriteString("- NameBox:" + box_name)
+		boxName = nameBox.(string)
+		sbLog.WriteString("- NameBox:" + boxName)
 	}
 
 	currentProcess.Type = ""
 	if pType, ok := actor.Data["type"]; ok {
 		currentProcess.Type = pType.(string)
 	}
-	box_type = currentProcess.Type
+	boxType = currentProcess.Type
 
 	sbLog.WriteString(" - Type:" + currentProcess.Type)
 	if s, ok := Steps[currentProcess.Type]; ok {
 		var err error
-		connection_next, payload, err = s.Run(cc, actor, c, vm, connection_next, vars, currentProcess, payload)
+		connectionNext, payload, err = s.Run(cc, actor, c, vm, connectionNext, vars, currentProcess, payload)
 		if err != nil {
 			sbLog.WriteString(" - Error: " + err.Error())
 			return "", nil, nil
@@ -396,22 +397,22 @@ func (cc *Controller) step(c echo.Context, vm *goja.Runtime, next string, vars V
 		return "", nil, nil
 	}
 
-	sbLog.WriteString(" - Next:" + connection_next)
-	return connection_next, payload, nil
+	sbLog.WriteString(" - Next:" + connectionNext)
+	return connectionNext, payload, nil
 }
 
 func (cc *Controller) Execute(c echo.Context, vm *goja.Runtime, next string, vars Vars, currentProcess *process.Process, payload goja.Value, fork bool) {
 	var err error
-	prev_box := ""
+	prevBox := ""
 	if fork {
 		fmt.Println("fork")
 	}
 	for next != "" {
 
 		vm.Set("current_box", next)
-		vm.Set("prev_box", prev_box)
+		vm.Set("prev_box", prevBox)
 
-		prev_box = next
+		prevBox = next
 
 		wg.Add(1)
 		go func() {
@@ -420,20 +421,20 @@ func (cc *Controller) Execute(c echo.Context, vm *goja.Runtime, next string, var
 			if err != nil {
 				log.Println(err)
 			}
-			payload_map := make(map[string]interface{})
+			payloadMap := make(map[string]interface{})
 
 			if payload != nil {
-				payload_map = payload.Export().(map[string]interface{})
+				payloadMap = payload.Export().(map[string]interface{})
 			}
 
 			for k, v := range s.Values {
 				if k == "break" {
 					continue
 				}
-				payload_map[k.(string)] = v
+				payloadMap[k.(string)] = v
 			}
 
-			payload = vm.ToValue(payload_map)
+			payload = vm.ToValue(payloadMap)
 		}()
 		wg.Wait()
 
