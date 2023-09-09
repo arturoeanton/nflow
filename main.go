@@ -74,13 +74,57 @@ func run(c echo.Context) error {
 	nflowNextNodeRun := ""
 	endpointParts := strings.Split(endpoint, "/")
 	lenEndpointParts := len(endpointParts)
-	if lenEndpointParts > 3 {
-		lastPart := endpointParts[lenEndpointParts-1]
-		if lastPart == "form_nf" {
-			nflowNextNodeRun = endpointParts[lenEndpointParts-2]
-			endpoint = strings.Join(endpointParts[:lenEndpointParts-3], "/")
+	positionTagNflowID := -1
+	positionTagNflowTK := -1
+	wg := sync.WaitGroup{}
+	wg.Add(2)
+
+	go func() {
+		defer wg.Done()
+		for i := 0; i < (lenEndpointParts - 1); i++ {
+			if endpointParts[i] == literals.FORMNFLOWID {
+				nflowNextNodeRun = endpointParts[i+1]
+				positionTagNflowID = i
+				break
+			}
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+		for i := 0; i < (lenEndpointParts - 1); i++ {
+			if endpointParts[i] == literals.FORMNFLOWTK {
+				positionTagNflowTK = i
+				break
+			}
+		}
+	}()
+
+	wg.Wait()
+
+	if positionTagNflowTK > positionTagNflowID && positionTagNflowID > -1 {
+		positionTagNflowTK = positionTagNflowID
+	} else if positionTagNflowTK == -1 && positionTagNflowID > -1 {
+		positionTagNflowTK = positionTagNflowID
+	}
+
+	if positionTagNflowTK > -1 {
+		endpoint = strings.Join(endpointParts[:positionTagNflowTK], "/")
+		if nflowNextNodeRun == "" {
+			if c.Request().Method == "POST" || c.Request().Method == "PUT" {
+				if c.Request().FormValue("nflow_next_node_run") != "" {
+					if c.Request().Form["nflow_next_node_run"] != nil {
+						nflowNextNodeRun = c.Request().Form["nflow_next_node_run"][0]
+					}
+				}
+			} else if c.Request().Method == "GET" {
+				if c.Request().URL.Query().Get("nflow_next_node_run") != "" {
+					nflowNextNodeRun = c.Request().URL.Query().Get("nflow_next_node_run")
+				}
+			}
 		}
 	} else {
+
 		if c.Request().Method == "POST" || c.Request().Method == "PUT" {
 			if c.Request().FormValue("nflow_next_node_run") != "" {
 				if c.Request().Form["nflow_next_node_run"] != nil {

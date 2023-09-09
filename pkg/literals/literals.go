@@ -11,4 +11,7 @@ var (
 	USER_NOT_FOUND = "User not found"
 
 	AUTH_SESSION = "auth_session"
+
+	FORMNFLOWID = "nfnext"
+	FORMNFLOWTK = "nftk"
 )
